@@ -822,7 +822,23 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: TITAN_EDITOR_MODE
+    EmbeddedLinux: TITAN_EDITOR_MODE
+    GameCoreScarlett: TITAN_EDITOR_MODE
+    GameCoreXboxOne: TITAN_EDITOR_MODE
+    Kepler: TITAN_EDITOR_MODE
+    LinuxHeadlessSimulation: TITAN_EDITOR_MODE
+    Nintendo Switch: TITAN_EDITOR_MODE
+    Nintendo Switch 2: TITAN_EDITOR_MODE
+    PS4: TITAN_EDITOR_MODE
+    PS5: TITAN_EDITOR_MODE
+    QNX: TITAN_EDITOR_MODE
+    Standalone: TITAN_EDITOR_MODE
+    VisionOS: TITAN_EDITOR_MODE
+    WebGL: TITAN_EDITOR_MODE
+    XboxOne: TITAN_EDITOR_MODE
+    tvOS: TITAN_EDITOR_MODE
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
