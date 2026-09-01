@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -20,11 +21,15 @@ public class SittableChair : MonoBehaviour, IInteractable
 
     [Header("Stand Up")]
     [SerializeField] private float standUpMargin = 0.5f;
+    [Tooltip("Yaw the player turns before stepping off, so they don't step straight into whatever is in front of the chair (a desk, another chair, ...).")]
+    [SerializeField] private float standTurnYaw = 90f;
+    [SerializeField] private float standTurnDuration = 0.35f;
     [SerializeField] private LayerMask groundMask = ~0;
     [SerializeField] private float groundProbeUpOffset = 2f;
     [SerializeField] private float groundProbeMaxDistance = 10f;
 
     public bool IsOccupied { get; private set; }
+    private bool isStandingUp;
 
     public Transform InteractTransform => transform;
 
@@ -32,6 +37,7 @@ public class SittableChair : MonoBehaviour, IInteractable
 
     public void Interact(GameObject player)
     {
+        if (isStandingUp) return;
         if (IsOccupied) StandUp();
         else Sit(player);
     }
@@ -78,8 +84,27 @@ public class SittableChair : MonoBehaviour, IInteractable
 
     public void StandUp()
     {
-        if (!IsOccupied) return;
+        if (!IsOccupied || isStandingUp) return;
+        StartCoroutine(StandUpRoutine());
+    }
+
+    private IEnumerator StandUpRoutine()
+    {
+        isStandingUp = true;
         IsOccupied = false;
+
+        Quaternion fromRot = occupantBody.rotation;
+        Quaternion toRot = fromRot * Quaternion.Euler(0f, standTurnYaw, 0f);
+
+        float t = 0f;
+        while (t < standTurnDuration)
+        {
+            t += Time.deltaTime;
+            float p = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(t / standTurnDuration));
+            occupantBody.rotation = Quaternion.Slerp(fromRot, toRot, p);
+            yield return null;
+        }
+        occupantBody.rotation = toRot;
 
         float radius = occupantController != null ? occupantController.radius : 0.3f;
         Vector3 stepDir = occupantBody.forward;
@@ -94,6 +119,7 @@ public class SittableChair : MonoBehaviour, IInteractable
         occupantCamera = null;
         occupantMovement = null;
         occupantController = null;
+        isStandingUp = false;
     }
 
     private float FindGroundY(Vector3 worldXZ, float fallbackY)

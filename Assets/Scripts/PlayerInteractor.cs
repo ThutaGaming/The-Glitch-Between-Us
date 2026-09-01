@@ -8,14 +8,29 @@ public class PlayerInteractor : MonoBehaviour
 {
     [SerializeField] private float interactRange = 2.5f;
     [SerializeField] private KeyCode interactKey = KeyCode.E;
+    [SerializeField] private Transform lookTransform;
+    [Tooltip("Meters of score penalty per degree off-center. Lets an object you're looking straight at win over a merely-closer one that's off to the side (e.g. two doors placed within range of each other).")]
+    [SerializeField] private float anglePenaltyPerDegree = 0.025f;
 
     [Header("Prompt")]
     [SerializeField] private int promptFontSize = 24;
     [SerializeField] private float promptBottomOffset = 120f;
+    [Tooltip("The dialogue box sits low on the screen, so the prompt moves up out of its way " +
+             "while a line is playing.")]
+    [SerializeField] private float promptBottomOffsetDuringDialogue = 230f;
 
     private IInteractable nearest;
     private GUIStyle promptStyle;
     private GUIStyle promptShadowStyle;
+
+    private void Awake()
+    {
+        if (lookTransform == null)
+        {
+            var cam = GetComponentInChildren<Camera>(true);
+            lookTransform = cam != null ? cam.transform : transform;
+        }
+    }
 
     private void Update()
     {
@@ -30,15 +45,23 @@ public class PlayerInteractor : MonoBehaviour
     private IInteractable FindNearest()
     {
         IInteractable best = null;
-        float bestDist = interactRange;
+        float bestScore = float.MaxValue;
+        Vector3 origin = lookTransform.position;
+        Vector3 forward = lookTransform.forward;
 
         foreach (var interactable in InteractableRegistry.All)
         {
             if (interactable == null || interactable.InteractTransform == null) continue;
-            float dist = Vector3.Distance(transform.position, interactable.InteractTransform.position);
-            if (dist < bestDist)
+
+            Vector3 toTarget = interactable.InteractTransform.position - origin;
+            float dist = toTarget.magnitude;
+            if (dist > interactRange) continue;
+
+            float angle = dist > 0.01f ? Vector3.Angle(forward, toTarget) : 0f;
+            float score = dist + angle * anglePenaltyPerDegree;
+            if (score < bestScore)
             {
-                bestDist = dist;
+                bestScore = score;
                 best = interactable;
             }
         }
@@ -67,7 +90,10 @@ public class PlayerInteractor : MonoBehaviour
 
         float width = 320f;
         float height = 40f;
-        Rect rect = new Rect((Screen.width - width) / 2f, Screen.height - promptBottomOffset, width, height);
+        float bottom = DialogueHUD.Instance != null && DialogueHUD.Instance.IsPlaying
+            ? promptBottomOffsetDuringDialogue
+            : promptBottomOffset;
+        Rect rect = new Rect((Screen.width - width) / 2f, Screen.height - bottom, width, height);
         Rect shadowRect = new Rect(rect.x + 2f, rect.y + 2f, rect.width, rect.height);
 
         GUI.Label(shadowRect, text, promptShadowStyle);
