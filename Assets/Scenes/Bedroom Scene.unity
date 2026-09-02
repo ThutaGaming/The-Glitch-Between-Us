@@ -1954,6 +1954,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c53394ba34a4867478af0108b6f00b4f, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a73ce97174548ff43becf7076bf810d5, type: 2}
     - target: {fileID: 919132149155446097, guid: c53394ba34a4867478af0108b6f00b4f, type: 3}
       propertyPath: m_Name
       value: Modular_Classical_Floor_01_01
@@ -22138,7 +22142,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bf214fef10ef3094daa8d1f0646d4edf, type: 2}
+  - {fileID: 2100000, guid: da4826bfd01cd834dabace68f74df6cb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24775,7 +24779,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f3bd095cadb724a40a7bec41620e08d2, type: 2}
+  - {fileID: 2100000, guid: da4826bfd01cd834dabace68f74df6cb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -32603,7 +32607,7 @@ PrefabInstance:
     - target: {fileID: 7685121617539168265, guid: 3eee8ed9c9081f149a546a3b2145157f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a399c919b73d77f4994532ac08599770, type: 2}
+      objectReference: {fileID: 2100000, guid: a73ce97174548ff43becf7076bf810d5, type: 2}
     - target: {fileID: 8189783917733566940, guid: 3eee8ed9c9081f149a546a3b2145157f, type: 3}
       propertyPath: m_Name
       value: Prop_Wall_01 (8)
@@ -41222,7 +41226,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f3bd095cadb724a40a7bec41620e08d2, type: 2}
+  - {fileID: 2100000, guid: da4826bfd01cd834dabace68f74df6cb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
