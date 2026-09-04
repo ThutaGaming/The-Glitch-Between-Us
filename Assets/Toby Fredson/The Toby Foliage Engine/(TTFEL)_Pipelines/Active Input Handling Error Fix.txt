@@ -1,0 +1,5 @@
+If you encounter input errors in play mode, set "Active Input Handling" to either "Old" or "Both" in the player settings.
+
+Error message: "You are trying to read Input using the UnityEngine.Input class, but you have switched active Input handling to the Input System package in Player Settings".
+
+If you encounter this error in HDRP 6.0 or other versions, it's possible you need to install the Input handling from the package manager.

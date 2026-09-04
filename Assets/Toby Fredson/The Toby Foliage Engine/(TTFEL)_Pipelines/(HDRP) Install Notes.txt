@@ -1,0 +1,5 @@
+In HDRP, the LOD Bias default value is set to 1. To change it, navigate to "Project Settings -> Quality -> HDRP -> (Select your quality setting) -> Set your LOD Bias (Low) to 2."
+
+HDRP motion vectors are not supported in Unity 2021, and they have been disabled in the material inspector. Unity 2022 and 2023 provide partial support. If you encounter issues, turn this feature off. It works fine starting from Unity 6.
+
+If you are experiencing glitching shadows, increase the size of your shadow atlas in HDRP settings from 120 to at least 150 or 200.

@@ -1,0 +1,3 @@
+For URP, the demo scene currently uses SMAA. If you want a smoother image quality, switch it to TAA. Keep in mind that doing this will result in a loss of 12 FPS in performance.
+
+Set the "Shadow Distance" to "300" to fully occlude the dungeon's interior and prevent light leakage.
