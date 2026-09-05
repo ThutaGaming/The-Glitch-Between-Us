@@ -37,6 +37,11 @@ public class MorningRoutineQuest : MonoBehaviour
     [Header("Finish")]
     [SerializeField] private string finishedLine = "Alright - I'm ready. Off to school.";
 
+    [Header("Objective Markers")]
+    [Tooltip("Faint blue marker lights, on for both the packing step and the wear-backpack step.")]
+    [SerializeField] private ObjectiveGlow[] bookGlows;
+    [SerializeField] private ObjectiveGlow backpackGlow;
+
     private bool started;
 
     private void Awake()
@@ -86,6 +91,10 @@ public class MorningRoutineQuest : MonoBehaviour
 
         SetBooksAvailable(true);
         if (backpack != null) backpack.SetAvailable(true);
+
+        if (bookGlows != null)
+            foreach (var g in bookGlows) if (g != null) g.SetGlowing(true);
+        if (backpackGlow != null) backpackGlow.SetGlowing(true);
 
         if (mission != null)
         {

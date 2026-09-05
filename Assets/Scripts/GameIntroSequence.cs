@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Opening beat: Thuta wakes at 8:00, realises school starts at nine, and the "wash your face"
@@ -36,6 +37,11 @@ public class GameIntroSequence : MonoBehaviour
     [SerializeField] private string objective = "Wash your face";
     [Tooltip("Objective appears this long after the last line starts typing.")]
     [SerializeField] private float objectiveDelay = 3.4f;
+    [Tooltip("Turned on at the same moment the objective text appears, not before.")]
+    [SerializeField] private ObjectiveGlow objectiveGlow;
+
+    [Tooltip("Fires once the intro has finished - hook a follow-up quest to it.")]
+    public UnityEvent onFinished;
 
     private bool hasPlayed;
 
@@ -69,6 +75,9 @@ public class GameIntroSequence : MonoBehaviour
         if (objectiveDelay > 0f) yield return new WaitForSeconds(objectiveDelay);
 
         if (mission != null && !string.IsNullOrEmpty(objective)) mission.SetObjective(objective);
+        if (objectiveGlow != null) objectiveGlow.SetGlowing(true);
+
+        onFinished?.Invoke();
     }
 
     private void ResolveReferences()

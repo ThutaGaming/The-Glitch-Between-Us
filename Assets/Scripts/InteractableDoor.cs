@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Swings this transform open/closed around its local Y axis on interact. Assumes the
@@ -14,12 +15,33 @@ public class InteractableDoor : MonoBehaviour, IInteractable
     [SerializeField] private float openAngle = 90f;
     [SerializeField] private float openDuration = 0.8f;
 
+    [Header("Lock")]
+    [SerializeField] private bool isLocked;
+    [SerializeField] private string lockedPrompt = "(Locked)";
+
+    [Header("Audio")]
+    [Tooltip("Played whenever the door actually swings open or closed (not when skipOpenAnimation short-circuits it).")]
+    [SerializeField] private AudioSource doorSound;
+
+    /// <summary>Fired every time the door opens (not on close).</summary>
+    public UnityEvent onOpened;
+
+    /// <summary>
+    /// When true, the next open skips the swing animation entirely and just fires
+    /// <see cref="onOpened"/> — for callers (e.g. a scripted scene exit) that take over what
+    /// "opening" means and don't want the slab visibly moving.
+    /// </summary>
+    [SerializeField] private bool skipOpenAnimation;
+
     private Quaternion closedRotation;
     private BoxCollider slabCollider;
     private bool isOpen;
     private Coroutine animRoutine;
 
     public Transform InteractTransform => transform;
+    public bool IsLocked => isLocked;
+    public void SetLocked(bool value) => isLocked = value;
+    public void SetSkipOpenAnimation(bool value) => skipOpenAnimation = value;
 
     private void Awake()
     {
@@ -30,14 +52,25 @@ public class InteractableDoor : MonoBehaviour, IInteractable
     private void OnEnable() => InteractableRegistry.All.Add(this);
     private void OnDisable() => InteractableRegistry.All.Remove(this);
 
-    public string GetPrompt() => isOpen ? "(E) Close Door" : "(E) Open Door";
+    public string GetPrompt() => isLocked ? lockedPrompt : (isOpen ? "(E) Close Door" : "(E) Open Door");
 
     public void Interact(GameObject player)
     {
+        if (isLocked) return;
+
         isOpen = !isOpen;
+
+        if (isOpen && skipOpenAnimation)
+        {
+            onOpened?.Invoke();
+            return;
+        }
+
         Quaternion target = isOpen ? GetOpenRotation(player) : closedRotation;
         if (animRoutine != null) StopCoroutine(animRoutine);
         animRoutine = StartCoroutine(Animate(target));
+        if (doorSound != null) doorSound.Play();
+        if (isOpen) onOpened?.Invoke();
     }
 
     /// <summary>

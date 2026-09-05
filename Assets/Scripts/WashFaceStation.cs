@@ -25,6 +25,8 @@ public class WashFaceStation : MonoBehaviour, IInteractable
     [Header("Water")]
     [SerializeField] private FaucetWaterStream faucet;
     [SerializeField] private ScreenWaterDroplets screenDroplets;
+    [Tooltip("Plays for exactly washDuration + tapOverrun, starting when the tap turns on.")]
+    [SerializeField] private AudioSource washSound;
 
     [Header("Prompt")]
     [SerializeField] private string prompt = "(E) Wash your face";
@@ -61,6 +63,8 @@ public class WashFaceStation : MonoBehaviour, IInteractable
     [SerializeField] private bool completesMissionOnFinish = true;
     [SerializeField] private string finishedLineSpeaker = "Thuta";
     [SerializeField] private string finishedLine = "That's better. Now I can get to school.";
+    [Tooltip("Turned off once washed. Turned on by GameIntroSequence when the mission text appears, not by this script.")]
+    [SerializeField] private ObjectiveGlow objectiveGlow;
 
     public UnityEvent onWashComplete;
 
@@ -161,6 +165,11 @@ public class WashFaceStation : MonoBehaviour, IInteractable
         // Step 3 - water on, scrub, droplets build up on the lens.
         if (faucet != null) faucet.SetRunning(true);
         if (screenDroplets != null) screenDroplets.Splash(10);
+        if (washSound != null)
+        {
+            washSound.time = 0f;
+            washSound.Play();
+        }
 
         float t3 = 0f;
         int lastScrub = -1;
@@ -203,6 +212,7 @@ public class WashFaceStation : MonoBehaviour, IInteractable
 
         if (tapOverrun > 0f) yield return new WaitForSeconds(tapOverrun);
         if (faucet != null) faucet.SetRunning(false);
+        if (washSound != null) washSound.Stop();
 
         // Step 4 - straighten back up; the lens dries off on the way.
         Vector3 bowPos = cam != null ? cam.localPosition : Vector3.zero;
@@ -241,6 +251,7 @@ public class WashFaceStation : MonoBehaviour, IInteractable
 
         hasWashed = true;
         isWashing = false;
+        if (objectiveGlow != null) objectiveGlow.SetGlowing(false);
 
         if (mouseLook != null) mouseLook.enabled = mouseLookWas;
         if (movement != null) movement.enabled = movementWas;

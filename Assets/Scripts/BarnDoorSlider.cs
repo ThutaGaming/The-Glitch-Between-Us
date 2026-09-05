@@ -23,6 +23,11 @@ public class BarnDoorSlider : MonoBehaviour
     [Tooltip("0 = slide exactly one door width, measured from the mesh at Awake.")]
     [SerializeField] private float slideDistanceOverride = 0f;
 
+    [Header("Lock")]
+    [Tooltip("A locked door still shows a prompt, but E does nothing until it is unlocked.")]
+    [SerializeField] private bool isLocked;
+    [SerializeField] private string lockedPrompt = "Talk with your friends first";
+
     [Header("Blocking")]
     [Tooltip("Adds a BoxCollider sized to the door panel so the player can't walk through it " +
              "while closed. Disabled automatically while the door is open.")]
@@ -75,6 +80,10 @@ public class BarnDoorSlider : MonoBehaviour
         if (owner == this) owner = null;
     }
 
+    public bool IsLocked => isLocked;
+    public void SetLocked(bool value) => isLocked = value;
+    public void SetLockedPrompt(string value) => lockedPrompt = value;
+
     private void Update()
     {
         if (playerCam == null) playerCam = ResolvePlayerCamera();
@@ -101,7 +110,7 @@ public class BarnDoorSlider : MonoBehaviour
     /// </summary>
     private void LateUpdate()
     {
-        if (owner == this && Input.GetKeyDown(interactKey)) Toggle();
+        if (owner == this && !isLocked && Input.GetKeyDown(interactKey)) Toggle();
     }
 
     private void Toggle()
@@ -201,7 +210,7 @@ public class BarnDoorSlider : MonoBehaviour
             shadowStyle.normal.textColor = Color.black;
         }
 
-        string text = isOpen ? "(E) Close Door" : "(E) Open Door";
+        string text = isLocked ? lockedPrompt : (isOpen ? "(E) Close Door" : "(E) Open Door");
         float width = 320f;
         float height = 40f;
         Rect rect = new Rect((Screen.width - width) / 2f, Screen.height - promptBottomOffset, width, height);
