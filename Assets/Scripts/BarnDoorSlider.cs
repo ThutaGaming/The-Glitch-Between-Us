@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Self-contained sliding barn door: resolves the player camera itself, measures its own
@@ -36,6 +37,10 @@ public class BarnDoorSlider : MonoBehaviour
     [Header("Prompt")]
     [SerializeField] private int promptFontSize = 24;
     [SerializeField] private float promptBottomOffset = 120f;
+
+    /// <summary>Fires every time this door starts sliding open (not on close). Listeners that
+    /// care about "the first time" should guard that themselves.</summary>
+    public UnityEvent onOpened;
 
     // Only the nearest door owns the prompt and the key press each frame, so a stairwell with
     // six doors can't stack six labels on top of each other.
@@ -123,6 +128,8 @@ public class BarnDoorSlider : MonoBehaviour
         if (blockingCollider != null) blockingCollider.enabled = !isOpen;
         if (animRoutine != null) StopCoroutine(animRoutine);
         animRoutine = StartCoroutine(Animate(target));
+
+        if (isOpen) onOpened?.Invoke();
     }
 
     private IEnumerator Animate(Vector3 target)

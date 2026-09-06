@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -31,15 +32,32 @@ public class SittableChair : MonoBehaviour, IInteractable
     public bool IsOccupied { get; private set; }
     private bool isStandingUp;
 
+    /// <summary>
+    /// While true, an occupied player can't stand up (E does nothing) — used to keep the player
+    /// seated through a scripted moment, e.g. a teacher walking into the room to start class.
+    /// </summary>
+    private bool isStandUpBlocked;
+
+    /// <summary>Fired once the player's transform has been placed in the seat.</summary>
+    public event Action onSat;
+
     public Transform InteractTransform => transform;
 
     public string GetPrompt() => IsOccupied ? "(E) Stand Up" : "(E) Sit on Chair";
 
+    public void SetStandUpBlocked(bool value) => isStandUpBlocked = value;
+
     public void Interact(GameObject player)
     {
         if (isStandingUp) return;
-        if (IsOccupied) StandUp();
-        else Sit(player);
+        if (IsOccupied)
+        {
+            if (!isStandUpBlocked) StandUp();
+        }
+        else
+        {
+            Sit(player);
+        }
     }
 
     private void OnEnable() => InteractableRegistry.All.Add(this);
@@ -80,6 +98,8 @@ public class SittableChair : MonoBehaviour, IInteractable
             lp.y = seatCameraHeight;
             occupantCamera.localPosition = lp;
         }
+
+        onSat?.Invoke();
     }
 
     public void StandUp()

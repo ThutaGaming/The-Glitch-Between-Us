@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// The school's opening objective: talk to your friends before class. Shows the mission once
@@ -22,6 +23,9 @@ public class SchoolFriendsQuest : MonoBehaviour
     [Header("Objective")]
     [SerializeField] private string objective = "Talk with your friends";
     [SerializeField] private string lockedDoorPrompt = "Talk with your friends first";
+
+    /// <summary>Fires once, right after this objective is ticked off and the doors unlock.</summary>
+    public UnityEvent onCompleted;
 
     private bool started;
     private bool completed;
@@ -75,6 +79,8 @@ public class SchoolFriendsQuest : MonoBehaviour
         {
             if (door != null) door.SetLocked(false);
         }
+
+        onCompleted?.Invoke();
     }
 
     private void SetGlows(bool glowing)
