@@ -44,6 +44,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        // Several scripts (SittableChair, WashFaceStation, PlayerWakeUpSequence,
+        // SchoolHomeSequence...) each independently toggle this component and its
+        // CharacterController during their own coroutines. If a caller disables the controller
+        // a frame before disabling this component (or the other way around on re-enable), this
+        // component stays enabled while the controller briefly isn't - without this guard,
+        // controller.Move() below would spam "CharacterController.Move called on inactive
+        // controller" every frame until the mismatch resolves.
+        if (!controller.enabled) return;
+
         HandleCrouch();
         HandleMove();
     }

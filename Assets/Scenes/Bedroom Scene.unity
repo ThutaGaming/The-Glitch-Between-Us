@@ -24367,7 +24367,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7652783248613399332, guid: eac496dabf87c6e4098dd8cfa5f37ccc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -179.876
+      value: -180.15
       objectReference: {fileID: 0}
     - target: {fileID: 7652783248613399332, guid: eac496dabf87c6e4098dd8cfa5f37ccc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -24416,6 +24416,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 693322340144808405, guid: eac496dabf87c6e4098dd8cfa5f37ccc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1589181554}
+    - targetCorrespondingSourceObject: {fileID: 693322340144808405, guid: eac496dabf87c6e4098dd8cfa5f37ccc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1589181555}
   m_SourcePrefab: {fileID: 100100000, guid: eac496dabf87c6e4098dd8cfa5f37ccc, type: 3}
 --- !u!4 &1217703800 stripped
 Transform:
@@ -30919,6 +30922,19 @@ MonoBehaviour:
     m_Bits: 4294967295
   groundProbeUpOffset: 2
   groundProbeMaxDistance: 10
+--- !u!114 &1589181555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589181550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d494d27a93ad254c81d2c0bbe5ab153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightMaterial: {fileID: 2100000, guid: d129f06d4a3c94d4f8697d001ecd36a4, type: 2}
 --- !u!1001 &1589684933
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35289,6 +35305,8 @@ GameObject:
   - component: {fileID: 1807672442}
   - component: {fileID: 1807672443}
   - component: {fileID: 1807672444}
+  - component: {fileID: 1807672445}
+  - component: {fileID: 1807672446}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -35549,6 +35567,61 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1807672445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807672437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779028c83375ead44bc02dcd7ef163dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 0}
+  mission: {fileID: 0}
+  speaker: Thuta
+  lines:
+  - All that schoolwork wore me out.
+  - Now that I'm home, I'll play some games for a bit.
+  holdPerLine: 1.8
+  startDelay: 0.5
+  objective: Sit in the chair in front of the laptop
+  objectiveDelay: 1
+  objectiveGlow: {fileID: 1589181555}
+  onFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1807672446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807672437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87674a9bd308fac46a691bb77b98eab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chair: {fileID: 1589181554}
+  monitor: {fileID: 742934974}
+  playerLook: {fileID: 1900000005}
+  playerBody: {fileID: 1900000001}
+  playerCamera: {fileID: 330585546}
+  turnDuration: 0.4
+  aimHeightFraction: 0.5
+  screenAreaFraction: 0.86
+  fallbackWidth: 760
+  fallbackHeight: 480
+  screenBackgroundColor: {r: 0.66, g: 0.7, b: 0.75, a: 1}
+  playerName: Thuta
+  avatarColor: {r: 0.35, g: 0.42, b: 0.55, a: 1}
+  loadDuration: 2.5
+  loadingText: Loading...
+  readyText: Ready to play!
+  exitHint: (Esc to step away)
 --- !u!1001 &1809657373
 PrefabInstance:
   m_ObjectHideFlags: 0

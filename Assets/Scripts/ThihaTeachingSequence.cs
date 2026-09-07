@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Plays Mr. Thiha's classroom entrance once the player sits in `triggerChair`: he appears at
@@ -18,6 +19,9 @@ public class ThihaTeachingSequence : MonoBehaviour
     [SerializeField] private SittableChair triggerChair;
     [Tooltip("Only plays once per scene load.")]
     [SerializeField] private bool triggerOnce = true;
+
+    /// <summary>Fires once Thiha has finished walking out and been deactivated - hook a follow-up quest to it.</summary>
+    public UnityEvent onLeft;
 
     [Header("Thiha")]
     [SerializeField] private Animator thihaAnimator;
@@ -179,6 +183,8 @@ public class ThihaTeachingSequence : MonoBehaviour
         thihaAnimator.gameObject.SetActive(false);
 
         if (cameraTaken && playerLook != null) playerLook.enabled = true;
+
+        onLeft?.Invoke();
     }
 
     /// <summary>
