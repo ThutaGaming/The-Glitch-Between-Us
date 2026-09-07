@@ -8605,6 +8605,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   groundProbeUpOffset: 2
   groundProbeMaxDistance: 10
+  isSitBlocked: 0
 --- !u!1001 &393878080
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30922,6 +30923,7 @@ MonoBehaviour:
     m_Bits: 4294967295
   groundProbeUpOffset: 2
   groundProbeMaxDistance: 10
+  isSitBlocked: 1
 --- !u!114 &1589181555
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35590,6 +35592,7 @@ MonoBehaviour:
   objective: Sit in the chair in front of the laptop
   objectiveDelay: 1
   objectiveGlow: {fileID: 1589181555}
+  chair: {fileID: 1589181554}
   onFinished:
     m_PersistentCalls:
       m_Calls: []
@@ -35606,22 +35609,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chair: {fileID: 1589181554}
-  monitor: {fileID: 742934974}
   playerLook: {fileID: 1900000005}
-  playerBody: {fileID: 1900000001}
-  playerCamera: {fileID: 330585546}
-  turnDuration: 0.4
-  aimHeightFraction: 0.5
-  screenAreaFraction: 0.86
-  fallbackWidth: 760
-  fallbackHeight: 480
-  screenBackgroundColor: {r: 0.66, g: 0.7, b: 0.75, a: 1}
+  fadeDuration: 0.35
+  pageBackgroundColor: {r: 0.16, g: 0.16, b: 0.18, a: 1}
+  monitorBezelColor: {r: 0.14, g: 0.15, b: 0.18, a: 1}
+  monitorStandColor: {r: 0.1, g: 0.11, b: 0.13, a: 1}
+  screenColor: {r: 0.66, g: 0.7, b: 0.75, a: 1}
+  monitorWidthFraction: 0.62
   playerName: Thuta
   avatarColor: {r: 0.35, g: 0.42, b: 0.55, a: 1}
   loadDuration: 2.5
   loadingText: Loading...
   readyText: Ready to play!
-  exitHint: (Esc to step away)
+  readyHoldDuration: 0.7
+  gradientTopColor: {r: 0.35, g: 0.85, b: 0.9, a: 1}
+  gradientBottomColor: {r: 0.3, g: 0.45, b: 0.95, a: 1}
+  logoColor: {r: 0.8, g: 0.98, b: 0.96, a: 1}
+  logoWidthFraction: 0.24
+  taskbarColor: {r: 0.88, g: 0.89, b: 0.94, a: 0.92}
+  taskbarIconCount: 13
+  gamesIconIndex: 4
+  gamesIconColor: {r: 0.25, g: 0.65, b: 0.35, a: 1}
+  weatherText: "72\xB0"
+  windowTitle: My Games
+  titleBarColor: {r: 0.16, g: 0.18, b: 0.24, a: 1}
+  windowBodyColor: {r: 0.92, g: 0.93, b: 0.95, a: 1}
+  windowBodyText: (nothing installed yet)
+  windowSizeFraction: 0.78
+  mailShortcutLabel: Mail
+  mailShortcutPosition: {x: 0.06, y: 0.12}
+  mailWindowTitle: Mail
+  dialogue: {fileID: 0}
+  mission: {fileID: 0}
+  toastSender: Developer
+  toastSubject: Beta Testing
+  toastDelay: 1.2
+  toastHold: 3.5
+  toastFadeDuration: 0.35
+  wonderWhoLine: Huh? Wonder who's emailing me.
+  openEmailObjective: Open email
+  interestedLine: '"Protocol: ESCAPE"... okay, that actually looks pretty interesting.'
+  clickLinkObjective: Click the link
+  emailSenderName: Developer Minn Chit
+  emailSubject: Beta Testing Invite
+  emailBodyIntro: Hey, we're looking for a few players to beta test our new game
+    before launch. Follow the link below if you're interested.
+  emailLinkLabel: 'PLAY: Protocol: ESCAPE ->'
+  glitchBuildDuration: 2.6
+  glitchLineDelay: 0.9
+  glitchLine: "Wait\u2014 what's happening?!"
+  glitchLineHold: 1.2
+  blackoutFadeDuration: 0.9
+  glitchStreakCount: 24
+  glitchShakeStrength: 14
+  onPlayerFainted:
+    m_PersistentCalls:
+      m_Calls: []
+  glowColor: {r: 0.35, g: 0.55, b: 1, a: 1}
+  glowPulseSpeed: 2.5
 --- !u!1001 &1809657373
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -35,6 +35,10 @@ public class HomeArrivalSequence : MonoBehaviour
     [Tooltip("Objective appears this long after the last line starts typing.")]
     [SerializeField] private float objectiveDelay = 1.0f;
     [SerializeField] private ObjectiveGlow objectiveGlow;
+    [Tooltip("Unblocked alongside the objective - the chair starts SittableChair.isSitBlocked " +
+             "true so the player can't use it during the morning routine/school day, only once " +
+             "they're actually back home.")]
+    [SerializeField] private SittableChair chair;
 
     [Tooltip("Fires once this beat has finished - hook a follow-up quest to it.")]
     public UnityEvent onFinished;
@@ -67,8 +71,29 @@ public class HomeArrivalSequence : MonoBehaviour
 
         if (mission != null && !string.IsNullOrEmpty(objective)) mission.SetObjective(objective);
         if (objectiveGlow != null) objectiveGlow.SetGlowing(true);
+        if (chair != null)
+        {
+            chair.SetSitBlocked(false);
+            chair.onSat += HandleSat;
+        }
 
         onFinished?.Invoke();
+    }
+
+    /// <summary>Ticks the "sit in the chair" objective off and kills its glow the moment the
+    /// player actually sits - nothing else was doing this, so the mission panel used to sit
+    /// there forever showing "[ ]" even after the player was already seated and using the
+    /// computer.</summary>
+    private void HandleSat()
+    {
+        if (chair != null) chair.onSat -= HandleSat;
+        if (mission != null) mission.CompleteObjective();
+        if (objectiveGlow != null) objectiveGlow.SetGlowing(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (chair != null) chair.onSat -= HandleSat;
     }
 
     private void ResolveReferences()

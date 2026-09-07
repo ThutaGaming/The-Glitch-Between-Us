@@ -19,7 +19,7 @@ public class ComputerUseSequence : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.35f;
 
     [Header("Monitor illustration")]
-    [SerializeField] private Color pageBackgroundColor = new Color(0.80f, 0.83f, 0.86f, 1f);
+    [SerializeField] private Color pageBackgroundColor = new Color(0.16f, 0.16f, 0.18f, 1f);
     [SerializeField] private Color monitorBezelColor = new Color(0.14f, 0.15f, 0.18f, 1f);
     [SerializeField] private Color monitorStandColor = new Color(0.10f, 0.11f, 0.13f, 1f);
     [SerializeField] private Color screenColor = new Color(0.66f, 0.70f, 0.75f, 1f);
@@ -35,7 +35,6 @@ public class ComputerUseSequence : MonoBehaviour
     [SerializeField] private string readyText = "Ready to play!";
     [Tooltip("Extra pause on \"Ready to play!\" before the desktop takes over.")]
     [SerializeField] private float readyHoldDuration = 0.7f;
-    [SerializeField] private string exitHint = "(Esc to step away)";
 
     [Header("Desktop (shown after login) - wallpaper + logo")]
     [SerializeField] private Color gradientTopColor = new Color(0.35f, 0.85f, 0.90f, 1f);
@@ -97,10 +96,16 @@ public class ComputerUseSequence : MonoBehaviour
     [SerializeField] private string emailLinkLabel = "PLAY: Protocol: ESCAPE ->";
 
     [Header("Story Beat - Glitch / faint (plays after the link is clicked)")]
-    [SerializeField] private float glitchBuildDuration = 1.4f;
+    [SerializeField] private float glitchBuildDuration = 2.6f;
+    [Tooltip("How far into the glitch (seconds) Thuta's line plays - after the chaos is already visible, not right at the start.")]
+    [SerializeField] private float glitchLineDelay = 0.9f;
+    [SerializeField] private string glitchLine = "Wait— what's happening?!";
+    [SerializeField] private float glitchLineHold = 1.2f;
     [SerializeField] private float blackoutFadeDuration = 0.9f;
-    [Range(2, 30)]
-    [SerializeField] private int glitchStreakCount = 16;
+    [Range(2, 40)]
+    [SerializeField] private int glitchStreakCount = 24;
+    [Tooltip("Max random screen-shake offset in pixels at full glitch intensity.")]
+    [SerializeField] private float glitchShakeStrength = 14f;
     [Tooltip("Fires once the screen has gone fully black - hook the next story beat to this.")]
     public UnityEvent onPlayerFainted;
 
@@ -127,7 +132,6 @@ public class ComputerUseSequence : MonoBehaviour
     private bool isGlitching;
     private float glitchIntensity;
     private float blackoutAlpha;
-    private bool fainted;
 
     private static readonly Color[] GlitchStreakColors =
     {
@@ -136,7 +140,6 @@ public class ComputerUseSequence : MonoBehaviour
 
     private GUIStyle nameStyle;
     private GUIStyle statusStyle;
-    private GUIStyle hintStyle;
     private GUIStyle clockStyle;
     private GUIStyle weatherStyle;
     private GUIStyle windowTitleStyle;
@@ -254,13 +257,6 @@ public class ComputerUseSequence : MonoBehaviour
     {
         if (!isUsing) return;
 
-        // Blocked once the glitch/faint cutscene starts - there is no stepping away from that.
-        if (Input.GetKeyDown(KeyCode.Escape) && !isGlitching && !fainted)
-        {
-            Exit();
-            return;
-        }
-
         if (!loaded)
         {
             loadElapsed += Time.deltaTime;
@@ -286,23 +282,6 @@ public class ComputerUseSequence : MonoBehaviour
         }
     }
 
-    private void Exit()
-    {
-        isUsing = false;
-        StartCoroutine(ExitRoutine());
-    }
-
-    private IEnumerator ExitRoutine()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        if (playerLook != null) playerLook.enabled = true;
-
-        yield return Fade(1f, 0f, fadeDuration);
-
-        if (chair != null) chair.SetStandUpBlocked(false);
-    }
-
     private IEnumerator Fade(float from, float to, float duration)
     {
         float t = 0f;
@@ -319,9 +298,9 @@ public class ComputerUseSequence : MonoBehaviour
     /// The one-time beta-testing email beat: a toast notification, Thuta wondering who sent it,
     /// an "Open email" objective with a glowing mail shortcut, the email itself (from "Developer
     /// Minn Chit", about a game called "Protocol: ESCAPE"), a "Click the link" objective with a
-    /// glowing link, and finally the glitch/faint cutscene once the link is clicked. Runs
-    /// independently of isUsing/Escape so it survives the player stepping away from the computer
-    /// mid-beat and picks back up whenever they return.
+    /// glowing link, and finally the glitch/faint cutscene once the link is clicked. There's no
+    /// stepping away from the computer once seated (no Escape handler), so this always runs to
+    /// completion in one sitting.
     /// </summary>
     private IEnumerator StoryRoutine()
     {
@@ -391,20 +370,35 @@ public class ComputerUseSequence : MonoBehaviour
         toastAlpha = 0f;
     }
 
-    /// <summary>Chromatic streaks build up over the whole screen, then a hard fade to black -
-    /// the "player faints" beat. onPlayerFainted fires once the screen is fully black, for
-    /// whatever comes next to hook onto.</summary>
+    /// <summary>Rough, shaking chromatic glitch that builds up while Thuta reacts partway
+    /// through, then a hard fade to black once he's said his line - the "player faints" beat.
+    /// onPlayerFainted fires once the screen is fully black, for whatever comes next to hook
+    /// onto.</summary>
     private IEnumerator GlitchAndFaintRoutine()
     {
         isGlitching = true;
+        bool linePlayed = false;
 
         float t = 0f;
         while (t < glitchBuildDuration)
         {
             t += Time.deltaTime;
             glitchIntensity = Mathf.Clamp01(t / glitchBuildDuration);
+
+            if (!linePlayed && t >= glitchLineDelay)
+            {
+                linePlayed = true;
+                if (dialogue != null) dialogue.Say("Thuta", glitchLine, glitchLineHold);
+            }
+
             yield return null;
         }
+
+        if (!linePlayed && dialogue != null) dialogue.Say("Thuta", glitchLine, glitchLineHold);
+
+        // Let him finish the line - still shaking/glitching at full intensity - before the
+        // screen actually goes black.
+        yield return new WaitWhile(() => dialogue != null && dialogue.IsPlaying);
 
         t = 0f;
         while (t < blackoutFadeDuration)
@@ -415,7 +409,6 @@ public class ComputerUseSequence : MonoBehaviour
         }
         blackoutAlpha = 1f;
         isGlitching = false;
-        fainted = true;
 
         onPlayerFainted?.Invoke();
     }
@@ -435,10 +428,26 @@ public class ComputerUseSequence : MonoBehaviour
         // Skip the illustration mid-fade so it doesn't flash in half-transparent.
         if (fadeAlpha < 0.98f) return;
 
-        DrawMonitorIllustrationAndLogin();
+        // The shake only jitters the "picture" (monitor + toast + streaks), never the full-screen
+        // backdrop/blackout rects below - those stay screen-locked so the shake can never reveal
+        // a gap at the screen edge.
+        Matrix4x4 savedMatrix = GUI.matrix;
+        if (isGlitching && glitchShakeStrength > 0f) ApplyGlitchShake();
 
+        DrawMonitorIllustrationAndLogin();
         if (toastAlpha > 0.001f) DrawEmailToast();
-        if (isGlitching || blackoutAlpha > 0.001f) DrawGlitchAndBlackout();
+        if (isGlitching) DrawGlitchStreaks();
+
+        GUI.matrix = savedMatrix;
+
+        if (blackoutAlpha > 0.001f) DrawBlackout();
+    }
+
+    private void ApplyGlitchShake()
+    {
+        float shake = glitchShakeStrength * glitchIntensity;
+        Vector2 offset = new Vector2((Random.value - 0.5f) * 2f * shake, (Random.value - 0.5f) * 2f * shake);
+        GUI.matrix = Matrix4x4.TRS(offset, Quaternion.identity, Vector3.one) * GUI.matrix;
     }
 
     /// <summary>A toast card near the top-right of the actual screen (not the illustrated
@@ -470,36 +479,35 @@ public class ComputerUseSequence : MonoBehaviour
         GUI.color = Color.white;
     }
 
-    /// <summary>Flickering chromatic streaks that build up with glitchIntensity, then a hard
-    /// fade to black via blackoutAlpha - drawn full-screen, on top of everything else.</summary>
-    private void DrawGlitchAndBlackout()
+    /// <summary>Chromatic streaks plus chunkier "corruption" blocks that build up with
+    /// glitchIntensity - rougher than a plain fade, meant to read as the screen actively
+    /// breaking rather than just dimming.</summary>
+    private void DrawGlitchStreaks()
     {
-        if (isGlitching)
+        int streaks = Mathf.RoundToInt(Mathf.Lerp(3, glitchStreakCount, glitchIntensity));
+        for (int i = 0; i < streaks; i++)
         {
-            int streaks = Mathf.RoundToInt(Mathf.Lerp(2, glitchStreakCount, glitchIntensity));
-            for (int i = 0; i < streaks; i++)
-            {
-                float rx = Random.value;
-                float ry = Random.value;
-                float rw = Mathf.Lerp(40f, 280f, Random.value);
-                float rh = Mathf.Lerp(2f, 14f, Random.value);
-                Color c = GlitchStreakColors[Random.Range(0, GlitchStreakColors.Length)];
-                GUI.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0.25f, 0.85f, glitchIntensity));
-                GUI.DrawTexture(new Rect(rx * Screen.width, ry * Screen.height, rw, rh), solid);
-            }
-
-            // A faint strobing flash under the streaks, so the whole view feels unstable.
-            float flash = (Mathf.Sin(Time.unscaledTime * 40f) + 1f) * 0.5f;
-            GUI.color = new Color(1f, 1f, 1f, flash * glitchIntensity * 0.15f);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), solid);
+            float rx = Random.value;
+            float ry = Random.value;
+            bool chunky = Random.value < 0.35f;
+            float rw = chunky ? Mathf.Lerp(60f, 220f, Random.value) : Mathf.Lerp(60f, 320f, Random.value);
+            float rh = chunky ? Mathf.Lerp(30f, 140f, Random.value) : Mathf.Lerp(3f, 16f, Random.value);
+            Color c = GlitchStreakColors[Random.Range(0, GlitchStreakColors.Length)];
+            GUI.color = new Color(c.r, c.g, c.b, Mathf.Lerp(0.35f, 1f, glitchIntensity) * (chunky ? 0.7f : 1f));
+            GUI.DrawTexture(new Rect(rx * Screen.width, ry * Screen.height, rw, rh), solid);
         }
 
-        if (blackoutAlpha > 0.001f)
-        {
-            GUI.color = new Color(0f, 0f, 0f, blackoutAlpha);
-            GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), solid);
-        }
+        // A harsh strobing flash under everything, so the whole view feels like it's breaking.
+        float flash = (Mathf.Sin(Time.unscaledTime * 55f) + 1f) * 0.5f;
+        GUI.color = new Color(1f, 1f, 1f, flash * glitchIntensity * 0.25f);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), solid);
+        GUI.color = Color.white;
+    }
 
+    private void DrawBlackout()
+    {
+        GUI.color = new Color(0f, 0f, 0f, blackoutAlpha);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), solid);
         GUI.color = Color.white;
     }
 
@@ -544,9 +552,6 @@ public class ComputerUseSequence : MonoBehaviour
         if (desktopShown) DrawDesktop(local);
         else DrawLoginContent(local);
         GUI.EndGroup();
-
-        Rect hintRect = new Rect(0, bezelRect.yMax + standNeckHeight + standBaseHeight + 16f, Screen.width, 22f);
-        GUI.Label(hintRect, exitHint, hintStyle);
     }
 
     /// <summary>Gradient wallpaper + a simple drawn "flag" logo + taskbar (icons, clock) + the
@@ -825,13 +830,6 @@ public class ComputerUseSequence : MonoBehaviour
             alignment = TextAnchor.MiddleCenter
         };
         statusStyle.normal.textColor = new Color(0.35f, 0.38f, 0.44f, 1f);
-
-        hintStyle = new GUIStyle(GUI.skin.label)
-        {
-            fontSize = 13,
-            alignment = TextAnchor.MiddleCenter
-        };
-        hintStyle.normal.textColor = new Color(0.25f, 0.27f, 0.30f, 0.85f);
 
         clockStyle = new GUIStyle(GUI.skin.label)
         {

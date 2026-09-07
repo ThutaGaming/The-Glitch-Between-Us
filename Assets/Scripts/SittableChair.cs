@@ -29,6 +29,12 @@ public class SittableChair : MonoBehaviour, IInteractable
     [SerializeField] private float groundProbeUpOffset = 2f;
     [SerializeField] private float groundProbeMaxDistance = 10f;
 
+    [Header("Sit Gate")]
+    [Tooltip("While true, an empty chair can't be sat in - no prompt, E does nothing. Used to " +
+             "keep a chair out of play until a story beat unlocks it (e.g. the office chair " +
+             "shouldn't be usable until the player is actually back home from school).")]
+    [SerializeField] private bool isSitBlocked;
+
     public bool IsOccupied { get; private set; }
     private bool isStandingUp;
 
@@ -43,9 +49,11 @@ public class SittableChair : MonoBehaviour, IInteractable
 
     public Transform InteractTransform => transform;
 
-    public string GetPrompt() => IsOccupied ? "(E) Stand Up" : "(E) Sit on Chair";
+    public string GetPrompt() => IsOccupied ? "(E) Stand Up" : (isSitBlocked ? "" : "(E) Sit on Chair");
 
     public void SetStandUpBlocked(bool value) => isStandUpBlocked = value;
+
+    public void SetSitBlocked(bool value) => isSitBlocked = value;
 
     public void Interact(GameObject player)
     {
@@ -54,7 +62,7 @@ public class SittableChair : MonoBehaviour, IInteractable
         {
             if (!isStandUpBlocked) StandUp();
         }
-        else
+        else if (!isSitBlocked)
         {
             Sit(player);
         }
