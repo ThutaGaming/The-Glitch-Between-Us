@@ -2,8 +2,20 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 3
-  tags: []
+  serializedVersion: 2
+  tags:
+  - Wall
+  - Metal
+  - Blood
+  - Dirt
+  - Concrete
+  - ExplosiveBarrel
+  - Target
+  - GasTank
+  - Metal (Static)
+  - Wood (Static)
+  - Dirt (Static)
+  - Wood
   layers:
   - Default
   - TransparentFX
@@ -11,16 +23,16 @@ TagManager:
   - 
   - Water
   - UI
+  - 
+  - 
+  - Wall
+  - First Person View
+  - Character
   - Post Processing
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Post Processing Weapon
+  - Post Processing Scope
+  - Invisible Wall
+  - Projectile
   - 
   - 
   - 
@@ -41,12 +53,3 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  m_RenderingLayers:
-  - Default
-  - Light Layer 1 - Light Layer 1
-  - Light Layer 2 - Light Layer 2
-  - Light Layer 3 - Light Layer 3
-  - Light Layer 4 - Light Layer 4
-  - Light Layer 5 - Light Layer 5
-  - Light Layer 6 - Light Layer 6
-  - Light Layer 7 - Light Layer 7
