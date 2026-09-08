@@ -95,24 +95,28 @@ public class SplashAndSceneLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// Fades the Main Menu to black, then loads the Bedroom Scene
+    /// Fades away the Main Menu and screen to black before switching scenes
     /// </summary>
     private IEnumerator TransitionToBedroom()
     {
-        // Re-enable raycast overlay to block accidental double-clicks while fading
+        // 1. Re-enable raycast overlay to block accidental double-clicks while fading
         fadeOverlay.raycastTarget = true;
 
-        // Disable Main Menu UI interaction
+        // 2. Disable Main Menu UI interaction immediately
         if (mainMenuCanvasGroup != null)
         {
             mainMenuCanvasGroup.interactable = false;
             mainMenuCanvasGroup.blocksRaycasts = false;
         }
 
-        // Fade screen to solid black
-        yield return StartCoroutine(FadeImage(fadeOverlay, 0f, 1f));
+        // 3. Simultaneously fade out the Main Menu and fade in the black overlay
+        StartCoroutine(FadeCanvasGroup(mainMenuCanvasGroup, 1f, 0f)); // Main menu fades away
+        yield return StartCoroutine(FadeImage(fadeOverlay, 0f, 1f));   // Screen turns to solid black
 
-        // Load the Bedroom Scene
+        // Brief pause while full black to let the transition settle
+        yield return new WaitForSeconds(0.2f);
+
+        // 4. Load the Bedroom Scene
         SceneManager.LoadScene(bedroomSceneName);
     }
 
