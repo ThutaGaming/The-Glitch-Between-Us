@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2535a8084a674f4f8befaea765cfb73, type: 3}
+  m_Name: Ultra Wide Spray Pattern
+  m_EditorClassIdentifier: 
+  maxAmount: 10
+  verticalMultiplier: 2
+  horizontalMultiplier: 2
+  totalAmount: 10
+  passiveMultiplier: 0.6
+  rampUpTime: 0.1
+  recoveryTime: 0.05
+  isRandomized: 0
+  fixedPatternSource: 0
+  externalSprayPatternToCopy: {fileID: 11400000, guid: 91e903ec837a88f4486e86ef2201ff17,
+    type: 2}
+  autoFill: 1
+  loop: 1
+  points:
+  - upDown: 0
+    rightLeft: 0
+  - upDown: 0.31599975
+    rightLeft: 0.24600007
+  - upDown: -0.58400023
+    rightLeft: 0.10600006
+  - upDown: 0.08599976
+    rightLeft: -0.2640001
+  - upDown: -0.28400025
+    rightLeft: -0.6740001
+  - upDown: -0.22400025
+    rightLeft: 0.48600006
+  - upDown: 0.36599976
+    rightLeft: -0.21400009
+  - upDown: 0.8638786
+    rightLeft: 0.36317652
+  - upDown: -0.004000244
+    rightLeft: -0.69400007
+  - upDown: -0.57400024
+    rightLeft: -0.2940001
+  - upDown: 0.43599975
+    rightLeft: -0.6140001

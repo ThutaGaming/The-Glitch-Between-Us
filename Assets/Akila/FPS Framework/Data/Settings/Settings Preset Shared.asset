@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a49bb4764937e854d81ccfba78a5dd60, type: 3}
+  m_Name: Settings Preset Shared
+  m_EditorClassIdentifier: 
+  sections:
+  - name: Game
+    options:
+    - name: Sensitivity
+      functionName: SetSensitivityMultiplier
+      isActive: 1
+      foldout: 0
+      selectedFunction: 6
+    - name: XSensitivity
+      functionName: SetXSensitivityMultiplier
+      isActive: 1
+      foldout: 0
+      selectedFunction: 7
+    - name: YSensitivity
+      functionName: SetYSensitivityMultiplier
+      isActive: 1
+      foldout: 0
+      selectedFunction: 8
+    - name: Main Camera FOV
+      functionName: SetFieldOfView
+      isActive: 1
+      foldout: 0
+      selectedFunction: 9
+    - name: Overlay Camera FOV
+      functionName: SetWeaponFieldOfView
+      isActive: 1
+      foldout: 0
+      selectedFunction: 10
+  - name: Video
+    options:
+    - name: Display Mode
+      functionName: SetDisplayMode
+      isActive: 1
+      foldout: 0
+      selectedFunction: 0
+    - name: Display Resolution
+      functionName: SetDisplayResolution
+      isActive: 1
+      foldout: 0
+      selectedFunction: 1
+    - name: Frame Limit
+      functionName: SetFrameLimit
+      isActive: 1
+      foldout: 0
+      selectedFunction: 2
+    - name: VSync
+      functionName: SetVerticalSync
+      isActive: 1
+      foldout: 0
+      selectedFunction: 3
+    - name: Texture Quality
+      functionName: SetTextureQuality
+      isActive: 1
+      foldout: 0
+      selectedFunction: 4
+    - name: Texture Filtering
+      functionName: SetTextureFiltering
+      isActive: 1
+      foldout: 0
+      selectedFunction: 5
+  - name: Audio
+    options:
+    - name: GlobalVolume
+      functionName: SetGlobalVolume
+      isActive: 1
+      foldout: 1
+      selectedFunction: 11
+  currentSelectedSection: 0

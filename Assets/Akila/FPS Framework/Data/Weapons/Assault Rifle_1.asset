@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ee099bf388b684a82d6b44291759ae, type: 3}
+  m_Name: Assault Rifle_1
+  m_EditorClassIdentifier: 
+  firearmHud: {fileID: 6802205737550449059, guid: 0336a53be1116fe48935ea7a38bfc26e,
+    type: 3}
+  crosshair: {fileID: 2492739817271427264, guid: 84e86c88a365a1c4ebfdf835fd34e678,
+    type: 3}
+  shootingMechanism: 1
+  shootingDirection: 2
+  fireMode: 0
+  casingDirection: 2
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 12087
+  projectile: {fileID: 5533149664834043035, guid: 788a3d3b8ecc33d4989926185282c05d,
+    type: 3}
+  casing: {fileID: 5982293670522764668, guid: 5bfe3002879691849b7a1340ac4b704a, type: 3}
+  defaultDecal: {fileID: 1000010844420130, guid: 4edabb1c0dde62743b137378c7d22980,
+    type: 3}
+  decalDirection: 0
+  fireRate: 844
+  muzzleVelocity: 550
+  casingVelocity: 5
+  impactForce: 10
+  damage: 25
+  range: 300
+  maxAimDeviation: 10
+  sprayPattern: {fileID: 11400000, guid: 897a68f121d704e4f8fe89f542c34aab, type: 2}
+  aimSprayPattern: {fileID: 11400000, guid: b459e17d945e124448d4514f19356e4b, type: 2}
+  fireTransition: 0.1
+  restrictedAnimations:
+  - Take
+  - Pickup
+  tracerRounds: 1
+  projectileSize: 0.01
+  decalSize: 1
+  shotCount: 1
+  shotDelay: 0.07109005
+  alwaysApplyFire: 1
+  gamepadVibrationAmountRight: 1
+  gamepadVibrationAmountLeft: 1
+  gamepadVibrationDuration: 0.1
+  ammoType: {fileID: 11400000, guid: 3b4fe24b6064a1945ae19dd8350925f6, type: 2}
+  magazineCapacity: 30
+  reserve: 30
+  canAutomaticallyReload: 1
+  reloadMethod: 0
+  reloadTime: 1.925
+  emptyReloadTime: 1.925
+  reloadStateName: Reload
+  reloadTransitionTime: 0.3
+  canCancelReloading: 1
+  cameraRecoil: 3
+  cameraShakeAmount: 0.1
+  cameraShakeRoughness: 1
+  cameraShakeStartTime: 0.01
+  cameraShakeDuration: 0.3
+  horizontalRecoil: 1
+  verticalRecoil: 0.3
+  aimSpeed: 10
+  aimFieldOfView: 50
+  aimWeaponFieldOfview: 40
+  basePlayerSpeed: 1
+  aimWalkPlayerSpeed: 0.5
+  fireWalkPlayerSpeed: 0.4
+  fireSound: {fileID: 11400000, guid: 32a2f80fb0c67e64081a8e973e0f22c5, type: 2}
+  fireTailSound: {fileID: 11400000, guid: 72df941812d0fa2489ab8d293fc08fc5, type: 2}
+  reloadSound: {fileID: 11400000, guid: cd3d8a42beb20e64d90c2402498f37e3, type: 2}
+  reloadEmptySound: {fileID: 11400000, guid: 62c5e8b2f620afd498560c7de39231e9, type: 2}
+  isFireActive: 1
+  isRecoilActive: 1
+  isCharacterActive: 1
+  isAudioActive: 1

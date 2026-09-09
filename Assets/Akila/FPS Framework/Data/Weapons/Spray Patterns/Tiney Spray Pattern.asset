@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2535a8084a674f4f8befaea765cfb73, type: 3}
+  m_Name: Tiney Spray Pattern
+  m_EditorClassIdentifier: 
+  maxAmount: 0.01
+  verticalMultiplier: 1
+  horizontalMultiplier: 1
+  totalAmount: 0.01
+  passiveMultiplier: 1
+  rampUpTime: 0.1
+  recoveryTime: 0.05
+  isRandomized: 0
+  fixedPatternSource: 0
+  externalSprayPatternToCopy: {fileID: 11400000, guid: 91e903ec837a88f4486e86ef2201ff17,
+    type: 2}
+  autoFill: 1
+  loop: 1
+  points:
+  - upDown: 0
+    rightLeft: 0
+  - upDown: 0.25406605
+    rightLeft: -0.620824
+  - upDown: -0.027538992
+    rightLeft: -0.10402059
+  - upDown: -0.16937831
+    rightLeft: 0.05227474
+  - upDown: 0.44187838
+    rightLeft: 0.48837143
+  - upDown: 0.5404727
+    rightLeft: -0.45493415
+  - upDown: -0.8600889
+    rightLeft: 0.014961552
+  - upDown: 0.8186551
+    rightLeft: -0.45413235
+  - upDown: -0.87399995
+    rightLeft: -0.17200013
+  - upDown: -0.87847054
+    rightLeft: 0.2281973
+  - upDown: -0.41816118
+    rightLeft: -0.4700377
+  - upDown: -0.07781594
+    rightLeft: 0.6224183

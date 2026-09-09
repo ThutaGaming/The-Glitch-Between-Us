@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2535a8084a674f4f8befaea765cfb73, type: 3}
+  m_Name: Small Spray Pattern
+  m_EditorClassIdentifier: 
+  maxAmount: 0.5
+  verticalMultiplier: 1
+  horizontalMultiplier: 1
+  totalAmount: 0.5
+  passiveMultiplier: 0.097
+  rampUpTime: 0.1
+  recoveryTime: 0.05
+  isRandomized: 0
+  fixedPatternSource: 0
+  externalSprayPatternToCopy: {fileID: 11400000, guid: 91e903ec837a88f4486e86ef2201ff17,
+    type: 2}
+  autoFill: 1
+  loop: 1
+  points:
+  - upDown: 0
+    rightLeft: 0
+  - upDown: -0.5503968
+    rightLeft: 0.24193001
+  - upDown: 0.85341215
+    rightLeft: -0.08786958
+  - upDown: -0.85982555
+    rightLeft: -0.10396494
+  - upDown: 0.12537676
+    rightLeft: 0.27685174
+  - upDown: -0.30676046
+    rightLeft: -0.23073094
+  - upDown: -0.68633217
+    rightLeft: -0.10816398
+  - upDown: -0.92183036
+    rightLeft: -0.30224034
+  - upDown: 0.3413104
+    rightLeft: -0.60973096
+  - upDown: 0.36919972
+    rightLeft: -0.1630117
+  - upDown: -0.053765245
+    rightLeft: 0.3470416
+  - upDown: -0.40834308
+    rightLeft: 0.44522497
+  - upDown: -0.6963988
+    rightLeft: 0.29836717
+  - upDown: 0.2214429
+    rightLeft: -0.79341966
+  - upDown: -0.09019563
+    rightLeft: -0.5446102
+  - upDown: -0.10305558
+    rightLeft: -0.5241545
+  - upDown: 0.59467405
+    rightLeft: 0.30947796
+  - upDown: 0.065999754
+    rightLeft: 0.58800006

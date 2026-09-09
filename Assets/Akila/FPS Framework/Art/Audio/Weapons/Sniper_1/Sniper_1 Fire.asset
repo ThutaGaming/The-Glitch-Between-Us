@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25e741ac5eb03e24385ed1fb16be686e, type: 3}
+  m_Name: Sniper_1 Fire
+  m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: c5d5a6ea1c8c89343a5a43945f7bf1bf, type: 3}
+  output: {fileID: 24300002, guid: e8993ca89b78c7445b22d35de3e4520c, type: 2}
+  mute: 0
+  bypassEffects: 0
+  bypassListenerEffects: 0
+  bypassReverbZones: 0
+  playOnAwake: 0
+  stopOnDisabled: 0
+  loop: 0
+  priority: 128
+  volume: 1
+  pitch: 1
+  stereoPan: 0
+  spatialBlend: 1
+  reverbZoneMix: 1
+  dopplerLevel: 1
+  spread: 0
+  minDistance: 1
+  maxDistance: 300
+  simulateAcousticLatency: 1
+  syncPitchWithTimeScale: 1
+  useRandomPitchOffset: 1
+  randomPitchOffset: 0.1
+  forwardFactor: 0.3
+  backwardFactor: 0.3
+  rightFactor: 0.2
+  leftFactor: -0.2
+  upFactor: 0
+  downFactor: 0
+  _6DSoundCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  audioLayers:
+  - time: 0.1
+    audioClip: {fileID: 8300000, guid: 4802bedd34f55e7408bc933e82e2c297, type: 3}
+  - time: 0.5
+    audioClip: {fileID: 8300000, guid: f4005663007abb44da78ddbee13666b5, type: 3}
+  audioLayersDuration: 1

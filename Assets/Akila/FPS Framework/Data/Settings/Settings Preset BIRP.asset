@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51505e782c6b0dd4d97b92c4f2be43dc, type: 3}
+  m_Name: Settings Preset BIRP
+  m_EditorClassIdentifier: 
+  sections:
+  - name: Video
+    options:
+    - name: MSAA
+      functionName: SetMSAA
+      isActive: 1
+      foldout: 0
+      selectedFunction: 0
+    - name: Shadow Quality
+      functionName: SetShadowResolution
+      isActive: 1
+      foldout: 0
+      selectedFunction: 1
+    - name: Shadow Distance
+      functionName: SetShadowDistance
+      isActive: 1
+      foldout: 0
+      selectedFunction: 2
+    - name: Shadow Casecade
+      functionName: SetShadowCascade
+      isActive: 1
+      foldout: 0
+      selectedFunction: 3
+    - name: Soft Shadows
+      functionName: SetSoftShadow
+      isActive: 1
+      foldout: 0
+      selectedFunction: 4
+    - name: Post-Process
+      functionName: SetPostProcssing
+      isActive: 1
+      foldout: 0
+      selectedFunction: 5
+  currentSelectedSection: 0

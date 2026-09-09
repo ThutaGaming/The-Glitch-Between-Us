@@ -6,18 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Mainmenu Scene.unity
-    guid: 795a79c0296826a44bb8571d467d7cda
+    path: Assets/Akila/FPS Framework/Scenes/Main Menu.unity
+    guid: ac101b9ed944cf947b30259ece7eb5aa
   - enabled: 1
-    path: Assets/Scenes/Bedroom Scene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Akila/FPS Framework/Scenes/Loading.unity
+    guid: 75e5571c0de96ac4a84aadc041f9d80e
   - enabled: 1
-    path: Assets/Scenes/School Scene.unity
-    guid: 7c4445da7696c554592f040a647f7fb2
+    path: Assets/Akila/FPS Framework/Scenes/Demo.unity
+    guid: c604dab8d2dc4c845b0a15de6b5edc02
   - enabled: 1
-    path: Assets/Scenes/Game Scene.unity
-    guid: 481cbe5f35173d4409cd21f4012d7d7f
+    path: Assets/Akila/FPS Framework Pro/Scenes/Multiplayer/Multiplayer Demo.unity
+    guid: 32a9f4c89688abf4da268801954a5d46
   m_configObjects:
-    com.unity.input.settings: {fileID: 11400000, guid: 9eb07e2d669e9c94e9d7d3c782a916f7,
-      type: 2}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: fe0ad163545f89b47813a7b41af4a66a,
+      type: 3}
   m_UseUCBPForAssetBundles: 0

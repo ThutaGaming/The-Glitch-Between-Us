@@ -4,35 +4,24 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Wall
-  - Metal
-  - Blood
-  - Dirt
-  - Concrete
-  - ExplosiveBarrel
-  - Target
-  - GasTank
-  - Metal (Static)
-  - Wood (Static)
-  - Dirt (Static)
-  - Wood
+  - Laser Line
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - No Player Collision
   - Water
   - UI
   - 
   - 
-  - Wall
-  - First Person View
-  - Character
-  - Post Processing
-  - Post Processing Weapon
-  - Post Processing Scope
-  - Invisible Wall
-  - Projectile
+  - Player
+  - 
+  - 
+  - Post-Procssing
+  - FPS Object
+  - Enviroment
+  - 
+  - Iteractable
   - 
   - 
   - 
