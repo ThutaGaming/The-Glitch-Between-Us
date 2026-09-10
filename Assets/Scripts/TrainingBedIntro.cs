@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 using InfimaGames.LowPolyShooterPack;
 
 [DefaultExecutionOrder(-50)]
@@ -10,6 +11,9 @@ public class TrainingBedIntro : MonoBehaviour
     public Vector3 lyingEye, sittingEye, exitPosition;
     public float facingYaw;
     public Font dialogueFont;
+
+    [Tooltip("Fires once, right after the player finishes standing up.")]
+    public UnityEvent onComplete;
 
     public bool Complete { get; private set; }
     public string Phase { get; private set; }
@@ -94,6 +98,7 @@ public class TrainingBedIntro : MonoBehaviour
         movement.enabled=movementEnabled; look.enabled=lookEnabled; input.enabled=inputEnabled;
         Complete=true; Phase="Complete";
         Debug.Log("TrainingBedIntro complete: unarmed, standing at bed right side.");
+        onComplete?.Invoke();
     }
 
     IEnumerator MoveEye(Vector3 end,Quaternion rotation,float duration)

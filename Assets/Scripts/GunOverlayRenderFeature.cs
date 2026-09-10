@@ -1,0 +1,1 @@
+// Gun overlay implementation removed.

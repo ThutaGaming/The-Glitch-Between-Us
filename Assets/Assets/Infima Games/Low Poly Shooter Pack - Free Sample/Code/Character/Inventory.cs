@@ -103,7 +103,7 @@ namespace InfimaGames.LowPolyShooterPack
  var list = new System.Collections.Generic.List<WeaponBehaviour>(weapons ?? new WeaponBehaviour[0]); list.Add(weapon); weapons = list.ToArray();
  return Equip(weapons.Length - 1);
 }
-public override WeaponBehaviour GetEquipped() => equipped;
+        public override WeaponBehaviour GetEquipped() => equipped;
         public override int GetEquippedIndex() => equippedIndex;
 
         #endregion
