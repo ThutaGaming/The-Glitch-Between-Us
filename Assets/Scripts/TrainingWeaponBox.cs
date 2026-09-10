@@ -24,9 +24,18 @@ public class TrainingWeaponBox : MonoBehaviour
     {
         if(!player || Busy || (intro && !intro.Complete))return -2;
         var camera=player.GetCameraWorld();
-        if(!Physics.Raycast(camera.transform.position,camera.transform.forward,out var hit,3f,~0,QueryTriggerInteraction.Collide))return -2;
-        if(!IsOpen)return hit.collider==boxTarget || hit.collider.transform.IsChildOf(lid)?-1:-2;
-        for(int i=0;i<gunTargets.Length;i++)if(gunTargets[i].enabled && hit.collider==gunTargets[i])return i;
+        // RaycastAll, not Raycast: looking down into the open box, the crate's own solid rim/wall
+        // sits closer to the camera than the gun triggers and would otherwise win a single-hit
+        // raycast, making the guns unreachable from any but a narrow, level viewing angle.
+        var hits=Physics.RaycastAll(camera.transform.position,camera.transform.forward,3f,~0,QueryTriggerInteraction.Collide);
+        if(!IsOpen)
+        {
+            foreach(var h in hits) if(h.collider==boxTarget || h.collider.transform.IsChildOf(lid))return -1;
+            return -2;
+        }
+        foreach(var h in hits)
+            for(int i=0;i<gunTargets.Length;i++)
+                if(gunTargets[i].enabled && h.collider==gunTargets[i])return i;
         return -2;
     }
     void Update()
