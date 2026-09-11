@@ -8443,8 +8443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee14a0399c1d3af489706e77ecc6082c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  openLocalDirection: {x: 0, y: 0, z: 1}
-  openDistance: 3.4
+  openLocalDirection: {x: -1, y: 0, z: 0}
+  openDistance: 1.632
   openDuration: 1.2
   onOpened:
     m_PersistentCalls:
