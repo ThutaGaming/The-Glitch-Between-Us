@@ -85,13 +85,23 @@ public class TrainingBedIntro : MonoBehaviour
         Phase="Standing";
         var eyeBefore=view.transform.position;
         var rotBefore=view.transform.rotation;
-        transform.SetPositionAndRotation(exitPosition,Quaternion.Euler(0,facingYaw+90,0));
+        var exitRotation=Quaternion.Euler(0,facingYaw+90,0);
+        transform.SetPositionAndRotation(exitPosition,exitRotation);
+        // The rigidbody is still kinematic here, but drive it explicitly too - relying on the
+        // Transform alone to reach the physics body left it holding the pre-move position across
+        // this multi-second yield in some cases, so the player snapped back once it went dynamic.
+        body.position=exitPosition; body.rotation=exitRotation;
+        Physics.SyncTransforms();
         // Resolve the normal eye position from the original camera socket for a seamless handoff.
         var standingEye=viewParent.TransformPoint(cameraLocal);
         view.transform.SetPositionAndRotation(eyeBefore,rotBefore);
         yield return MoveEye(standingEye,Quaternion.Euler(0,facingYaw+90,0),1.2f);
         view.transform.SetParent(viewParent,false);
         view.transform.localPosition=cameraLocal; view.transform.localRotation=cameraRotation;
+        // Re-affirm the root position/rotation right before handing control back, in case anything
+        // during the yield (physics, animation) nudged the still-kinematic body.
+        transform.SetPositionAndRotation(exitPosition,exitRotation);
+        body.position=exitPosition; body.rotation=exitRotation;
         Physics.SyncTransforms();
         capsule.enabled=capsuleEnabled; body.isKinematic=wasKinematic;
         if(!wasKinematic)body.linearVelocity=Vector3.zero;
