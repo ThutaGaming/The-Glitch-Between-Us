@@ -1734,6 +1734,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &175092565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175092549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b22753cb9dcda3a44ba80c029bdf21ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1001 &190494233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1907,6 +1921,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 175092563}
+    - targetCorrespondingSourceObject: {fileID: 7946356033495621154, guid: fe40575f7b813c449ae494ea14feb151,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 175092565}
   m_SourcePrefab: {fileID: 100100000, guid: fe40575f7b813c449ae494ea14feb151, type: 3}
 --- !u!1001 &196636184
 PrefabInstance:
