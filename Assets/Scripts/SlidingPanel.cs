@@ -5,7 +5,8 @@ using UnityEngine.Events;
 /// <summary>
 /// Slides this transform along its own local axis to reveal a passage (e.g. Grid_06 opening onto
 /// the Floor 1 stairwell) - a simpler, standalone alternative to BarnDoorSlider for a flat panel
-/// with no Hanger/Wheel rig. Triggered externally via <see cref="Open"/>, not by the player.
+/// with no Hanger/Wheel rig. Triggered externally via <see cref="Open"/> / <see cref="Close"/>,
+/// not by the player.
 /// </summary>
 public class SlidingPanel : MonoBehaviour
 {
@@ -24,17 +25,26 @@ public class SlidingPanel : MonoBehaviour
         closedLocalPosition = transform.localPosition;
     }
 
-    /// <summary>Slides the panel open once; safe to call again (later calls are ignored).</summary>
+    /// <summary>Slides the panel open; safe to call again (later calls are ignored).</summary>
     public void Open()
     {
         if (opened) return;
         opened = true;
-        StartCoroutine(SlideOpen());
+        StopAllCoroutines();
+        StartCoroutine(SlideTo(closedLocalPosition + openLocalDirection.normalized * openDistance, true));
     }
 
-    private IEnumerator SlideOpen()
+    /// <summary>Slides the panel back to where it started; interrupts an opening slide.</summary>
+    public void Close()
     {
-        Vector3 target = closedLocalPosition + openLocalDirection.normalized * openDistance;
+        if (!opened) return;
+        opened = false;
+        StopAllCoroutines();
+        StartCoroutine(SlideTo(closedLocalPosition, false));
+    }
+
+    private IEnumerator SlideTo(Vector3 target, bool invokeOpened)
+    {
         Vector3 start = transform.localPosition;
 
         for (float t = 0f; t < openDuration; t += Time.deltaTime)
@@ -45,6 +55,6 @@ public class SlidingPanel : MonoBehaviour
         }
         transform.localPosition = target;
 
-        onOpened?.Invoke();
+        if (invokeOpened) onOpened?.Invoke();
     }
 }
