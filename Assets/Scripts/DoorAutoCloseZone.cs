@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Sits just past a DoubleSlidingDoor, on the far side. Once the player crosses into it, waits a
@@ -16,6 +17,8 @@ public class DoorAutoCloseZone : MonoBehaviour
     [SerializeField] private CombatEncounterManager2 encounter;
     [Tooltip("Optional - the next room's encounter, started the first time the player walks in.")]
     [SerializeField] private CombatEncounterManager2 encounterToStart;
+    [Tooltip("Optional - fires once, the moment the player is first detected in this zone.")]
+    public UnityEvent onPlayerEntered;
 
     private bool pending;
 
@@ -33,6 +36,7 @@ public class DoorAutoCloseZone : MonoBehaviour
         pending = true;
         if (encounter != null) encounter.NotifyPlayerThroughDoor();
         if (encounterToStart != null) encounterToStart.Begin();
+        onPlayerEntered?.Invoke();
         StartCoroutine(CloseAfterDelay());
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public sealed class Room3BlastGateController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public sealed class Room3BlastGateController : MonoBehaviour
     public Light[] cyanFacilityLights;
     public ParticleSystem steamBurst;
     public GameObject levelTwoAccess;
+    [Tooltip("Fires once the blast doors have finished sliding open.")]
+    public UnityEvent onOpened;
 
     private bool unlocked;
 
@@ -50,6 +53,7 @@ public sealed class Room3BlastGateController : MonoBehaviour
 
         if (levelTwoAccess != null) levelTwoAccess.SetActive(true);
         if (statusDisplay != null) statusDisplay.text = "LEVEL 2 ACCESS OPEN";
+        onOpened?.Invoke();
     }
 
     private IEnumerator FadeLighting()

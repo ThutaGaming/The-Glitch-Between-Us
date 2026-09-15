@@ -44,7 +44,8 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     [Header("Arena")]
     [SerializeField] private DoubleSlidingDoor door;
-    [SerializeField] private Light[] doorGuideLights;
+    [Tooltip("Same blue X-ray outline every other mission marker in this project uses.")]
+    [SerializeField] private ObjectiveGlow doorGlow;
     [SerializeField] private Transform[] covers;
     [SerializeField] private EnemyRoute[] routes;
     [SerializeField] private Vector3 arenaMin = new Vector3(-25f, 0f, 0f);
@@ -232,8 +233,7 @@ public class CombatEncounterManager2 : MonoBehaviour
         while (kills < enemies.Count) yield return null;
 
         door.Locked = false;
-        foreach (var l in doorGuideLights)
-            if (l != null) l.enabled = true;
+        if (doorGlow != null) doorGlow.SetGlowing(true);
         if (MissionHUD.Instance != null)
             MissionHUD.Instance.SetObjective(clearedObjective);
     }
@@ -243,8 +243,7 @@ public class CombatEncounterManager2 : MonoBehaviour
     {
         if (MissionHUD.Instance != null && MissionHUD.Instance.HasActiveObjective)
             MissionHUD.Instance.CompleteObjective();
-        foreach (var l in doorGuideLights)
-            if (l != null) l.enabled = false;
+        if (doorGlow != null) doorGlow.SetGlowing(false);
     }
 
     private bool AllEnemiesInside()

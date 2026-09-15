@@ -33,7 +33,11 @@ public class TerminalInteractionBridge : MonoBehaviour
         if (cam == null || terminal == null) return;
 
         if (IsPlayerNear(cam) && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
-            terminal.Interact(cam.gameObject);
+            // The camera sits deep under the Player root (Player/.../SOCKET_Camera/Camera); Movement,
+            // CameraLook and PlayerInput - which NetworkPuzzleTerminal.Interact disables while the
+            // puzzle is open - live on that root, not on the camera itself, so pass the root or the
+            // freeze silently no-ops and clicking the puzzle buttons keeps firing the weapon.
+            terminal.Interact(cam.transform.root.gameObject);
     }
 
     bool IsPlayerNear(Camera cam)
