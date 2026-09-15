@@ -38,7 +38,8 @@ public class DoubleSlidingDoor : MonoBehaviour, IInteractable
 
     public void ScriptedClose()
     {
-        if (!opened) SetPanels(false);
+        SetPanels(false);
+        opened = false;
     }
 
     private void SetPanels(bool open)

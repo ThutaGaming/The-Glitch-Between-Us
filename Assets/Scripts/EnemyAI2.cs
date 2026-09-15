@@ -34,6 +34,7 @@ public class EnemyAI2 : MonoBehaviour
     private SphereCollider headCollider;
     private Transform muzzle;
     private Light muzzleLight;
+    private Light presenceLight;
     private LineRenderer tracer;
     private AudioSource audioSource;
     private AudioClip[] shotClips;
@@ -48,6 +49,7 @@ public class EnemyAI2 : MonoBehaviour
     private int burstsSinceReload;
     private int peeksAtCover;
     private int peeksBeforeMove;
+    private int blindPeeks;
     private string currentAnim = "";
     private float flinchUntil;
 
@@ -101,7 +103,8 @@ public class EnemyAI2 : MonoBehaviour
             var gun = Instantiate(gunPrefab, hand);
             gun.transform.localPosition = gunPos;
             gun.transform.localRotation = Quaternion.Euler(gunEuler);
-            gun.transform.localScale = Vector3.one;
+            // Keep the pistol real-size even on a scaled-up character.
+            gun.transform.localScale = Vector3.one / Mathf.Max(0.001f, hand.lossyScale.x);
             muzzle = new GameObject("Muzzle").transform;
             muzzle.SetParent(gun.transform, false);
             muzzle.localPosition = new Vector3(0f, 0.049f, 0.175f);
@@ -119,6 +122,18 @@ public class EnemyAI2 : MonoBehaviour
         muzzleLight.range = 5f;
         muzzleLight.intensity = 0f;
         muzzleLight.shadows = LightShadows.None;
+
+        // Always-on fill light carried by the enemy itself, so it reads clearly against dark
+        // corners, cover shadows or columns regardless of where it ends up standing in the room.
+        var presenceGo = new GameObject("PresenceLight");
+        presenceGo.transform.SetParent(transform, false);
+        presenceGo.transform.localPosition = new Vector3(0f, 1.55f, 0f);
+        presenceLight = presenceGo.AddComponent<Light>();
+        presenceLight.type = LightType.Point;
+        presenceLight.color = new Color(0.85f, 0.92f, 1f);
+        presenceLight.range = 4.5f;
+        presenceLight.intensity = 3.5f;
+        presenceLight.shadows = LightShadows.None;
 
         tracer = gameObject.AddComponent<LineRenderer>();
         tracer.useWorldSpace = true;
@@ -280,9 +295,25 @@ public class EnemyAI2 : MonoBehaviour
         peeksAtCover++;
         if (!found)
         {
+            // Stuck behind a barrier with no angle on the player: after a couple of tries, move to
+            // cover that actually has a firing line instead of idling out of the fight.
+            blindPeeks++;
+            if (blindPeeks >= 2 && manager.TryAcquireMoveToken(this))
+            {
+                blindPeeks = 0;
+                int better = manager.FindBestCover(this, transform.position, route.firstCover, route.pushCover, currentCover, laneSign, true);
+                if (better >= 0)
+                {
+                    manager.ReleaseAttackToken(this);
+                    yield return GoToCover(better);
+                    yield break;
+                }
+                manager.ReleaseMoveToken(this);
+            }
             yield return new WaitForSeconds(0.4f);
             yield break;
         }
+        blindPeeks = 0;
 
         Vector3 back = transform.position;
         yield return Strafe(peek);

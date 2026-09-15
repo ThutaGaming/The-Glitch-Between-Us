@@ -44,11 +44,18 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     [Header("Arena")]
     [SerializeField] private DoubleSlidingDoor door;
+    [SerializeField] private Light[] doorGuideLights;
     [SerializeField] private Transform[] covers;
     [SerializeField] private EnemyRoute[] routes;
     [SerializeField] private Vector3 arenaMin = new Vector3(-25f, 0f, 0f);
     [SerializeField] private Vector3 arenaMax = new Vector3(25f, 0f, 47.5f);
     [SerializeField] private float floorY = 0.1f;
+
+    [Header("Flow")]
+    [Tooltip("Start as soon as the scene plays. Off = wait for Begin() (e.g. a trigger when the player enters the room).")]
+    [SerializeField] private bool startOnPlay = true;
+    [SerializeField] private string eliminateObjective = "Eliminate the hostiles";
+    [SerializeField] private string clearedObjective = "Head to the Room2 entrance door";
 
     [Header("Pacing")]
     [SerializeField] private float startDelay = 2.5f;
@@ -80,6 +87,7 @@ public class CombatEncounterManager2 : MonoBehaviour
     private float moverSince;
     private float nextAttackTime;
     private int kills;
+    private bool begun;
     private Vector3 arenaCenter;
     private Vector3 doorInward;
 
@@ -100,6 +108,8 @@ public class CombatEncounterManager2 : MonoBehaviour
     public Vector3 PlayerChest => playerTransform.position + Vector3.up * 1.3f;
     public float PlayerSpeed => playerBody != null ? new Vector3(playerBody.linearVelocity.x, 0f, playerBody.linearVelocity.z).magnitude : 0f;
     public bool PlayerDead => playerHealth != null && playerHealth.IsDead;
+    /// <summary>Begun and not yet cleared - only an active encounter reads the player's shots.</summary>
+    public bool IsActive => begun && (enemies.Count == 0 || kills < enemies.Count);
 
     private void Awake()
     {
@@ -126,7 +136,6 @@ public class CombatEncounterManager2 : MonoBehaviour
         }
 
         BuildCovers();
-        Grid = new CoverNavGrid(arenaMin, arenaMax, floorY, 0.5f, 0.36f, 1.8f, ~0, IgnoreForGrid);
         BuildFx();
 
         doorInward = door.transform.position - arenaCenter;
@@ -134,6 +143,16 @@ public class CombatEncounterManager2 : MonoBehaviour
         doorInward = -doorInward.normalized;
 
         door.Locked = true;
+        if (startOnPlay) Begin();
+    }
+
+    /// <summary>Starts the fight; safe to call repeatedly (only the first call does anything).</summary>
+    public void Begin()
+    {
+        if (begun || !enabled || coverPoints.Count == 0) return;
+        begun = true;
+        // Built now rather than in Start so it reflects the room as the player finds it.
+        Grid = new CoverNavGrid(arenaMin, arenaMax, floorY, 0.5f, 0.36f, 1.8f, ~0, IgnoreForGrid);
         StartCoroutine(RunEncounter());
     }
 
@@ -176,9 +195,9 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private IEnumerator RunEncounter()
     {
-        if (MissionHUD.Instance != null) MissionHUD.Instance.SetObjective("Eliminate the hostiles", routes.Length);
-
+        // Wait first so a just-completed objective (e.g. "Head to the door") gets to show its tick.
         yield return new WaitForSeconds(startDelay);
+        if (MissionHUD.Instance != null) MissionHUD.Instance.SetObjective(eliminateObjective, routes.Length);
 
         Vector3 doorRight = Vector3.Cross(Vector3.up, -doorInward);
         for (int i = 0; i < routes.Length; i++)
@@ -213,11 +232,19 @@ public class CombatEncounterManager2 : MonoBehaviour
         while (kills < enemies.Count) yield return null;
 
         door.Locked = false;
+        foreach (var l in doorGuideLights)
+            if (l != null) l.enabled = true;
         if (MissionHUD.Instance != null)
-        {
-            MissionHUD.Instance.SetObjective("Area clear - the door is unlocked");
+            MissionHUD.Instance.SetObjective(clearedObjective);
+    }
+
+    /// <summary>Called by DoorAutoCloseZone once the player has walked through the door.</summary>
+    public void NotifyPlayerThroughDoor()
+    {
+        if (MissionHUD.Instance != null && MissionHUD.Instance.HasActiveObjective)
             MissionHUD.Instance.CompleteObjective();
-        }
+        foreach (var l in doorGuideLights)
+            if (l != null) l.enabled = false;
     }
 
     private bool AllEnemiesInside()
@@ -305,7 +332,20 @@ public class CombatEncounterManager2 : MonoBehaviour
         return null;
     }
 
-    public int FindBestCover(EnemyAI2 e, Vector3 from, int preferA, int preferB, int exclude, float laneSign)
+    /// <summary>True if at least one end of this barrier gives a clear shot at the player.</summary>
+    public bool HasPeekLine(int index)
+    {
+        Vector3 threat = playerTransform.position;
+        HideSpot(index, threat, out _, out int rightEnd);
+        foreach (int end in new[] { rightEnd, -rightEnd })
+        {
+            Vector3 p = PeekSpot(index, threat, end, end == rightEnd);
+            if (Grid.IsWalkable(p) && HasLineOfSight(p + Vector3.up * 1.5f, PlayerChest)) return true;
+        }
+        return false;
+    }
+
+    public int FindBestCover(EnemyAI2 e, Vector3 from, int preferA, int preferB, int exclude, float laneSign, bool requirePeekLine = false)
     {
         int best = -1;
         float bestScore = float.MaxValue;
@@ -316,6 +356,7 @@ public class CombatEncounterManager2 : MonoBehaviour
             Vector3 hide = HideSpot(i, player, out _, out _);
             float toPlayer = FlatDistance(hide, player);
             if (toPlayer < minCoverDistance || !IsSpotProtected(hide)) continue;
+            if (requirePeekLine && !HasPeekLine(i)) continue;
 
             float score = FlatDistance(from, hide) + Mathf.Abs(toPlayer - idealRange) * 0.6f;
             var owner = RouteOwnerOf(i);
@@ -428,6 +469,7 @@ public class CombatEncounterManager2 : MonoBehaviour
             visible[e] = v;
         }
 
+        if (!IsActive) { lastAmmo = -1; return; }
         if (playerInventory == null || PlayerDead) return;
         WeaponBehaviour equipped = playerInventory.GetEquipped();
         if (equipped == null) { lastAmmo = -1; return; }
@@ -581,7 +623,7 @@ public class CombatEncounterManager2 : MonoBehaviour
             GUI.DrawTexture(new Rect(Screen.width - edge, 0, edge, Screen.height), tex);
         }
 
-        if (playerHealth != null && !playerHealth.IsDead && playerHealth.Normalized < 0.35f)
+        if (IsActive && playerHealth != null && !playerHealth.IsDead && playerHealth.Normalized < 0.35f)
         {
             float pulse = 0.18f + 0.1f * Mathf.Sin(Time.time * 5f);
             GUI.color = new Color(0.5f, 0f, 0f, pulse * (1f - playerHealth.Normalized / 0.35f) + 0.08f);
