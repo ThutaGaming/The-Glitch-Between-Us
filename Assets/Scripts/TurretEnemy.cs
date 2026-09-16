@@ -13,8 +13,11 @@ public class TurretEnemy : MonoBehaviour
     [Header("Rig")]
     [Tooltip("The yawing column. Its whole subtree - head and guns - turns with it.")]
     [SerializeField] private Transform pylon;
-    [Tooltip("The gun head. Its local +X is the firing axis.")]
+    [Tooltip("The gun head; the barrels are parented to it.")]
     [SerializeField] private Transform head;
+    [Tooltip("Which way the barrels point in head-local space. Turret 1c's run along +X; the " +
+             "turret_1_* models' run along +Z. Must be horizontal.")]
+    [SerializeField] private Vector3 localFiringAxis = Vector3.right;
     [Tooltip("Muzzle position in head-local space, just past the barrel tips.")]
     [SerializeField] private Vector3 muzzleLocalOffset = new Vector3(6.2f, 0f, 0f);
 
@@ -126,19 +129,31 @@ public class TurretEnemy : MonoBehaviour
         flat.y = 0f;
         if (flat.sqrMagnitude < 0.0001f) return;
 
-        // Atan2 gives the yaw that puts +Z on the target; the guns sit on +X, a quarter turn over.
-        float yaw = Mathf.Atan2(flat.x, flat.z) * Mathf.Rad2Deg - 90f;
+        // Atan2 gives the yaw that puts +Z on the target; back off by however far the barrels
+        // already sit from +Z in head-local space.
+        float yaw = Mathf.Atan2(flat.x, flat.z) * Mathf.Rad2Deg - AxisOffsetDegrees;
         pylon.rotation = Quaternion.RotateTowards(pylon.rotation, Quaternion.Euler(0f, yaw, 0f),
             turnSpeed * Time.deltaTime);
     }
 
+    private float AxisOffsetDegrees => Mathf.Atan2(localFiringAxis.x, localFiringAxis.z) * Mathf.Rad2Deg;
+
+    /// <summary>World direction the barrels are currently pointing, flattened.</summary>
+    private Vector3 AimDirection
+    {
+        get
+        {
+            Vector3 aim = head.TransformDirection(localFiringAxis);
+            aim.y = 0f;
+            return aim;
+        }
+    }
+
     private bool Aligned(Vector3 target)
     {
-        Vector3 aim = head.right;
-        aim.y = 0f;
         Vector3 to = target - head.position;
         to.y = 0f;
-        return Vector3.Angle(aim, to) <= aimTolerance;
+        return Vector3.Angle(AimDirection, to) <= aimTolerance;
     }
 
     /// <summary>

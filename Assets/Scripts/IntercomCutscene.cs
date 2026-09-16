@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using InfimaGames.LowPolyShooterPack;
 
 /// <summary>
@@ -31,6 +32,9 @@ public class IntercomCutscene : MonoBehaviour
     [Header("Timing")]
     [SerializeField] private float delayBeforeLight = 0.5f;
     [SerializeField] private float holdAfterLight = 2f;
+
+    [Tooltip("Fires the instant the light finishes turning green - while the shot is still holding on it, before the camera cuts back.")]
+    public UnityEvent onLightOn;
 
     private Movement movement;
     private CameraLook look;
@@ -94,6 +98,8 @@ public class IntercomCutscene : MonoBehaviour
             }
             targetLight.color = onColor;
         }
+
+        onLightOn?.Invoke();
 
         yield return new WaitForSeconds(holdAfterLight);
 

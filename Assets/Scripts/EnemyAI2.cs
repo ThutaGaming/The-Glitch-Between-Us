@@ -51,6 +51,7 @@ public class EnemyAI2 : MonoBehaviour
     private int peeksBeforeMove;
     private int blindPeeks;
     private string currentAnim = "";
+    private int roamIndex;
     private float flinchUntil;
 
     public bool IsDead => state == State.Dead;
@@ -179,10 +180,75 @@ public class EnemyAI2 : MonoBehaviour
         while (!released) yield return null;
 
         manager.Log(name + " leaving door");
+
+        // If the player is already visible, open the encounter with a burst at any distance.
+        // The enemy then follows its cover/patrol route instead of standing in the open.
+        yield return FireIfVisible(1.25f);
+        if (IsDead) yield break;
+
+        if (route.roam)
+        {
+            roamIndex = route.roamPoints != null && route.roamPoints.Length > 1 ? 1 : 0;
+            PlayAnim("Run");
+            while (!IsDead) yield return RoamCycle();
+            yield break;
+        }
+
         yield return GoToCover(PickRouteCover(route.firstCover));
 
         while (!IsDead)
             yield return CoverCycle();
+    }
+
+    /// <summary>
+    /// Walk a unique loop through the room, pause to scan, and only fire when the player is visible.
+    /// The shared attack-token cap prevents all roaming enemies from firing at the same time.
+    /// </summary>
+    private IEnumerator RoamCycle()
+    {
+        if (route.roamPoints == null || route.roamPoints.Length == 0)
+        {
+            PlayAnim("CoverIdle");
+            yield return new WaitForSeconds(0.5f);
+            yield break;
+        }
+
+        if (!manager.TryResolveWalkablePoint(route.roamPoints[roamIndex], out Vector3 target))
+        {
+            PlayAnim("CoverIdle");
+            roamIndex = (roamIndex + 1) % route.roamPoints.Length;
+            yield return new WaitForSeconds(0.25f);
+            yield break;
+        }
+
+        yield return MoveAlongPath(target);
+        if (IsDead) yield break;
+
+        state = State.InCover;
+        PlayAnim("AimIdle");
+        float scanTime = Random.Range(0.4f, 0.85f);
+        for (float t = 0f; t < scanTime && !IsDead; t += Time.deltaTime)
+        {
+            if (!manager.PlayerDead) TurnTowards(player.position - transform.position);
+            yield return null;
+        }
+
+        bool sawPlayer = !IsDead && !manager.PlayerDead &&
+                         manager.HasLineOfSight(muzzle.position, manager.PlayerChest);
+        if (sawPlayer)
+        {
+            yield return FireIfVisible(1.25f);
+            if (IsDead) yield break;
+
+            // Roaming routes use real room covers whenever one is available: shoot, hide,
+            // then lean out for the next burst before resuming the patrol loop.
+            yield return TakeTemporaryCoverAndReturnFire();
+            if (IsDead) yield break;
+        }
+
+        roamIndex = (roamIndex + 1) % route.roamPoints.Length;
+        PlayAnim("CoverIdle");
+        yield return new WaitForSeconds(Random.Range(0.3f, 0.7f));
     }
 
     private int PickRouteCover(int preferred)
@@ -216,6 +282,17 @@ public class EnemyAI2 : MonoBehaviour
     private IEnumerator CoverCycle()
     {
         state = State.InCover;
+
+        // No cover claimed - the room ran out of usable ones (an isolated catwalk, or the player
+        // standing on top of every hide spot). Hold the ground and keep shooting rather than
+        // indexing coverPoints with -1, and retry for a slot each pass.
+        if (currentCover < 0)
+        {
+            yield return OpenFire();
+            yield return Relocate(false);
+            yield break;
+        }
+
         Vector3 hide = manager.HideSpot(currentCover, player.position, out Vector3 facing, out _);
 
         if (!manager.IsSpotProtected(hide) || CombatEncounterManager2.FlatDistance(hide, player.position) < 5f)
@@ -363,11 +440,71 @@ public class EnemyAI2 : MonoBehaviour
 
     private IEnumerator OpenFire()
     {
-        state = State.Peeking;
-        if (manager.HasLineOfSight(muzzle.position, manager.PlayerChest))
-            yield return AimAndBurst();
+        yield return FireIfVisible(0.8f);
         PlayAnim("AimIdle");
         yield return new WaitForSeconds(0.8f);
+    }
+
+    /// <summary>
+    /// Fires as soon as the player is visible, regardless of distance. A short token wait keeps
+    /// the squad staggered instead of making every enemy fire on the exact same frame.
+    /// </summary>
+    private IEnumerator FireIfVisible(float tokenWait)
+    {
+        if (IsDead || manager.PlayerDead ||
+            !manager.HasLineOfSight(muzzle.position, manager.PlayerChest)) yield break;
+
+        float deadline = Time.time + tokenWait;
+        while (!IsDead && !manager.PlayerDead && Time.time <= deadline)
+        {
+            if (!manager.HasLineOfSight(muzzle.position, manager.PlayerChest)) yield break;
+            if (manager.TryAcquireAttackToken(this))
+            {
+                state = State.Peeking;
+                hitDuringPeek = false;
+                yield return AimAndBurst();
+                manager.ReleaseAttackToken(this);
+                if (!IsDead) state = State.InCover;
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
+    /// <summary>
+    /// Lets a roaming enemy borrow an unclaimed cover after firing, then peek out and return fire.
+    /// Encounters with no registered cover keep using their obstacle-aware patrol route.
+    /// </summary>
+    private IEnumerator TakeTemporaryCoverAndReturnFire()
+    {
+        if (!manager.TryAcquireMoveToken(this)) yield break;
+
+        int cover = manager.FindBestCover(this, transform.position, -1, -1, currentCover, laneSign, true);
+        if (cover < 0)
+        {
+            manager.ReleaseMoveToken(this);
+            yield break;
+        }
+
+        yield return GoToCover(cover);
+        if (IsDead) yield break;
+
+        PlayAnim("CoverIdle");
+        float hideTime = Random.Range(0.7f, 1.2f);
+        for (float t = 0f; t < hideTime && !IsDead; t += Time.deltaTime)
+        {
+            TurnTowards(player.position - transform.position);
+            yield return null;
+        }
+
+        if (!IsDead && !manager.PlayerDead && manager.TryAcquireAttackToken(this))
+        {
+            yield return Peek();
+            manager.ReleaseAttackToken(this);
+        }
+
+        manager.ReleaseCover(currentCover, this);
+        currentCover = -1;
     }
 
     // ---------- movement ----------
@@ -375,10 +512,14 @@ public class EnemyAI2 : MonoBehaviour
     private IEnumerator MoveAlongPath(Vector3 target)
     {
         state = State.Moving;
-        if (!manager.Grid.FindPath(transform.position, target, path))
+        if (manager.Grid == null ||
+            !manager.TryResolveWalkablePoint(target, out Vector3 walkableTarget) ||
+            !manager.Grid.FindPath(transform.position, walkableTarget, path))
         {
             path.Clear();
-            path.Add(target);
+            PlayAnim("CoverIdle");
+            yield return new WaitForSeconds(0.2f);
+            yield break;
         }
 
         PlayAnim("Run");
@@ -468,8 +609,9 @@ public class EnemyAI2 : MonoBehaviour
         }
 
         Vector3 dir = (aim - origin).normalized;
-        Vector3 end = origin + dir * 60f;
-        var hits = Physics.RaycastAll(origin, dir, 60f, ~0, QueryTriggerInteraction.Ignore);
+        float shotRange = Mathf.Max(500f, dist + 10f);
+        Vector3 end = origin + dir * shotRange;
+        var hits = Physics.RaycastAll(origin, dir, shotRange, ~0, QueryTriggerInteraction.Ignore);
         float nearest = float.MaxValue;
         RaycastHit best = default;
         foreach (var h in hits)
