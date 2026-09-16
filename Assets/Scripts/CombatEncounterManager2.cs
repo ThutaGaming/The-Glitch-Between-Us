@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using InfimaGames.LowPolyShooterPack;
 using Random = UnityEngine.Random;
 
@@ -13,6 +14,25 @@ public class EnemyRoute
     public int firstCover;
     [Tooltip("Index into covers[] the enemy pushes up to, then falls back from.")]
     public int pushCover;
+}
+
+/// <summary>
+/// Per-encounter difficulty, copied onto every EnemyAI2 this manager sets up. The defaults are
+/// EnemyAI2's own, so an encounter that never touches this plays exactly as it did before.
+/// </summary>
+[Serializable]
+public class EnemyTuning
+{
+    [Tooltip("Body shots to kill. A headshot always kills regardless.")]
+    public int maxHealth = 2;
+    public int damagePerHit = 8;
+    public float shotInterval = 0.42f;
+    public int minBurst = 2;
+    public int maxBurst = 4;
+    [Tooltip("Chance a shot is aimed true at nearRange; it falls off towards farHitChance.")]
+    public float nearHitChance = 0.55f;
+    public float farHitChance = 0.15f;
+    public float runSpeed = 4.2f;
 }
 
 public class CoverPoint
@@ -41,6 +61,7 @@ public class CombatEncounterManager2 : MonoBehaviour
     [SerializeField] private AudioClip[] shotClips;
     [SerializeField] private Vector3 gunLocalPosition = new Vector3(0.0968f, -0.0367f, 0.033f);
     [SerializeField] private Vector3 gunLocalEuler = new Vector3(4.02f, 74.71f, 82.85f);
+    [SerializeField] private EnemyTuning tuning = new EnemyTuning();
 
     [Header("Arena")]
     [SerializeField] private DoubleSlidingDoor door;
@@ -48,6 +69,13 @@ public class CombatEncounterManager2 : MonoBehaviour
     [SerializeField] private ObjectiveGlow doorGlow;
     [SerializeField] private Transform[] covers;
     [SerializeField] private EnemyRoute[] routes;
+    [Tooltip("Ambush mode: enemies already standing in the room, one per route, instead of a squad " +
+             "spawned behind the door. They arm themselves and idle on scene load, and only start " +
+             "fighting on Begin(). Leave empty for the door-spawn flow.")]
+    [SerializeField] private Transform[] preplacedEnemies;
+    [Tooltip("Optional auto-turret in the room. It wakes with the squad and counts as one more " +
+             "target the player has to destroy before the area is clear.")]
+    [SerializeField] private TurretEnemy turret;
     [SerializeField] private Vector3 arenaMin = new Vector3(-25f, 0f, 0f);
     [SerializeField] private Vector3 arenaMax = new Vector3(25f, 0f, 47.5f);
     [SerializeField] private float floorY = 0.1f;
@@ -57,6 +85,8 @@ public class CombatEncounterManager2 : MonoBehaviour
     [SerializeField] private bool startOnPlay = true;
     [SerializeField] private string eliminateObjective = "Eliminate the hostiles";
     [SerializeField] private string clearedObjective = "Head to the Room2 entrance door";
+    [Tooltip("Fires once, the moment every hostile (including the turret) is down.")]
+    public UnityEvent onCleared;
 
     [Header("Pacing")]
     [SerializeField] private float startDelay = 2.5f;
@@ -110,7 +140,10 @@ public class CombatEncounterManager2 : MonoBehaviour
     public float PlayerSpeed => playerBody != null ? new Vector3(playerBody.linearVelocity.x, 0f, playerBody.linearVelocity.z).magnitude : 0f;
     public bool PlayerDead => playerHealth != null && playerHealth.IsDead;
     /// <summary>Begun and not yet cleared - only an active encounter reads the player's shots.</summary>
-    public bool IsActive => begun && (enemies.Count == 0 || kills < enemies.Count);
+    public bool IsActive => begun && (TotalTargets == 0 || Eliminated < TotalTargets);
+
+    private int TotalTargets => enemies.Count + (turret != null ? 1 : 0);
+    private int Eliminated => kills + (turret != null && turret.IsDead ? 1 : 0);
 
     private void Awake()
     {
@@ -129,7 +162,8 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private void Start()
     {
-        if (playerTransform == null || door == null || enemyPrefab == null)
+        bool ambush = preplacedEnemies != null && preplacedEnemies.Length > 0;
+        if (playerTransform == null || door == null || (enemyPrefab == null && !ambush))
         {
             Debug.LogError("[Encounter] Missing player, door or enemy prefab - encounter disabled.");
             enabled = false;
@@ -138,13 +172,31 @@ public class CombatEncounterManager2 : MonoBehaviour
 
         BuildCovers();
         BuildFx();
+        if (turret != null) turret.Initialize(this, playerTransform, shotClips, fxMaterial);
 
         doorInward = door.transform.position - arenaCenter;
         doorInward.y = 0f;
         doorInward = -doorInward.normalized;
 
         door.Locked = true;
+        // Armed here rather than in RunEncounter so the player walking in finds them already
+        // standing around with a weapon in hand, not popping into existence mid-room.
+        if (ambush) SetUpPreplaced();
         if (startOnPlay) Begin();
+    }
+
+    private void SetUpPreplaced()
+    {
+        for (int i = 0; i < preplacedEnemies.Length && i < routes.Length; i++)
+        {
+            Transform t = preplacedEnemies[i];
+            if (t == null) continue;
+
+            var ai = t.gameObject.AddComponent<EnemyAI2>();
+            float lane = Mathf.Sign(coverPoints[routes[i].firstCover].Center.x - arenaCenter.x);
+            ai.Initialize(this, playerTransform, routes[i], lane, gunPrefab, gunLocalPosition, gunLocalEuler, enemyController, shotClips, fxMaterial, tuning);
+            enemies.Add(ai);
+        }
     }
 
     /// <summary>Starts the fight; safe to call repeatedly (only the first call does anything).</summary>
@@ -198,26 +250,35 @@ public class CombatEncounterManager2 : MonoBehaviour
     {
         // Wait first so a just-completed objective (e.g. "Head to the door") gets to show its tick.
         yield return new WaitForSeconds(startDelay);
-        if (MissionHUD.Instance != null) MissionHUD.Instance.SetObjective(eliminateObjective, routes.Length);
+        if (MissionHUD.Instance != null)
+            MissionHUD.Instance.SetObjective(eliminateObjective, routes.Length + (turret != null ? 1 : 0));
 
-        Vector3 doorRight = Vector3.Cross(Vector3.up, -doorInward);
-        for (int i = 0; i < routes.Length; i++)
+        // Ambush enemies were already built in Start and are standing in the room; only the
+        // door-spawn flow has a squad to file out first.
+        bool spawnedAtDoor = enemies.Count == 0;
+        if (spawnedAtDoor)
         {
-            int row = i / 2;
-            float col = (i % 2 == 0) ? -0.55f : 0.55f;
-            Vector3 spawn = door.transform.position - doorInward * (1.3f + row * 1.0f) + doorRight * col;
-            spawn.y = floorY;
-            var go = Instantiate(enemyPrefab, spawn, Quaternion.LookRotation(doorInward));
-            go.name = "Enemy_" + routes[i].label;
-            var ai = go.AddComponent<EnemyAI2>();
-            float lane = Mathf.Sign(coverPoints[routes[i].firstCover].Center.x - arenaCenter.x);
-            ai.Initialize(this, playerTransform, routes[i], lane, gunPrefab, gunLocalPosition, gunLocalEuler, enemyController, shotClips, fxMaterial);
-            enemies.Add(ai);
+            Vector3 doorRight = Vector3.Cross(Vector3.up, -doorInward);
+            for (int i = 0; i < routes.Length; i++)
+            {
+                int row = i / 2;
+                float col = (i % 2 == 0) ? -0.55f : 0.55f;
+                Vector3 spawn = door.transform.position - doorInward * (1.3f + row * 1.0f) + doorRight * col;
+                spawn.y = floorY;
+                var go = Instantiate(enemyPrefab, spawn, Quaternion.LookRotation(doorInward));
+                go.name = "Enemy_" + routes[i].label;
+                var ai = go.AddComponent<EnemyAI2>();
+                float lane = Mathf.Sign(coverPoints[routes[i].firstCover].Center.x - arenaCenter.x);
+                ai.Initialize(this, playerTransform, routes[i], lane, gunPrefab, gunLocalPosition, gunLocalEuler, enemyController, shotClips, fxMaterial, tuning);
+                enemies.Add(ai);
+            }
+
+            door.ScriptedOpen();
+            yield return new WaitForSeconds(0.65f);
+            DoorOpen = true;
         }
 
-        door.ScriptedOpen();
-        yield return new WaitForSeconds(0.65f);
-        DoorOpen = true;
+        if (turret != null) turret.Activate();
 
         foreach (var e in enemies)
         {
@@ -225,17 +286,21 @@ public class CombatEncounterManager2 : MonoBehaviour
             yield return new WaitForSeconds(exitStagger);
         }
 
-        float waitStart = Time.time;
-        while (Time.time - waitStart < 8f && !AllEnemiesInside()) yield return null;
-        DoorOpen = false;
-        door.ScriptedClose();
+        if (spawnedAtDoor)
+        {
+            float waitStart = Time.time;
+            while (Time.time - waitStart < 8f && !AllEnemiesInside()) yield return null;
+            DoorOpen = false;
+            door.ScriptedClose();
+        }
 
-        while (kills < enemies.Count) yield return null;
+        while (Eliminated < TotalTargets) yield return null;
 
         door.Locked = false;
         if (doorGlow != null) doorGlow.SetGlowing(true);
         if (MissionHUD.Instance != null)
             MissionHUD.Instance.SetObjective(clearedObjective);
+        onCleared?.Invoke();
     }
 
     /// <summary>Called by DoorAutoCloseZone once the player has walked through the door.</summary>
@@ -453,8 +518,14 @@ public class CombatEncounterManager2 : MonoBehaviour
         ReleaseMoveToken(e);
         foreach (var c in coverPoints)
             if (c.ClaimedBy == e) c.ClaimedBy = null;
-        if (MissionHUD.Instance != null) MissionHUD.Instance.SetProgress(kills);
-        Log(e.name + " died (" + kills + "/" + enemies.Count + ")");
+        if (MissionHUD.Instance != null) MissionHUD.Instance.SetProgress(Eliminated);
+        Log(e.name + " died (" + Eliminated + "/" + TotalTargets + ")");
+    }
+
+    public void NotifyTurretDestroyed()
+    {
+        if (MissionHUD.Instance != null) MissionHUD.Instance.SetProgress(Eliminated);
+        Log("turret destroyed (" + Eliminated + "/" + TotalTargets + ")");
     }
 
     private void Update()
@@ -495,12 +566,17 @@ public class CombatEncounterManager2 : MonoBehaviour
         Vector3 dir = cameraTransform.forward;
 
         float wallDist = raycastDistance;
+        Collider wallCollider = null;
         int n = Physics.RaycastNonAlloc(origin, dir, shotBuffer, raycastDistance, ~0, QueryTriggerInteraction.Ignore);
         for (int i = 0; i < n; i++)
         {
             var col = shotBuffer[i].collider;
             if (IsPlayerCollider(col) || col.GetComponentInParent<EnemyAI2>() != null || col.gameObject.layer == projectileLayer) continue;
-            if (shotBuffer[i].distance < wallDist) wallDist = shotBuffer[i].distance;
+            if (shotBuffer[i].distance < wallDist)
+            {
+                wallDist = shotBuffer[i].distance;
+                wallCollider = col;
+            }
         }
 
         EnemyAI2 best = null;
@@ -535,7 +611,20 @@ public class CombatEncounterManager2 : MonoBehaviour
 
         if (best == null)
         {
-            if (wallDist < raycastDistance) Emit(sparkFx, origin + dir * wallDist, 6);
+            if (wallDist >= raycastDistance) return;
+
+            // The turret is solid geometry rather than an EnemyAI2, so it shows up as the nearest
+            // "wall" - that's the hit.
+            Vector3 point = origin + dir * wallDist;
+            var hitTurret = wallCollider != null ? wallCollider.GetComponentInParent<TurretEnemy>() : null;
+            if (hitTurret != null && !hitTurret.IsDead)
+            {
+                hitMarkerKill = hitTurret.RegisterHit(point);
+                hitMarkerTime = Time.time;
+                return;
+            }
+
+            Emit(sparkFx, point, 6);
             return;
         }
 
@@ -667,20 +756,35 @@ public class CombatEncounterManager2 : MonoBehaviour
                 bool recentlyHit = Time.time - e.LastHitTime < 2.5f;
                 if (!recentlyHit && !(visible.TryGetValue(e, out bool v) && v)) continue;
 
-                Vector3 sp = mainCamera.WorldToScreenPoint(e.HeadPosition);
-                if (sp.z <= 0f) continue;
-                float w = 54f, h = 7f;
-                float x = sp.x - w * 0.5f;
-                float y = Screen.height - sp.y - h;
-                float pct = Mathf.Clamp01((float)e.Health / Mathf.Max(1, e.MaxHealth));
-                GUI.color = new Color(0f, 0f, 0f, 0.65f);
-                GUI.DrawTexture(new Rect(x, y, w, h), tex);
-                GUI.color = Color.Lerp(new Color(0.95f, 0.2f, 0.2f), new Color(0.3f, 0.9f, 0.4f), pct);
-                GUI.DrawTexture(new Rect(x + 1f, y + 1f, (w - 2f) * pct, h - 2f), tex);
+                DrawHealthBar(e.HeadPosition, (float)e.Health / Mathf.Max(1, e.MaxHealth), 54f);
+            }
+
+            if (turret != null && !turret.IsDead)
+            {
+                bool recentlyHit = Time.time - turret.LastHitTime < 2.5f;
+                if (recentlyHit || (cameraTransform != null && HasLineOfSight(cameraTransform.position, turret.BarAnchor)))
+                    DrawHealthBar(turret.BarAnchor, (float)turret.Health / Mathf.Max(1, turret.MaxHealth), 76f);
             }
         }
 
         GUI.color = prev;
+    }
+
+    private void DrawHealthBar(Vector3 worldPoint, float pct, float width)
+    {
+        Vector3 sp = mainCamera.WorldToScreenPoint(worldPoint);
+        if (sp.z <= 0f) return;
+
+        var tex = Texture2D.whiteTexture;
+        const float h = 7f;
+        float x = sp.x - width * 0.5f;
+        float y = Screen.height - sp.y - h;
+        pct = Mathf.Clamp01(pct);
+
+        GUI.color = new Color(0f, 0f, 0f, 0.65f);
+        GUI.DrawTexture(new Rect(x, y, width, h), tex);
+        GUI.color = Color.Lerp(new Color(0.95f, 0.2f, 0.2f), new Color(0.3f, 0.9f, 0.4f), pct);
+        GUI.DrawTexture(new Rect(x + 1f, y + 1f, (width - 2f) * pct, h - 2f), tex);
     }
 
     private void OnDestroy()

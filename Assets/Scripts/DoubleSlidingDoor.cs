@@ -16,6 +16,7 @@ public class DoubleSlidingDoor : MonoBehaviour, IInteractable
     private bool opened;
 
     public bool Locked { get; set; }
+    public bool IsOpen => opened;
 
     public Transform InteractTransform => opened ? null : transform;
 

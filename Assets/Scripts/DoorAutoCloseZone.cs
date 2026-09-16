@@ -33,6 +33,11 @@ public class DoorAutoCloseZone : MonoBehaviour
         if (pending || door == null) return;
         if (other.GetComponentInParent<PlayerHealth>() == null) return;
 
+        // Covers walking back through from the far side too: if the door happens to be shut when
+        // the player reaches this zone (e.g. it auto-closed after their first pass-through), open
+        // it back up instead of leaving them stuck against a closed panel.
+        if (!door.IsOpen) door.ScriptedOpen();
+
         pending = true;
         if (encounter != null) encounter.NotifyPlayerThroughDoor();
         if (encounterToStart != null) encounterToStart.Begin();

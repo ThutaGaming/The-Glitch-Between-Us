@@ -60,13 +60,25 @@ public class EnemyAI2 : MonoBehaviour
     public Vector3 HeadCenter => headCollider != null ? headCollider.transform.position : transform.position + Vector3.up * 1.6f;
     public Vector3 HeadPosition => headCollider != null ? headCollider.transform.position + Vector3.up * 0.3f : transform.position + Vector3.up * 2f;
 
-    public void Initialize(CombatEncounterManager2 owner, Transform playerTransform, EnemyRoute enemyRoute, float lane, GameObject gunPrefab, Vector3 gunPos, Vector3 gunEuler, RuntimeAnimatorController controller, AudioClip[] clips, Material fxMaterial)
+    public void Initialize(CombatEncounterManager2 owner, Transform playerTransform, EnemyRoute enemyRoute, float lane, GameObject gunPrefab, Vector3 gunPos, Vector3 gunEuler, RuntimeAnimatorController controller, AudioClip[] clips, Material fxMaterial, EnemyTuning tuning)
     {
         manager = owner;
         player = playerTransform;
         route = enemyRoute;
         laneSign = lane;
         shotClips = clips;
+
+        if (tuning != null)
+        {
+            maxHealth = tuning.maxHealth;
+            runSpeed = tuning.runSpeed;
+            damagePerHit = tuning.damagePerHit;
+            shotInterval = tuning.shotInterval;
+            minBurst = tuning.minBurst;
+            maxBurst = tuning.maxBurst;
+            nearHitChance = tuning.nearHitChance;
+            farHitChance = tuning.farHitChance;
+        }
         health = maxHealth;
 
         animator = GetComponentInChildren<Animator>(true);
