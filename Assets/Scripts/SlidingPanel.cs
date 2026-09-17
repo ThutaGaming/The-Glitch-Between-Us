@@ -14,6 +14,8 @@ public class SlidingPanel : MonoBehaviour
     [SerializeField] private Vector3 openLocalDirection = Vector3.forward;
     [SerializeField] private float openDistance = 3.4f;
     [SerializeField] private float openDuration = 1.2f;
+    [Tooltip("Open this panel automatically once when the scene starts.")]
+    [SerializeField] private bool openOnStart;
 
     public UnityEvent onOpened;
 
@@ -23,6 +25,12 @@ public class SlidingPanel : MonoBehaviour
     private void Awake()
     {
         closedLocalPosition = transform.localPosition;
+    }
+
+    private void Start()
+    {
+        if (openOnStart)
+            Open();
     }
 
     /// <summary>Slides the panel open; safe to call again (later calls are ignored).</summary>
