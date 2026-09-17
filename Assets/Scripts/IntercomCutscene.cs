@@ -64,6 +64,19 @@ public class IntercomCutscene : MonoBehaviour
         StartCoroutine(Run());
     }
 
+    /// <summary>
+    /// Test-only shortcut for the F8 debug skip: applies this beat's end state (light on,
+    /// onLightOn fired) instantly, without reparenting the camera or playing the wait/fade timeline.
+    /// </summary>
+    public void DebugSkip()
+    {
+        if (playing) return;
+        playing = true;
+
+        if (targetLight != null) targetLight.color = onColor;
+        onLightOn?.Invoke();
+    }
+
     private IEnumerator Run()
     {
         if (movement != null) movement.enabled = false;

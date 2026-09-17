@@ -410,6 +410,31 @@ public class CombatEncounterManager2 : MonoBehaviour
         onCleared?.Invoke();
     }
 
+    /// <summary>
+    /// Test-only shortcut for the F8 debug skip: resolves this encounter as if the player had
+    /// fought and cleared it normally - instantly kills any enemies/turrets already spawned
+    /// (through their real RegisterHit path, so kills/HUD progress/death FX all fire normally),
+    /// unlocks the door and fires onCleared, without waiting for RunEncounter's multi-second
+    /// timeline or spawning a squad that never got to file out.
+    /// </summary>
+    public void DebugForceClear()
+    {
+        StopAllCoroutines();
+        begun = true;
+
+        foreach (var e in enemies) if (e != null && !e.IsDead) e.RegisterHit(true);
+        if (turrets != null)
+            foreach (var t in turrets)
+                if (t != null)
+                    for (int i = 0; i < t.MaxHealth && !t.IsDead; i++) t.RegisterHit(t.BarAnchor);
+
+        DoorOpen = false;
+        if (door != null) door.Locked = false;
+        if (doorGlow != null) doorGlow.SetGlowing(true);
+        if (drivesMissionHud && MissionHUD.Instance != null) MissionHUD.Instance.SetObjective(clearedObjective);
+        onCleared?.Invoke();
+    }
+
     /// <summary>Called by DoorAutoCloseZone once the player has walked through the door.</summary>
     public void NotifyPlayerThroughDoor()
     {

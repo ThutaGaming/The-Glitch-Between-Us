@@ -36,6 +36,20 @@ public class IntercomLightSwitch : MonoBehaviour, IInteractable
         if (cutscene != null) cutscene.Play();
     }
 
+    /// <summary>
+    /// Test-only shortcut for the F8 debug skip: applies this switch's end state instantly,
+    /// skipping the multi-second cutscene camera cut IntercomCutscene.Play() would otherwise play.
+    /// </summary>
+    public void DebugSkip()
+    {
+        if (!armed || used) return;
+        used = true;
+
+        if (glow != null) glow.SetGlowing(false);
+        if (mission != null && mission.HasActiveObjective) mission.CompleteObjective();
+        if (cutscene != null) cutscene.DebugSkip();
+    }
+
     /// <summary>Called once the room is cleared: shows the objective and lights the intercom.</summary>
     public void Arm()
     {
