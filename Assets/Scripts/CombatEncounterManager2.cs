@@ -168,6 +168,14 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private int TotalTargets => enemies.Count + TurretCount;
 
+    /// <summary>
+    /// True as long as there's anyone left worth shooting at (or the squad hasn't spawned yet, so
+    /// there's nothing to rule out). Deliberately independent of begun/Begin() - an idle ambush
+    /// enemy that hasn't noticed the player yet is still a real target, not invulnerable, the same
+    /// way a sniper can drop someone before they clock you.
+    /// </summary>
+    private bool HasLiveTargets => TotalTargets == 0 || Eliminated < TotalTargets;
+
     private int Eliminated
     {
         get
@@ -204,7 +212,9 @@ public class CombatEncounterManager2 : MonoBehaviour
     private void Start()
     {
         bool ambush = preplacedEnemies != null && preplacedEnemies.Length > 0;
-        if (playerTransform == null || door == null || (enemyPrefab == null && !ambush))
+        // A door-spawn squad always needs a door; an ambush room full of preplaced enemies doesn't -
+        // there's no squad to file in, so door stays optional for that flow.
+        if (playerTransform == null || (door == null && !ambush) || (enemyPrefab == null && !ambush))
         {
             Debug.LogError("[Encounter] Missing player, door or enemy prefab - encounter disabled.");
             enabled = false;
@@ -217,11 +227,13 @@ public class CombatEncounterManager2 : MonoBehaviour
             foreach (var t in turrets)
                 if (t != null) t.Initialize(this, playerTransform, shotClips, fxMaterial);
 
-        doorInward = door.transform.position - arenaCenter;
-        doorInward.y = 0f;
-        doorInward = -doorInward.normalized;
-
-        door.Locked = true;
+        if (door != null)
+        {
+            doorInward = door.transform.position - arenaCenter;
+            doorInward.y = 0f;
+            doorInward = -doorInward.normalized;
+            door.Locked = true;
+        }
         // Armed here rather than in RunEncounter so the player walking in finds them already
         // standing around with a weapon in hand, not popping into existence mid-room.
         if (ambush) SetUpPreplaced();
@@ -312,7 +324,7 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private bool IgnoreForGrid(Collider c)
     {
-        return c.transform.IsChildOf(door.transform) || c.transform.root == playerTransform.root || c.GetComponentInParent<EnemyAI2>() != null;
+        return (door != null && c.transform.IsChildOf(door.transform)) || c.transform.root == playerTransform.root || c.GetComponentInParent<EnemyAI2>() != null;
     }
 
     private void BuildCovers()
@@ -403,7 +415,7 @@ public class CombatEncounterManager2 : MonoBehaviour
 
         while (Eliminated < TotalTargets) yield return null;
 
-        door.Locked = false;
+        if (door != null) door.Locked = false;
         if (doorGlow != null) doorGlow.SetGlowing(true);
         if (drivesMissionHud && MissionHUD.Instance != null)
             MissionHUD.Instance.SetObjective(clearedObjective);
@@ -667,11 +679,16 @@ public class CombatEncounterManager2 : MonoBehaviour
         foreach (var e in enemies)
         {
             if (e == null || e.IsDead || mainCamera == null) continue;
-            bool v = Vector3.Distance(cameraTransform.position, e.HeadPosition) < 45f && HasLineOfSight(cameraTransform.position, e.HeadPosition - Vector3.up * 0.3f);
+            // No distance cap beyond the shot raycast's own range - a health bar that vanishes
+            // past some arbitrary distance reads as "can't be hit," even on a clear, long sightline.
+            bool v = Vector3.Distance(cameraTransform.position, e.HeadPosition) < raycastDistance && HasLineOfSight(cameraTransform.position, e.HeadPosition - Vector3.up * 0.3f);
             visible[e] = v;
         }
 
-        if (!IsActive) { lastAmmo = -1; return; }
+        // Shot registration is intentionally independent of begun/Begin(): an idle ambush enemy
+        // that hasn't noticed the player yet is still a real, shootable target at any range with a
+        // clear line, not invulnerable until the encounter officially starts.
+        if (!HasLiveTargets) { lastAmmo = -1; return; }
         if (playerInventory == null || PlayerDead) return;
         WeaponBehaviour equipped = playerInventory.GetEquipped();
         if (equipped == null) { lastAmmo = -1; return; }

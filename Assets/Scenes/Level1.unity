@@ -2807,7 +2807,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -26410,6 +26411,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
   gunLocalPosition: {x: 0.10991547, y: -0.04023117, z: 0.025139343}
   gunLocalEuler: {x: 10.864441, y: 99.431984, z: 85.027176}
+  tuning:
+    maxHealth: 2
+    damagePerHit: 8
+    shotInterval: 0.42
+    minBurst: 2
+    maxBurst: 4
+    nearHitChance: 0.55
+    farHitChance: 0.15
+    runSpeed: 4.2
   door: {fileID: 497724372}
   doorGlow: {fileID: 497724373}
   covers:
@@ -26425,26 +26435,42 @@ MonoBehaviour:
   - {fileID: 1120153397}
   routes:
   - label: LeftInner
+    roam: 0
+    roamPoints: []
     firstCover: 8
     pushCover: 4
   - label: RightInner
+    roam: 0
+    roamPoints: []
     firstCover: 9
     pushCover: 5
   - label: LeftFlank
+    roam: 0
+    roamPoints: []
     firstCover: 6
     pushCover: 2
   - label: RightFlank
+    roam: 0
+    roamPoints: []
     firstCover: 7
     pushCover: 3
   - label: Center
+    roam: 0
+    roamPoints: []
     firstCover: 0
     pushCover: 1
+  preplacedEnemies: []
+  turrets: []
   arenaMin: {x: -25, y: 0, z: 0}
   arenaMax: {x: 25, y: 0, z: 47.5}
   floorY: 0.1
   startOnPlay: 1
   eliminateObjective: Eliminate the hostiles
   clearedObjective: Head to the Room2 entrance door
+  drivesMissionHud: 1
+  onCleared:
+    m_PersistentCalls:
+      m_Calls: []
   startDelay: 2.5
   exitStagger: 0.9
   maxAttackers: 2
@@ -42108,7 +42134,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -106603,7 +106630,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -108016,7 +108044,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -109294,7 +109323,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -139255,7 +139285,8 @@ MonoBehaviour:
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_fontSharedMaterials: []
+  m_fontSharedMaterials:
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
@@ -140357,6 +140388,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
   gunLocalPosition: {x: 0.0864, y: 0.0446, z: -0.01}
   gunLocalEuler: {x: 347.6654, y: 79.9111, z: 272.6568}
+  tuning:
+    maxHealth: 2
+    damagePerHit: 8
+    shotInterval: 0.42
+    minBurst: 2
+    maxBurst: 4
+    nearHitChance: 0.55
+    farHitChance: 0.15
+    runSpeed: 4.2
   door: {fileID: 254770420}
   doorGlow: {fileID: 254770421}
   covers:
@@ -140372,32 +140412,52 @@ MonoBehaviour:
   - {fileID: 158536032}
   routes:
   - label: RightInner
+    roam: 0
+    roamPoints: []
     firstCover: 1
     pushCover: 3
   - label: LeftInner
+    roam: 0
+    roamPoints: []
     firstCover: 5
     pushCover: 0
   - label: LeftCenter
+    roam: 0
+    roamPoints: []
     firstCover: 4
     pushCover: 5
   - label: RightCenter
+    roam: 0
+    roamPoints: []
     firstCover: 6
     pushCover: 1
   - label: LeftFar
+    roam: 0
+    roamPoints: []
     firstCover: 7
     pushCover: 2
   - label: RightFar
+    roam: 0
+    roamPoints: []
     firstCover: 8
     pushCover: 3
   - label: Center
+    roam: 0
+    roamPoints: []
     firstCover: 9
     pushCover: 4
+  preplacedEnemies: []
+  turrets: []
   arenaMin: {x: -25, y: 0, z: 44.6}
   arenaMax: {x: 25, y: 0, z: 85}
   floorY: 0.1
   startOnPlay: 0
   eliminateObjective: Eliminate the hostiles
   clearedObjective: Head to the next door
+  drivesMissionHud: 1
+  onCleared:
+    m_PersistentCalls:
+      m_Calls: []
   startDelay: 1.5
   exitStagger: 0.8
   maxAttackers: 2
