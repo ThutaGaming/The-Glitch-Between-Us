@@ -3976,6 +3976,7 @@ MonoBehaviour:
   openLocalDirection: {x: 1, y: 0, z: 0}
   openDistance: 1.3
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -24004,6 +24005,7 @@ MonoBehaviour:
   openLocalDirection: {x: 1, y: 0, z: 0}
   openDistance: 1.6
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -73367,6 +73369,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025236248}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1029237894
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1029237896}
+  - component: {fileID: 1029237895}
+  m_Layer: 0
+  m_Name: AutoSaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1029237895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029237894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc4fe3a848a26746b0e09f7d024e7c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1029237896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029237894}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 135.21172, y: 465.9322, z: 9.97904}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1034093367
 GameObject:
   m_ObjectHideFlags: 0
@@ -98173,6 +98219,7 @@ MonoBehaviour:
   openLocalDirection: {x: -1, y: 0, z: 0}
   openDistance: 1.6
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -98454,6 +98501,7 @@ MonoBehaviour:
   openLocalDirection: {x: -1, y: 0, z: 0}
   openDistance: 1.49
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -111633,6 +111681,7 @@ MonoBehaviour:
   openLocalDirection: {x: 1, y: 0, z: 0}
   openDistance: 1.49
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -126266,6 +126315,7 @@ MonoBehaviour:
   openLocalDirection: {x: -1, y: 0, z: 0}
   openDistance: 1.3
   openDuration: 1
+  openOnStart: 0
   onOpened:
     m_PersistentCalls:
       m_Calls: []
@@ -152630,3 +152680,4 @@ SceneRoots:
   - {fileID: 126521796}
   - {fileID: 555361914}
   - {fileID: 10428184}
+  - {fileID: 1029237896}
