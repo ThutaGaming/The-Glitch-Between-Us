@@ -25,9 +25,9 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.764151, g: 0.74097925, b: 0.40730688, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 68739458798c02f47a27752d20b444b6, type: 2}
-  m_HaloStrength: 0.606
+  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 6a9a29d807a43624b8d8758de7c530d6, type: 2}
+  m_HaloStrength: 0.54
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -22371,11 +22371,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8015994103683271077, guid: 3211c634ddb29384c9749ccf5c05b40b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 995266335}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3211c634ddb29384c9749ccf5c05b40b, type: 3}
 --- !u!4 &995266333 stripped
 Transform:
@@ -22383,24 +22379,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 995266332}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &995266334 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8015994103683271077, guid: 3211c634ddb29384c9749ccf5c05b40b,
-    type: 3}
-  m_PrefabInstance: {fileID: 995266332}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &995266335
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 995266334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a921c9dcd7bc3a4db4712063fe2b9ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &997407047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23664,13 +23642,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
         type: 3}
+      propertyPath: m_Color.b
+      value: 0.740566
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.9777628
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
+        type: 3}
       propertyPath: m_Intensity
-      value: 5.74
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
         type: 3}
       propertyPath: m_Lightmapping
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
         type: 3}
@@ -25674,7 +25667,7 @@ PrefabInstance:
     - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
         type: 3}
       propertyPath: m_Intensity
-      value: 0.69
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 8080545992618661252, guid: 3211c634ddb29384c9749ccf5c05b40b,
         type: 3}
