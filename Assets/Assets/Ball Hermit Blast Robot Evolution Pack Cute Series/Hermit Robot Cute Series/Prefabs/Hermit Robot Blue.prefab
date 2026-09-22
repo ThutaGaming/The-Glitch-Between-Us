@@ -351,6 +351,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4458636948069422520}
   - component: {fileID: 7710284036440182722}
+  - component: {fileID: 114900000000000002}
   m_Layer: 0
   m_Name: Hermit Robot
   m_TagString: Untagged
@@ -358,6 +359,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114900000000000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3939402840290381570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a69e8d48234a7c9c4c6c8e0b9abf21, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  sightRange: 500
+  turnSpeed: 135
+  hitChance: 0.64
 --- !u!4 &4458636948069422520
 Transform:
   m_ObjectHideFlags: 0

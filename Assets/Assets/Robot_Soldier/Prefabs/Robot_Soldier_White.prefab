@@ -684,6 +684,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4543829338664524}
   - component: {fileID: 95028430175513588}
+  - component: {fileID: 114902911337100000}
   m_Layer: 0
   m_Name: Robot_Soldier_White
   m_TagString: Untagged
@@ -691,6 +692,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114902911337100000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1471741602374830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cc3a166c65b4ceca9f9bcedd14e850b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  maxHealth: 10
+  damagePerShot: 6
+  hitChance: 0.62
+  sightRange: 500
+  turnSpeed: 150
+  aimTime: 0.55
+  burstShots: 3
+  shotInterval: 0.24
+  coverPause: 1.5
 --- !u!1 &1472528145733400
 GameObject:
   m_ObjectHideFlags: 1
@@ -2144,10 +2165,10 @@ Animator:
   m_GameObject: {fileID: 1471741602374830}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 535511bb156e7f54f83f305d96a1c4ce, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6defa2fea7e9a934a8d2cafa30dc567a, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1

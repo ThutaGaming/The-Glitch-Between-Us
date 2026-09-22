@@ -1,5 +1,6 @@
 using UnityEngine;
 using InfimaGames.LowPolyShooterPack;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Lets the player's gunfire damage StandaloneTurretEnemy and StandaloneMechEnemy targets and draws
@@ -31,6 +32,33 @@ public class StandaloneTurretShotDetector : MonoBehaviour
         inventory = player.GetInventory();
         cameraTransform = player.GetCameraWorld().transform;
         mainCamera = cameraTransform.GetComponent<Camera>();
+    }
+
+    private void Start()
+    {
+        if (!SceneManager.GetActiveScene().path.EndsWith("Level 4.unity")) return;
+
+        // Level 4 keeps the Robot_Soldier_White instances exactly where artists placed them.
+        // Combat components are added at runtime so the scene does not need fragile prefab overrides.
+        foreach (Transform candidate in FindObjectsByType<Transform>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            if (candidate.GetComponent<Animator>() == null) continue;
+
+            if (candidate.name.StartsWith("Robot_Soldier_White")
+                && candidate.GetComponent<RobotSoldierWhiteEnemy>() == null)
+                candidate.gameObject.AddComponent<RobotSoldierWhiteEnemy>();
+
+            bool isBlueRobot = candidate.name.StartsWith("Ball Robot Blue")
+                || candidate.name.StartsWith("Hermit Robot Blue")
+                || candidate.name.StartsWith("Blast Robot Blue");
+            if (isBlueRobot)
+            {
+                BlueRobotEnemy blueRobot = candidate.GetComponent<BlueRobotEnemy>();
+                if (blueRobot == null)
+                    blueRobot = candidate.gameObject.AddComponent<BlueRobotEnemy>();
+                blueRobot.enabled = true;
+            }
+        }
     }
 
     private void Update()
@@ -67,6 +95,12 @@ public class StandaloneTurretShotDetector : MonoBehaviour
 
         var mech = hit.collider.GetComponentInParent<StandaloneMechEnemy>();
         if (mech != null && !mech.IsDead) mech.RegisterHit(hit.point);
+
+        var soldier = hit.collider.GetComponentInParent<RobotSoldierWhiteEnemy>();
+        if (soldier != null && !soldier.IsDead) soldier.RegisterHit(hit.point);
+
+        var blueRobot = hit.collider.GetComponentInParent<BlueRobotEnemy>();
+        if (blueRobot != null && !blueRobot.IsDead) blueRobot.RegisterHit(hit.point);
     }
 
     private bool HasLineOfSight(Vector3 to)
@@ -82,6 +116,8 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             if (h.collider.transform.root == player.transform.root) continue;
             if (h.collider.GetComponentInParent<StandaloneTurretEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<StandaloneMechEnemy>() != null) continue;
+            if (h.collider.GetComponentInParent<RobotSoldierWhiteEnemy>() != null) continue;
+            if (h.collider.GetComponentInParent<BlueRobotEnemy>() != null) continue;
             return false;
         }
         return true;
@@ -107,6 +143,25 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             if (!recentlyHit && !HasLineOfSight(m.BarAnchor)) continue;
 
             DrawHealthBar(m.BarAnchor, (float)m.Health / Mathf.Max(1, m.MaxHealth));
+        }
+
+        foreach (var soldier in FindObjectsByType<RobotSoldierWhiteEnemy>(FindObjectsSortMode.None))
+        {
+            if (soldier.IsDead) continue;
+            bool recentlyHit = Time.time - soldier.LastHitTime < 2.5f;
+            if (!recentlyHit && !HasLineOfSight(soldier.BarAnchor)) continue;
+
+            DrawHealthBar(soldier.BarAnchor, (float)soldier.Health / Mathf.Max(1, soldier.MaxHealth));
+        }
+
+        foreach (var blueRobot in FindObjectsByType<BlueRobotEnemy>(FindObjectsSortMode.None))
+        {
+            if (blueRobot.IsDead) continue;
+            bool recentlyHit = Time.time - blueRobot.LastHitTime < 2.5f;
+            if (!recentlyHit && !HasLineOfSight(blueRobot.BarAnchor)) continue;
+
+            DrawHealthBar(blueRobot.BarAnchor,
+                (float)blueRobot.Health / Mathf.Max(1, blueRobot.MaxHealth));
         }
     }
 
