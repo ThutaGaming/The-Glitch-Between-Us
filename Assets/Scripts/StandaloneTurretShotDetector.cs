@@ -99,6 +99,9 @@ public class StandaloneTurretShotDetector : MonoBehaviour
         var soldier = hit.collider.GetComponentInParent<RobotSoldierWhiteEnemy>();
         if (soldier != null && !soldier.IsDead) soldier.RegisterHit(hit.point);
 
+        var blueSoldier = hit.collider.GetComponentInParent<RobotSoldierBlueEnemy>();
+        if (blueSoldier != null && !blueSoldier.IsDead) blueSoldier.RegisterHit(hit.point);
+
         var blueRobot = hit.collider.GetComponentInParent<BlueRobotEnemy>();
         if (blueRobot != null && !blueRobot.IsDead) blueRobot.RegisterHit(hit.point);
     }
@@ -117,6 +120,7 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             if (h.collider.GetComponentInParent<StandaloneTurretEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<StandaloneMechEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<RobotSoldierWhiteEnemy>() != null) continue;
+            if (h.collider.GetComponentInParent<RobotSoldierBlueEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<BlueRobotEnemy>() != null) continue;
             return false;
         }
@@ -152,6 +156,16 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             if (!recentlyHit && !HasLineOfSight(soldier.BarAnchor)) continue;
 
             DrawHealthBar(soldier.BarAnchor, (float)soldier.Health / Mathf.Max(1, soldier.MaxHealth));
+        }
+
+        foreach (var blueSoldier in FindObjectsByType<RobotSoldierBlueEnemy>(FindObjectsSortMode.None))
+        {
+            if (blueSoldier.IsDead) continue;
+            bool recentlyHit = Time.time - blueSoldier.LastHitTime < 2.5f;
+            if (!recentlyHit && !HasLineOfSight(blueSoldier.BarAnchor)) continue;
+
+            DrawHealthBar(blueSoldier.BarAnchor,
+                (float)blueSoldier.Health / Mathf.Max(1, blueSoldier.MaxHealth));
         }
 
         foreach (var blueRobot in FindObjectsByType<BlueRobotEnemy>(FindObjectsSortMode.None))

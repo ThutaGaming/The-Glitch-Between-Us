@@ -1107,6 +1107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4468519549282688}
   - component: {fileID: 95812470430208240}
+  - component: {fileID: 114900000000000004}
   m_Layer: 0
   m_Name: Robot_Soldier_Blue
   m_TagString: Untagged
@@ -1114,6 +1115,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114900000000000004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1997645269869836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78019161e354b34b403228b6eaa6f18, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  maxHealth: 8
+  damagePerShot: 7
+  hitChance: 0.62
+  runSpeed: 3.4
+  sightRange: 65
+  activationRange: 36
 --- !u!4 &4012714360659018
 Transform:
   m_ObjectHideFlags: 1
@@ -2144,10 +2162,10 @@ Animator:
   m_GameObject: {fileID: 1997645269869836}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 535511bb156e7f54f83f305d96a1c4ce, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fddc4c38c2ffb104baff2a317fa59400, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
