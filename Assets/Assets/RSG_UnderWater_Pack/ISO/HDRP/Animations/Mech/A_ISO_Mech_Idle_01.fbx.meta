@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: 1763d3345244e6d458c412fcef20738e
+AssetOrigin:
+  serializedVersion: 1
+  productId: 355418
+  packageName: Stylized Sci Fi Mech Robot Asset
+  packageVersion: 1.0
+  assetPath: Assets/RSG_UnderWater_Pack/ISO/HDRP/Animations/Mech/A_ISO_Mech_Idle_01.fbx
+  uploadId: 850312
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -29,7 +36,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: A_MechISO_Idle
+      takeName: A_MechISO_Idle
+      internalID: 3672337606380689993
+      firstFrame: 0
+      lastFrame: 49
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -105,10 +141,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 355418
-  packageName: Stylized Sci Fi Mech Robot Asset
-  packageVersion: 1.0
-  assetPath: Assets/RSG_UnderWater_Pack/ISO/HDRP/Animations/Mech/A_ISO_Mech_Idle_01.fbx
-  uploadId: 850312

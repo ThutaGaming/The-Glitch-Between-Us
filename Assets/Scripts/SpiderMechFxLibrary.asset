@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 316ddcf55b94beb4f96e58eca0d4c9e5, type: 3}
+  m_Name: SpiderMechFxLibrary
+  m_EditorClassIdentifier: 
+  muzzleFlash: {fileID: 8078720523478869859, guid: 4f5fc4bbd01b03a4499a6ed77f175fc7,
+    type: 3}
+  plasmaBolt: {fileID: 3473529909581181512, guid: bc142210df3ec4545a4e3e1f21e00da7,
+    type: 3}
+  boltImpactWorld: {fileID: 3077343761403282166, guid: f78aaaec3b393e24ca74cd6de8194347,
+    type: 3}
+  boltImpactPlayer: {fileID: 5435998012328932994, guid: d8703a33a4eb0b84a875202fde23e8f7,
+    type: 3}
+  mortarShell: {fileID: 7626139322179216226, guid: dc33e45a4bb28854c941caca0629dcce,
+    type: 3}
+  mortarTelegraph: {fileID: 3377181292992421420, guid: 48c5715f9603c3842a353516a8baefbb,
+    type: 3}
+  mortarExplosion: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34,
+    type: 3}
+  mortarGroundBlast: {fileID: 4994997792314849709, guid: 3dd50886582244645be87adb42aa8528,
+    type: 3}
+  fireZoneFlames: {fileID: 8793510976239746625, guid: 8fa5143051527e949b0ae174c8430414,
+    type: 3}
+  fireZoneSmoke: {fileID: 4318940320840401929, guid: 842eb98046e1ca348b3c0807fcfe362d,
+    type: 3}
+  chargeAura: {fileID: 7131401307255788800, guid: 4d9a3b35b3bc07649b697df7fb497b6d,
+    type: 3}
+  chargeImplosion: {fileID: 6441873369525384307, guid: 0f3d407feb92ebb49b98d0157de5008a,
+    type: 3}
+  interruptBurst: {fileID: 358637981425055526, guid: 8eb503696b886e04faff8fc0f480d473,
+    type: 3}
+  stunSparks: {fileID: 9193915884290050384, guid: 44a5acc7be8b9294ab3e52ef93fa09df,
+    type: 3}
+  stunSmoke: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b,
+    type: 3}
+  shockwaveCore: {fileID: 8378648546881499446, guid: 867c572a5be680d42a042d2349f10143,
+    type: 3}
+  shockwaveRingFx: {fileID: 9080140021571130472, guid: 82066d902ed0dd6488ddfd32eb994801,
+    type: 3}
+  shieldBubble: {fileID: 7314526620251459061, guid: ccf28ea29cf499744ac31bab90073aba,
+    type: 3}
+  shieldHit: {fileID: 952961124639765284, guid: 1095a5c9f65bfbe4383f63d5d1886c65,
+    type: 3}
+  shieldBreak: {fileID: 952961124639765284, guid: 1095a5c9f65bfbe4383f63d5d1886c65,
+    type: 3}
+  bodyHit: {fileID: 8500920156052182585, guid: 830e92a3f95c4b04caf8edd648aed9bd, type: 3}
+  weakPointHit: {fileID: 496913248247719083, guid: c483142edbf33dc4d9014c13724a0175,
+    type: 3}
+  jointBreak: {fileID: 8464950693656172981, guid: 83ad694f134ab954580473212156b35a,
+    type: 3}
+  footstepDust: {fileID: 5610010966355794069, guid: 803ecf87f61d9fb4f84ba6319ba95c9c,
+    type: 3}
+  landingDust: {fileID: 8230022441722461589, guid: 41494896fc96c9748b81d3356632794e,
+    type: 3}
+  landingBlast: {fileID: 9080140021571130472, guid: 82066d902ed0dd6488ddfd32eb994801,
+    type: 3}
+  phaseTwoBurst: {fileID: 8378648546881499446, guid: 867c572a5be680d42a042d2349f10143,
+    type: 3}
+  deathExplosionSmall: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34,
+    type: 3}
+  deathExplosionBig: {fileID: 8464950693656172981, guid: 83ad694f134ab954580473212156b35a,
+    type: 3}
+  wreckFire: {fileID: 8793510976239746625, guid: 8fa5143051527e949b0ae174c8430414,
+    type: 3}
+  wreckSmoke: {fileID: 2787556212050310887, guid: 57970c6bb711ec24b8d98424b1806f3b,
+    type: 3}
+  lightningStrike: {fileID: 3958596659431381315, guid: c50f9e2c685970e4c8ebcd5fc8c7b3e4,
+    type: 3}
+  electroHit: {fileID: 2965222256817593503, guid: a164e676dbbd6e54587237e619372c98,
+    type: 3}
+  platformDust: {fileID: 8230022441722461589, guid: 41494896fc96c9748b81d3356632794e,
+    type: 3}
+  footsteps:
+  - {fileID: 8300000, guid: 677c375969b339142afa26a8c2ca3e47, type: 3}
+  - {fileID: 8300000, guid: 3ba5e26ab3bf72d4697e4b3b1e340933, type: 3}
+  servoLoop: {fileID: 8300000, guid: 284c97ab4ab954a0d9c8de221d392040, type: 3}
+  plasmaFire:
+  - {fileID: 8300000, guid: 37025960c61b77245872d410c9640b6b, type: 3}
+  - {fileID: 8300000, guid: 8d2ffe810fa89ef4fad702cafd3838a7, type: 3}
+  boltImpacts:
+  - {fileID: 8300000, guid: 172f576bc4226094180d5993f9325d57, type: 3}
+  - {fileID: 8300000, guid: ead9439cc21260d44b99cc5037814e27, type: 3}
+  - {fileID: 8300000, guid: 26c5b6d560a62c946accc4e4207b66cc, type: 3}
+  - {fileID: 8300000, guid: 37e08e3552104a248a91d21d637ef2f4, type: 3}
+  mortarLaunch: {fileID: 8300000, guid: 8d2ffe810fa89ef4fad702cafd3838a7, type: 3}
+  explosions:
+  - {fileID: 8300000, guid: 75f8e14a4e177484a92f318e46c9fa34, type: 3}
+  - {fileID: 8300000, guid: 4172b95278d0adf468a43413cb25c266, type: 3}
+  - {fileID: 8300000, guid: fac766d719e16e847b956d1433580c9d, type: 3}
+  - {fileID: 8300000, guid: aace929ff231c2c44b11cb9d81e49f80, type: 3}
+  - {fileID: 8300000, guid: 8ab79e12da1853c4f9c1b131df2b9c68, type: 3}
+  - {fileID: 8300000, guid: 739db4952129f0242b7aa842bd022a17, type: 3}
+  bigExplosion: {fileID: 8300000, guid: 20d577d2d6937a043a8091a46c926b88, type: 3}
+  fireLoop: {fileID: 8300000, guid: 994fb4f4dec22834da8a13c39edc830c, type: 3}
+  chargeLoop: {fileID: 8300000, guid: 696db4c0c042b4d7297653939a674def, type: 3}
+  powerDown: {fileID: 8300000, guid: 4f120bb808808344aa7438eec17f1531, type: 3}
+  powerUp: {fileID: 8300000, guid: 5ac1ab6757d23ab4f894d6cb67561a4e, type: 3}
+  heavyImpact: {fileID: 8300000, guid: 87f68829fe92fdf4fbdc235d14dada77, type: 3}
+  metalDebris:
+  - {fileID: 8300000, guid: 7cb7865f0082e4444b2e6ce47a91f060, type: 3}
+  - {fileID: 8300000, guid: 0da16314dc08f8f489d1e056f186c460, type: 3}
+  - {fileID: 8300000, guid: adf86cf44997d294a80cb0abe5c24afb, type: 3}
+  - {fileID: 8300000, guid: fb3f57a548fb1074f9ccb53fc6751bf0, type: 3}
+  - {fileID: 8300000, guid: caba31259ffe1d446a436dfe54ba773e, type: 3}
+  shieldHitClip: {fileID: 8300000, guid: 87f68829fe92fdf4fbdc235d14dada77, type: 3}
+  weakPointHitClip: {fileID: 8300000, guid: 0da16314dc08f8f489d1e056f186c460, type: 3}
+  electricLoop: {fileID: 8300000, guid: 284c97ab4ab954a0d9c8de221d392040, type: 3}
+  warningClip: {fileID: 8300000, guid: 33271de20f9ff44cc9e6fa1cb2005d6f, type: 3}
+  barrierClip: {fileID: 8300000, guid: 33271de20f9ff44cc9e6fa1cb2005d6f, type: 3}

@@ -49,6 +49,8 @@ public class StandaloneTurretEnemy : MonoBehaviour
 
     private Transform player;
     private PlayerHealth playerHealth;
+    private Collider playerCollider;
+    private PlayerHitFeedback hitFeedback;
     private Transform muzzle;
     private Light muzzleLight;
     private LineRenderer tracer;
@@ -64,6 +66,16 @@ public class StandaloneTurretEnemy : MonoBehaviour
     /// <summary>Where the health bar hangs, a little above the gun head.</summary>
     public Vector3 BarAnchor => (head != null ? head.position : transform.position) + Vector3.up * 0.9f;
 
+    /// <summary>
+    /// Aim/hit-test point on the player. Uses the actual collider bounds rather than a fixed
+    /// "1.3m above the feet" offset, so it stays correct regardless of the player rig's scale -
+    /// a hardcoded offset overshoots a scaled-down player capsule and the turret can fire all day
+    /// without ever actually touching it.
+    /// </summary>
+    private Vector3 PlayerAimPoint => playerCollider != null && playerCollider.enabled
+        ? playerCollider.bounds.center
+        : (player != null ? player.position + Vector3.up * 1.3f : Vector3.zero);
+
     private void Awake()
     {
         health = maxHealth;
@@ -73,6 +85,8 @@ public class StandaloneTurretEnemy : MonoBehaviour
         {
             player = playerGo.transform;
             playerHealth = playerGo.GetComponent<PlayerHealth>();
+            playerCollider = playerGo.GetComponentInChildren<Collider>();
+            hitFeedback = playerGo.GetComponent<PlayerHitFeedback>();
         }
 
         muzzle = new GameObject("Muzzle").transform;
@@ -122,7 +136,7 @@ public class StandaloneTurretEnemy : MonoBehaviour
                 continue;
             }
 
-            Vector3 chest = player.position + Vector3.up * 1.3f;
+            Vector3 chest = PlayerAimPoint;
             AimAt(chest);
 
             bool inRange = FlatDistance(muzzle.position, player.position) <= range;
@@ -209,7 +223,7 @@ public class StandaloneTurretEnemy : MonoBehaviour
         {
             if (IsDead || (playerHealth != null && playerHealth.IsDead) || !CanEngageAtHeight()) break;
 
-            Vector3 chest = player.position + Vector3.up * 1.3f;
+            Vector3 chest = PlayerAimPoint;
             AimAt(chest);
             if (!HasClearLine(chest)) break;
 
@@ -260,7 +274,10 @@ public class StandaloneTurretEnemy : MonoBehaviour
         {
             end = best.point;
             if (playerHealth != null && best.collider.transform.root == player.root)
+            {
                 playerHealth.ApplyDamage(damagePerHit);
+                if (hitFeedback != null) hitFeedback.Notify(transform.position);
+            }
         }
 
         StartCoroutine(ShowTracer(origin, end));

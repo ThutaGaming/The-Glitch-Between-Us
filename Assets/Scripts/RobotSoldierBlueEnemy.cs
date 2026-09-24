@@ -15,6 +15,7 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
     [SerializeField] private float runSpeed = 3.4f;
     [SerializeField] private float sightRange = 65f;
     [SerializeField] private float activationRange = 36f;
+    [SerializeField] private AudioClip[] shotClips;
 
     private static CoverNavGrid navGrid;
     private static int navSceneHandle;
@@ -22,6 +23,8 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
     private Transform player;
     private PlayerHealth playerHealth;
     private Collider playerCollider;
+    private PlayerHitFeedback hitFeedback;
+    private AudioSource audioSource;
     private Animator animator;
     private Transform muzzle;
     private LineRenderer tracer;
@@ -81,6 +84,7 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
         player = playerObject.transform;
         playerHealth = playerObject.GetComponent<PlayerHealth>();
         playerCollider = playerObject.GetComponentInChildren<Collider>();
+        hitFeedback = playerObject.GetComponent<PlayerHitFeedback>();
     }
 
     private Vector3 PlayerAimPoint => playerCollider != null && playerCollider.enabled
@@ -141,6 +145,14 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
         muzzleFlash.range = 4.5f;
         muzzleFlash.intensity = 0f;
         muzzleFlash.shadows = LightShadows.None;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.minDistance = 5f;
+        audioSource.maxDistance = 70f;
+        audioSource.volume = 0.9f;
+        audioSource.playOnAwake = false;
     }
 
     private void ResolveRoute()
@@ -432,6 +444,12 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
             break;
         }
         StartCoroutine(ShowBullet(start, impact, playerHit));
+
+        if (shotClips != null && shotClips.Length > 0 && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.94f, 1.04f);
+            audioSource.PlayOneShot(shotClips[Random.Range(0, shotClips.Length)]);
+        }
     }
 
     private IEnumerator ShowBullet(Vector3 start, Vector3 end, bool playerHit)
@@ -454,7 +472,10 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
         tracer.enabled = false;
         muzzleFlash.intensity = 0f;
         if (!dead && playerHit && playerHealth != null && !playerHealth.IsDead)
+        {
             playerHealth.ApplyDamage(damagePerShot);
+            if (hitFeedback != null) hitFeedback.Notify(transform.position);
+        }
     }
 
     private void PlayAnimation(string state)

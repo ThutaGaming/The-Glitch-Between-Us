@@ -1,7 +1,14 @@
 fileFormatVersion: 2
 guid: 690be106813657545afc65622207ec4c
+AssetOrigin:
+  serializedVersion: 1
+  productId: 355418
+  packageName: Stylized Sci Fi Mech Robot Asset
+  packageVersion: 1.0
+  assetPath: Assets/RSG_UnderWater_Pack/ISO/HDRP/Models/Mech/SK_ISO_Mech.fbx
+  uploadId: 850312
 ModelImporter:
-  serializedVersion: 24200
+  serializedVersion: 22200
   internalIDToNameTable: []
   externalObjects:
   - first:
@@ -93,9 +100,6 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
-    generateMeshLods: 0
-    meshLodGenerationFlags: 0
-    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
@@ -137,7 +141,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0
@@ -145,10 +149,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 355418
-  packageName: Stylized Sci Fi Mech Robot Asset
-  packageVersion: 1.0
-  assetPath: Assets/RSG_UnderWater_Pack/ISO/HDRP/Models/Mech/SK_ISO_Mech.fbx
-  uploadId: 850312

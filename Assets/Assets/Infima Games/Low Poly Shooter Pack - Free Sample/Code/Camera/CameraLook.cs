@@ -73,6 +73,12 @@ namespace InfimaGames.LowPolyShooterPack
         {
             //Frame Input. The Input to add this frame!
             Vector2 frameInput = playerCharacter.IsCursorLocked() ? playerCharacter.GetInputLook() : default;
+            //Reject a NaN/Infinity input sample (seen from the Input System on some focus/frame
+            //edge cases) before it turns into a Quaternion.Euler call and permanently corrupts the
+            //character's rotation for every frame afterwards.
+            if (float.IsNaN(frameInput.x) || float.IsNaN(frameInput.y)
+                || float.IsInfinity(frameInput.x) || float.IsInfinity(frameInput.y))
+                frameInput = Vector2.zero;
             //Sensitivity.
             frameInput *= sensitivity;
 
@@ -120,9 +126,15 @@ namespace InfimaGames.LowPolyShooterPack
         /// </summary>
         private Quaternion Clamp(Quaternion rotation)
         {
-            rotation.x /= rotation.w;
-            rotation.y /= rotation.w;
-            rotation.z /= rotation.w;
+            //Guard against a near-180-degree local rotation, where w approaches zero and dividing
+            //by it produces NaN/Infinity that permanently corrupts the character's rotation from
+            //that frame on (every following frame Slerps towards the corrupted value).
+            float w = rotation.w;
+            if (Mathf.Abs(w) < 0.0001f) w = w >= 0.0f ? 0.0001f : -0.0001f;
+
+            rotation.x /= w;
+            rotation.y /= w;
+            rotation.z /= w;
             rotation.w = 1.0f;
 
             //Pitch.

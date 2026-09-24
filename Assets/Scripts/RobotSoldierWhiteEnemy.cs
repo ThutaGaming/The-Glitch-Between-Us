@@ -19,10 +19,13 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
     [SerializeField] private int burstShots = 3;
     [SerializeField] private float shotInterval = 0.24f;
     [SerializeField] private float coverPause = 1.5f;
+    [SerializeField] private AudioClip[] shotClips;
 
     private Transform player;
     private PlayerHealth playerHealth;
     private Collider playerCollider;
+    private PlayerHitFeedback hitFeedback;
+    private AudioSource audioSource;
     private Transform torso;
     private Transform head;
     private Transform rifle;
@@ -88,6 +91,7 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
         player = playerObject.transform;
         playerHealth = playerObject.GetComponent<PlayerHealth>();
         playerCollider = playerObject.GetComponentInChildren<Collider>();
+        hitFeedback = playerObject.GetComponent<PlayerHitFeedback>();
     }
 
     private Vector3 GetPlayerAimPoint()
@@ -158,6 +162,14 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
         muzzleLight.range = 6f;
         muzzleLight.intensity = 0f;
         muzzleLight.shadows = LightShadows.None;
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.minDistance = 5f;
+        audioSource.maxDistance = 70f;
+        audioSource.volume = 0.9f;
+        audioSource.playOnAwake = false;
     }
 
     private IEnumerator CombatLoop()
@@ -245,7 +257,17 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
         recoil = 1f;
 
         StartCoroutine(ShowShot(source, target));
-        if (playerHealth != null && Random.value <= hitChance) playerHealth.ApplyDamage(damagePerShot);
+        if (shotClips != null && shotClips.Length > 0 && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.94f, 1.04f);
+            audioSource.PlayOneShot(shotClips[Random.Range(0, shotClips.Length)]);
+        }
+
+        if (playerHealth != null && Random.value <= hitChance)
+        {
+            playerHealth.ApplyDamage(damagePerShot);
+            if (hitFeedback != null) hitFeedback.Notify(transform.position);
+        }
     }
 
     private Vector3 GetMuzzleWorldPosition(Vector3 target)

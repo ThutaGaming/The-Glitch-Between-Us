@@ -104,6 +104,9 @@ public class StandaloneTurretShotDetector : MonoBehaviour
 
         var blueRobot = hit.collider.GetComponentInParent<BlueRobotEnemy>();
         if (blueRobot != null && !blueRobot.IsDead) blueRobot.RegisterHit(hit.point);
+
+        var boss = hit.collider.GetComponentInParent<MediumMechStrikerBoss>();
+        if (boss != null && !boss.IsDead) boss.RegisterHit(hit.point);
     }
 
     private bool HasLineOfSight(Vector3 to)
@@ -122,6 +125,7 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             if (h.collider.GetComponentInParent<RobotSoldierWhiteEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<RobotSoldierBlueEnemy>() != null) continue;
             if (h.collider.GetComponentInParent<BlueRobotEnemy>() != null) continue;
+            if (h.collider.GetComponentInParent<MediumMechStrikerBoss>() != null) continue;
             return false;
         }
         return true;

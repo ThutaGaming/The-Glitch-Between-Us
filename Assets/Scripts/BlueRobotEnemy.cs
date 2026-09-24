@@ -31,11 +31,14 @@ public sealed class BlueRobotEnemy : MonoBehaviour
     [SerializeField] private float sightRange = 500f;
     [SerializeField] private float turnSpeed = 135f;
     [SerializeField, Range(0f, 1f)] private float hitChance = 0.64f;
+    [SerializeField] private AudioClip[] shotClips;
 
     private RobotVariant variant;
     private Transform player;
     private PlayerHealth playerHealth;
     private Collider playerCollider;
+    private PlayerHitFeedback hitFeedback;
+    private AudioSource audioSource;
     private Animator animator;
     private Renderer[] bodyRenderers;
     private Transform[] muzzles;
@@ -157,6 +160,7 @@ public sealed class BlueRobotEnemy : MonoBehaviour
         player = playerObject.transform;
         playerHealth = playerObject.GetComponent<PlayerHealth>();
         playerCollider = playerObject.GetComponentInChildren<Collider>();
+        hitFeedback = playerObject.GetComponent<PlayerHitFeedback>();
     }
 
     private void FindMuzzles()
@@ -261,6 +265,14 @@ public sealed class BlueRobotEnemy : MonoBehaviour
             light.shadows = LightShadows.None;
             muzzleLights[i] = light;
         }
+
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.spatialBlend = 1f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.minDistance = 5f;
+        audioSource.maxDistance = 70f;
+        audioSource.volume = 0.9f;
+        audioSource.playOnAwake = false;
     }
 
     private IEnumerator CombatLoop()
@@ -368,8 +380,17 @@ public sealed class BlueRobotEnemy : MonoBehaviour
         Vector3 source = GetMuzzlePosition(muzzleIndex, target);
         StartCoroutine(ShowProjectile(muzzleIndex, source, target));
 
+        if (shotClips != null && shotClips.Length > 0 && audioSource != null)
+        {
+            audioSource.pitch = Random.Range(0.94f, 1.04f);
+            audioSource.PlayOneShot(shotClips[Random.Range(0, shotClips.Length)]);
+        }
+
         if (hitsPlayer && playerHealth != null)
+        {
             playerHealth.ApplyDamage(damagePerShot);
+            if (hitFeedback != null) hitFeedback.Notify(transform.position);
+        }
     }
 
     private IEnumerator ShowProjectile(int index, Vector3 source, Vector3 target)

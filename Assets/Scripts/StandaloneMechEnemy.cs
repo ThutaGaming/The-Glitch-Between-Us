@@ -37,6 +37,7 @@ public class StandaloneMechEnemy : MonoBehaviour
 
     private Transform player;
     private PlayerHealth playerHealth;
+    private PlayerHitFeedback hitFeedback;
     private Animator animator;
     private AudioSource audioSource;
     private Transform[] muzzleSockets;
@@ -63,6 +64,7 @@ public class StandaloneMechEnemy : MonoBehaviour
         {
             player = playerGo.transform;
             playerHealth = playerGo.GetComponent<PlayerHealth>();
+            hitFeedback = playerGo.GetComponent<PlayerHitFeedback>();
         }
 
         animator = GetComponent<Animator>();
@@ -209,7 +211,11 @@ public class StandaloneMechEnemy : MonoBehaviour
         StartCoroutine(MuzzleFlashRoutine(origin));
         StartCoroutine(ShowTracer(origin, target));
 
-        if (playerHealth != null && Random.value <= hitChance) playerHealth.ApplyDamage(damagePerHit);
+        if (playerHealth != null && Random.value <= hitChance)
+        {
+            playerHealth.ApplyDamage(damagePerHit);
+            if (hitFeedback != null) hitFeedback.Notify(transform.position);
+        }
     }
 
     private IEnumerator MuzzleFlashRoutine(Vector3 at)
