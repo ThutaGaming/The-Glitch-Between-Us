@@ -395,7 +395,8 @@ public class Level5EndingSequence : MonoBehaviour
     private void FreezePlayer()
     {
         if (player == null) return;
-        foreach (var b in new Behaviour[] { player.GetComponent<Movement>(), player.GetComponent<CameraLook>(), player.GetComponent<PlayerInput>() })
+        // CameraLook sits on the camera pivot (SK_FP_CH_Default_Root), not on the player root.
+        foreach (var b in new Behaviour[] { player.GetComponent<Movement>(), player.GetComponentInChildren<CameraLook>(), player.GetComponent<PlayerInput>() })
         {
             if (b == null || !b.enabled) continue;
             b.enabled = false;

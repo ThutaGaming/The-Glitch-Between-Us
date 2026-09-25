@@ -86,8 +86,15 @@ public class BarnDoorSlider : MonoBehaviour
     }
 
     public bool IsLocked => isLocked;
+    public bool IsOpen => isOpen;
     public void SetLocked(bool value) => isLocked = value;
     public void SetLockedPrompt(string value) => lockedPrompt = value;
+
+    /// <summary>Slides the door open from a script (e.g. so a cutscene character can walk in).</summary>
+    public void Open()
+    {
+        if (!isOpen) Toggle();
+    }
 
     private void Update()
     {

@@ -46,7 +46,8 @@ public class NetworkPuzzleTerminal : MonoBehaviour, IInteractable
         player = playerGo;
 
         movement = player.GetComponent<Movement>();
-        cameraLook = player.GetComponent<CameraLook>();
+        // CameraLook sits on the camera pivot (SK_FP_CH_Default_Root), not on the player root.
+        cameraLook = player.GetComponentInChildren<CameraLook>();
         playerInput = player.GetComponent<PlayerInput>();
         SetFrozen(true);
 

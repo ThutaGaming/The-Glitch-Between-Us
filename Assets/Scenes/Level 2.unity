@@ -2488,7 +2488,6 @@ GameObject:
   - component: {fileID: 111159198}
   - component: {fileID: 111159197}
   - component: {fileID: 111159196}
-  - component: {fileID: 111159195}
   - component: {fileID: 111159194}
   - component: {fileID: 111159193}
   - component: {fileID: 111159192}
@@ -2563,22 +2562,6 @@ MonoBehaviour:
   promptFontSize: 24
   promptBottomOffset: 120
   promptBottomOffsetDuringDialogue: 230
---- !u!114 &111159195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111159190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a74379b44be369043afd8160e1b39c49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: {x: 1, y: 1}
-  yClamp: {x: -60, y: 60}
-  smooth: 0
-  interpolationSpeed: 25
 --- !u!114 &111159196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13756,7 +13739,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: {x: 1, y: 1}
-  yClamp: {x: -89, y: 89}
+  yClamp: {x: -80, y: 80}
   smooth: 0
   interpolationSpeed: 35
 --- !u!114 &842309639

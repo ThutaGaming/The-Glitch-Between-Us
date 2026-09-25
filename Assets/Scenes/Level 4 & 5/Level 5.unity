@@ -12577,7 +12577,6 @@ GameObject:
   - component: {fileID: 562018517}
   - component: {fileID: 562018516}
   - component: {fileID: 562018515}
-  - component: {fileID: 562018514}
   - component: {fileID: 562018513}
   - component: {fileID: 562018512}
   - component: {fileID: 562018511}
@@ -12678,22 +12677,6 @@ MonoBehaviour:
   promptFontSize: 24
   promptBottomOffset: 120
   promptBottomOffsetDuringDialogue: 230
---- !u!114 &562018514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 562018506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a74379b44be369043afd8160e1b39c49, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: {x: 1, y: 1}
-  yClamp: {x: -60, y: 60}
-  smooth: 0
-  interpolationSpeed: 25
 --- !u!114 &562018515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22913,7 +22896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensitivity: {x: 1, y: 1}
-  yClamp: {x: -89, y: 89}
+  yClamp: {x: -80, y: 80}
   smooth: 0
   interpolationSpeed: 35
 --- !u!114 &1051834009
@@ -45109,6 +45092,8 @@ MonoBehaviour:
   glitchLineHold: 1.2
   blackoutFadeDuration: 0.9
   glitchStreakCount: 24
+  wakeAtBedroomDesk: 1
+  bedroomSceneName: Bedroom Scene
   nextSceneName: 
   onEndingFinished:
     m_PersistentCalls:
