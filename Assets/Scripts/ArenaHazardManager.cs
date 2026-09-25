@@ -23,8 +23,9 @@ public class ArenaHazardManager : MonoBehaviour
     [SerializeField] private float floorY = 2.42f;
     [SerializeField] private Vector3 arenaCenter = new Vector3(358.5f, 2.42f, 247.5f);
     [SerializeField] private float arenaRadius = 11.5f;
-    [Tooltip("Feet this far above the plaza floor count as 'on high ground' (safe).")]
-    [SerializeField] private float safeHeightAboveFloor = 0.4f;
+    [Tooltip("Feet this far above the plaza floor count as 'on high ground' (safe). Keep it below the " +
+             "lowest platform's top - the scaled north platforms stand only ~0.4 m tall.")]
+    [SerializeField] private float safeHeightAboveFloor = 0.25f;
 
     [Header("Cycle (seconds)")]
     [SerializeField] private float warningDuration = 2.5f;
@@ -43,6 +44,9 @@ public class ArenaHazardManager : MonoBehaviour
     private Transform player;
     private PlayerHealth playerHealth;
     private Vector3[] platformRaised;
+    private Rigidbody[] platformBodies;
+    private Collider[] platformColliders;
+    private bool platformsUp;
     private MeshRenderer overlay;
     private Material overlayMaterial;
     private AudioSource humSource;
@@ -74,11 +78,25 @@ public class ArenaHazardManager : MonoBehaviour
         if (platforms != null)
         {
             platformRaised = new Vector3[platforms.Length];
+            platformBodies = new Rigidbody[platforms.Length];
+            platformColliders = new Collider[platforms.Length];
             for (int i = 0; i < platforms.Length; i++)
             {
                 if (platforms[i] == null) continue;
                 platformRaised[i] = platforms[i].position;
+                platformColliders[i] = platforms[i].GetComponent<Collider>();
+
+                // Moving colliders need a kinematic body, otherwise the physics scene can lag behind the
+                // transform and a player who steps on right after the rise drops through.
+                var body = platforms[i].GetComponent<Rigidbody>();
+                if (body == null) body = platforms[i].gameObject.AddComponent<Rigidbody>();
+                body.isKinematic = true;
+                body.useGravity = false;
+                body.interpolation = RigidbodyInterpolation.None;
+                platformBodies[i] = body;
+
                 platforms[i].position = platformRaised[i] - Vector3.up * platformBuryDepth;
+                body.position = platforms[i].position;
             }
         }
 
@@ -126,22 +144,31 @@ public class ArenaHazardManager : MonoBehaviour
         }
         CameraShake.Shake(arenaCenter, 0.45f, 40f);
 
+        // Driven from the physics step so the kinematic bodies push/carry anyone standing on them.
         float t = 0f;
         while (t < platformRiseTime)
         {
-            t += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+            t += Time.fixedDeltaTime;
             float k = Mathf.SmoothStep(0f, 1f, t / platformRiseTime);
             for (int i = 0; i < platforms.Length; i++)
                 if (platforms[i] != null)
-                    platforms[i].position = platformRaised[i] - Vector3.up * (platformBuryDepth * (1f - k));
-            yield return null;
+                    MovePlatform(i, platformRaised[i] - Vector3.up * (platformBuryDepth * (1f - k)));
         }
         for (int i = 0; i < platforms.Length; i++)
-            if (platforms[i] != null) platforms[i].position = platformRaised[i];
+            if (platforms[i] != null) MovePlatform(i, platformRaised[i]);
+        platformsUp = true;
 
         if (fx != null)
             foreach (var p in platformRaised)
                 BossFx.Sfx(BossFx.Pick(fx.metalDebris), p, 0.9f, 0.7f, 5f, 50f);
+    }
+
+    private void MovePlatform(int i, Vector3 position)
+    {
+        var body = platformBodies != null ? platformBodies[i] : null;
+        if (body != null) body.MovePosition(position);
+        else platforms[i].position = position;
     }
 
     private IEnumerator Cycle()
@@ -234,6 +261,18 @@ public class ArenaHazardManager : MonoBehaviour
         Vector3 feet = player.position;
         Vector2 flat = new Vector2(feet.x - arenaCenter.x, feet.z - arenaCenter.z);
         if (flat.magnitude > arenaRadius) return false;
+
+        // Standing on top of a raised platform is always safe, whatever the ground ray happens to hit.
+        if (platformsUp && platformColliders != null)
+        {
+            foreach (var c in platformColliders)
+            {
+                if (c == null) continue;
+                Bounds b = c.bounds;
+                bool overTop = feet.x > b.min.x - 0.1f && feet.x < b.max.x + 0.1f && feet.z > b.min.z - 0.1f && feet.z < b.max.z + 0.1f;
+                if (overTop && feet.y > b.max.y - 0.2f) return false;
+            }
+        }
 
         float nearest = float.MaxValue;
         float groundY = float.MinValue;

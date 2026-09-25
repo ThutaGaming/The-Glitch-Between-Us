@@ -45,6 +45,12 @@ public class BossEncounter : MonoBehaviour
         if (new Vector2(d.x, d.z).magnitude < triggerRadius) Begin();
     }
 
+    /// <summary>Starts the fight right away, wherever the player is (debug shortcuts).</summary>
+    public void StartNow()
+    {
+        if (!started && boss != null) Begin();
+    }
+
     private void Begin()
     {
         started = true;

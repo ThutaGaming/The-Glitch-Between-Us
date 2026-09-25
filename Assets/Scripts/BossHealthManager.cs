@@ -113,4 +113,15 @@ public class BossHealthManager : MonoBehaviour
         }
         return amount;
     }
+
+    /// <summary>Instant kill that ignores shield, invulnerability and multipliers (debug shortcut).</summary>
+    public void Kill()
+    {
+        if (IsDead) return;
+        currentShield = 0f;
+        currentHealth = 0f;
+        regenerating = false;
+        IsDead = true;
+        Died?.Invoke();
+    }
 }
