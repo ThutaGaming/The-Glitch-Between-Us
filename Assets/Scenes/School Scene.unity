@@ -76527,6 +76527,7 @@ GameObject:
   - component: {fileID: 2108342704}
   - component: {fileID: 2108342706}
   - component: {fileID: 2108342705}
+  - component: {fileID: 2108342707}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -76700,6 +76701,9 @@ MonoBehaviour:
   sitObjective: Sit on the chair
   classChair: {fileID: 1840678333}
   classChairGlow: {fileID: 1840678334}
+  onSeated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2108342705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76828,6 +76832,43 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2108342707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108342698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6bf6010d0819074088cf55fa0f796dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 2108342700}
+  classQuest: {fileID: 2108342704}
+  firstVisitOnly:
+  - {fileID: 2108342699}
+  - {fileID: 2108342702}
+  - {fileID: 799366543}
+  - {fileID: 1299414493}
+  - {fileID: 160624264}
+  unlockDoors:
+  - {fileID: 278860962}
+  - {fileID: 1675874282}
+  - {fileID: 792942033}
+  - {fileID: 2016707506}
+  - {fileID: 1739573082}
+  startDelay: 1.2
+  speaker: Thuta
+  lines:
+  - I have to go to my classroom now.
+  holdPerLine: 2.2
+  goToClassObjective: Go to the classroom
+  sitObjective: Sit on the chair
+  debugPlayOnStart: 0
+  onSeated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2109062123
 PrefabInstance:
   m_ObjectHideFlags: 0

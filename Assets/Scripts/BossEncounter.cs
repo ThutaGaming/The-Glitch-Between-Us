@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -26,6 +27,10 @@ public class BossEncounter : MonoBehaviour
 
     public bool Started => started;
     public bool Finished => finished;
+
+    /// <summary>Fires once the victory objective has been shown and ticked off - the next story
+    /// beat can take over the mission panel from here.</summary>
+    public event Action VictoryFlowFinished;
 
     private void Awake()
     {
@@ -86,6 +91,8 @@ public class BossEncounter : MonoBehaviour
             yield return new WaitForSeconds(3f);
             MissionHUD.Instance.CompleteObjective();
         }
+
+        VictoryFlowFinished?.Invoke();
     }
 
     private void OnDestroy()

@@ -3993,6 +3993,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 147273641}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &155230085 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7110207209041894853, guid: 077eb31668b6a20409273c674a9ef4b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 761552199}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &157630258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13876,6 +13882,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 611046554}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &611046556 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3674061075086213137, guid: 84cc6f29985397d479eb0c61931c148c,
+    type: 3}
+  m_PrefabInstance: {fileID: 611046554}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &612070333
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17376,7 +17388,7 @@ PrefabInstance:
     - target: {fileID: 5560109210899363651, guid: 077eb31668b6a20409273c674a9ef4b7,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 2147483643
       objectReference: {fileID: 0}
     - target: {fileID: 7386852494112565894, guid: 077eb31668b6a20409273c674a9ef4b7,
         type: 3}
@@ -17391,7 +17403,7 @@ PrefabInstance:
     - target: {fileID: 8924496216484308492, guid: 077eb31668b6a20409273c674a9ef4b7,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 2147483643
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22687,6 +22699,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4088839632586982, guid: 3744e668ae9047e4b9590c326355161c,
     type: 3}
   m_PrefabInstance: {fileID: 1003426035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1005343756 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8924496216484308495, guid: 077eb31668b6a20409273c674a9ef4b7,
+    type: 3}
+  m_PrefabInstance: {fileID: 761552199}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1007779463
 GameObject:
@@ -41043,6 +41061,7 @@ GameObject:
   - component: {fileID: 1807672444}
   - component: {fileID: 1807672445}
   - component: {fileID: 1807672446}
+  - component: {fileID: 1807672447}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -41401,6 +41420,40 @@ MonoBehaviour:
       m_Calls: []
   glowColor: {r: 0.35, g: 0.55, b: 1, a: 1}
   glowPulseSpeed: 2.5
+--- !u!114 &1807672447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1807672437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929cf99a6a905dc49949325c0b6486be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chair: {fileID: 1589181554}
+  desk: {fileID: 611046556}
+  schoolExit: {fileID: 1807672443}
+  headHeightAboveDesk: 0.13
+  headPastDeskEdge: 0.02
+  sleepingCameraEuler: {x: 35, y: 20, z: 80}
+  clock: {fileID: 761552200}
+  clockHourHand: {fileID: 1005343756}
+  clockMinuteHand: {fileID: 155230085}
+  wakeHour: 9
+  wakeMinute: 0
+  blackHold: 1
+  holdAfterBlinking: 0.6
+  liftHeadDuration: 1.8
+  lookAroundDuration: 1.6
+  speaker: Thuta
+  confusedLine: What... what happened to me?
+  clockLine: Ah! It's already 9 o'clock!
+  hurryLine: I'm going to be late for school... I have to go right now!
+  holdPerLine: 1.6
+  objective: Go to school
+  debugPlayOnStart: 0
 --- !u!1001 &1809657373
 PrefabInstance:
   m_ObjectHideFlags: 0

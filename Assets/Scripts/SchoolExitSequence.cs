@@ -50,6 +50,7 @@ public class SchoolExitSequence : MonoBehaviour
     [SerializeField] private string schoolSceneName = "School Scene";
 
     private bool started;
+    private System.Action beforeSchoolLoad;
     private float overlayAlpha;
     private string captionText = "";
     private int revealedChars;
@@ -74,6 +75,18 @@ public class SchoolExitSequence : MonoBehaviour
         if (backpack != null) backpack.onWorn.RemoveListener(Unlock);
         if (exitDoor != null) exitDoor.onOpened.RemoveListener(BeginLeaving);
         if (solid != null) Destroy(solid);
+    }
+
+    /// <summary>Opens the way out straight away with its own objective text - used when Thuta
+    /// wakes at his desk after the game world, already late, with no morning routine to finish.
+    /// <paramref name="beforeSchoolLoad"/> runs right before School Scene loads, so the caller
+    /// can queue a different arrival there.</summary>
+    public void UnlockNow(string objective, System.Action beforeSchoolLoad = null)
+    {
+        this.beforeSchoolLoad = beforeSchoolLoad;
+        if (!string.IsNullOrEmpty(objective)) doorObjective = objective;
+        objectiveDelayAfterBackpack = 0f;
+        Unlock();
     }
 
     private void Unlock()
@@ -126,6 +139,7 @@ public class SchoolExitSequence : MonoBehaviour
         yield return ShowCaption(arrivedLine);
 
         if (streetSound != null) streetSound.Stop();
+        beforeSchoolLoad?.Invoke();
         SceneManager.LoadScene(schoolSceneName);
     }
 

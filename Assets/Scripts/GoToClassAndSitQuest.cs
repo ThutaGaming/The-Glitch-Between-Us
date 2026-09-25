@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// The two objectives right after talking to friends: walk to class through the barn door,
@@ -22,6 +23,9 @@ public class GoToClassAndSitQuest : MonoBehaviour
     [SerializeField] private string sitObjective = "Sit on the chair";
     [SerializeField] private SittableChair classChair;
     [SerializeField] private ObjectiveGlow classChairGlow;
+
+    /// <summary>Fires once, right after the "sit" objective is ticked off.</summary>
+    public UnityEvent onSeated;
 
     private bool started;
     private bool doorOpened;
@@ -53,6 +57,15 @@ public class GoToClassAndSitQuest : MonoBehaviour
         if (classDoorGlow != null) classDoorGlow.SetGlowing(true);
     }
 
+    /// <summary>Same as <see cref="Begin"/> with this beat's own objective text - used by
+    /// LateSchoolArrivalSequence, where Thuta arrives late and there's no friends step first.</summary>
+    public void BeginWithObjectives(string classObjective, string seatObjective)
+    {
+        if (!string.IsNullOrEmpty(classObjective)) goToClassObjective = classObjective;
+        if (!string.IsNullOrEmpty(seatObjective)) sitObjective = seatObjective;
+        Begin();
+    }
+
     private void OnDoorOpened()
     {
         if (!started || doorOpened) return;
@@ -72,5 +85,7 @@ public class GoToClassAndSitQuest : MonoBehaviour
 
         if (mission != null) mission.CompleteObjective();
         if (classChairGlow != null) classChairGlow.SetGlowing(false);
+
+        onSeated?.Invoke();
     }
 }
