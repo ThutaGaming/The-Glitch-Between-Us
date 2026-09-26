@@ -322,6 +322,7 @@ public class StandaloneTurretEnemy : MonoBehaviour
         if (tracer != null) tracer.enabled = false;
         // Guns drop as the mount gives out.
         if (head != null) head.localRotation = Quaternion.Euler(0f, 0f, -28f);
+        CombatAudio.EnemyDeath(head != null ? head.position : transform.position, CombatAudio.Death.Explosion);
 
         // The root's BoxCollider spans the whole turret - left enabled, a destroyed one would
         // permanently block that spot for both movement and gunfire even though it's out of the fight.

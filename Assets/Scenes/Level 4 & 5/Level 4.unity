@@ -4497,6 +4497,7 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   fill: {fileID: 1388631357}
   label: {fileID: 1745545725}
+  drainSharpness: 6
 --- !u!114 &55782812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7905,6 +7906,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -8698,12 +8729,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 466374, guid: 34300443486f64d6da09f6f748778306,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 207334195}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 166374, guid: 34300443486f64d6da09f6f748778306,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 118680090}
+    - targetCorrespondingSourceObject: {fileID: 166374, guid: 34300443486f64d6da09f6f748778306,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 877908596}
     - targetCorrespondingSourceObject: {fileID: 132572, guid: 34300443486f64d6da09f6f748778306,
         type: 3}
       insertIndex: -1
@@ -13851,6 +13890,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 205412871}
   m_Mesh: {fileID: 4300000, guid: 4bfcd1a97e17840b7aa90ded2438e482, type: 3}
+--- !u!1 &207334194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 207334195}
+  m_Layer: 0
+  m_Name: ExitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &207334195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207334194}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0.92899704, y: -0.070007324, z: 3.0061986}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 877908595}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &212515869
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14713,21 +14783,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: MECH STRIKER
-  maxHealth: 45
-  laserDamage: 4
-  laserHitChance: 0.4
-  laserShotInterval: 0.45
-  laserBurstCount: 3
-  srmDamage: 8
-  srmHitChance: 0.5
+  maxHealth: 120
+  laserDamage: 6
+  laserHitChance: 0.5
+  laserShotInterval: 0.22
+  laserBurstCount: 5
+  srmDamage: 16
+  srmHitChance: 0.55
   srmSpeed: 45
-  lrmDamage: 6
-  lrmHitChance: 0.45
+  lrmDamage: 12
+  lrmHitChance: 0.5
   lrmSpeed: 30
-  strafeDistance: 7
-  postFireHold: 0.5
-  moveSpeed: 2.2
-  turnSpeed: 60
+  strafeDistance: 6
+  postFireHold: 0.4
+  moveSpeed: 2.5
+  turnSpeed: 90
   patrolRadius: 8
   patrolPointCount: 3
   waypointPause: 2
@@ -14744,8 +14814,26 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 37025960c61b77245872d410c9640b6b, type: 3}
   explosionClip: {fileID: 8300000, guid: 20d577d2d6937a043a8091a46c926b88, type: 3}
   removeDelayAfterDeath: 8
+  enrageBelow: 0.4
+  enragedExtraLaserShots: 2
+  enragedSpeedMultiplier: 1.35
   doorGlow: {fileID: 118680090}
   nextMissionObjective: Go up to Level 5
+  onDefeated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 877908596}
+        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
+        m_MethodName: Arm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &226322338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28655,6 +28743,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -30193,17 +30311,17 @@ MonoBehaviour:
   head: {fileID: 940294006}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 12
+  damagePerHit: 5
+  turnSpeed: 90
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
-  shotInterval: 0.16
-  burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  shotInterval: 0.15
+  burstCooldown: 1.6
+  nearHitChance: 0.45
+  farHitChance: 0.16
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -38082,6 +38200,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -41395,6 +41543,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
         type: 3}
+      propertyPath: runSpeed
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: hitChance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -43662,6 +43830,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
         type: 3}
+      propertyPath: runSpeed
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: hitChance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -44278,6 +44466,36 @@ PrefabInstance:
     - target: {fileID: 4543829338664524, guid: 0814aba0a5f87494cb000251ab82361f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}
@@ -57886,6 +58104,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
         type: 3}
+      propertyPath: runSpeed
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: hitChance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -60159,6 +60397,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 877707795}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &877908595 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 466374, guid: 34300443486f64d6da09f6f748778306,
+    type: 3}
+  m_PrefabInstance: {fileID: 118680086}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &877908596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118680087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbd58743af46d641863cee0a9ef505d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 207334195}
+  zoneSize: {x: 6, y: 3.5}
+  zoneHeight: 3.5
+  mission: {fileID: 1176370378}
+  doorGlow: {fileID: 118680090}
+  prompt: '[E]  ENTER LEVEL 5'
+  fadeDuration: 0.6
+  blackHold: 1.5
+  nextSceneName: Level 5
 --- !u!1001 &878092661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -68331,6 +68596,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
         type: 3}
+      propertyPath: runSpeed
+      value: 4.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: hitChance
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: maxHealth
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114900000000000004, guid: 3fc233a9407d11f46a1983e4692babf9,
+        type: 3}
       propertyPath: shotClips.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -74923,17 +75208,17 @@ MonoBehaviour:
   head: {fileID: 192154143}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 12
+  damagePerHit: 5
+  turnSpeed: 90
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
-  shotInterval: 0.16
-  burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  shotInterval: 0.15
+  burstCooldown: 1.6
+  nearHitChance: 0.45
+  farHitChance: 0.16
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -88180,17 +88465,17 @@ MonoBehaviour:
   head: {fileID: 1412518127}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 12
+  damagePerHit: 5
+  turnSpeed: 90
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
-  shotInterval: 0.16
-  burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  shotInterval: 0.15
+  burstCooldown: 1.6
+  nearHitChance: 0.45
+  farHitChance: 0.16
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -103944,17 +104229,17 @@ MonoBehaviour:
   head: {fileID: 670469838}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 12
+  damagePerHit: 5
+  turnSpeed: 90
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
-  shotInterval: 0.16
-  burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  shotInterval: 0.15
+  burstCooldown: 1.6
+  nearHitChance: 0.45
+  farHitChance: 0.16
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -116051,6 +116336,36 @@ PrefabInstance:
     - target: {fileID: 4543829338664524, guid: 0814aba0a5f87494cb000251ab82361f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}
@@ -128794,8 +129109,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
-  regenDelay: 4
-  regenPerSecond: 12
+  regenDelay: 5.5
+  regenPerSecond: 9
 --- !u!114 &1874866797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135641,6 +135956,36 @@ PrefabInstance:
     - target: {fileID: 4543829338664524, guid: 0814aba0a5f87494cb000251ab82361f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: aimTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: maxHealth
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: turnSpeed
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: coverPause
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: shotInterval
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
+        type: 3}
+      propertyPath: damagePerShot
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 114902911337100000, guid: 0814aba0a5f87494cb000251ab82361f,
         type: 3}

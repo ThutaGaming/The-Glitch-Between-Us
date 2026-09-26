@@ -1734,22 +1734,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &175092565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 175092549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b22753cb9dcda3a44ba80c029bdf21ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 100
-  regenDelay: 4
-  regenPerSecond: 12
 --- !u!1001 &190494233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1923,10 +1907,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 175092563}
-    - targetCorrespondingSourceObject: {fileID: 7946356033495621154, guid: fe40575f7b813c449ae494ea14feb151,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 175092565}
   m_SourcePrefab: {fileID: 100100000, guid: fe40575f7b813c449ae494ea14feb151, type: 3}
 --- !u!1001 &196636184
 PrefabInstance:
@@ -2405,12 +2385,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 466374, guid: 34300443486f64d6da09f6f748778306,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1201788788}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 166374, guid: 34300443486f64d6da09f6f748778306,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1090186191}
+    - targetCorrespondingSourceObject: {fileID: 166374, guid: 34300443486f64d6da09f6f748778306,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1090186192}
     - targetCorrespondingSourceObject: {fileID: 132572, guid: 34300443486f64d6da09f6f748778306,
         type: 3}
       insertIndex: -1
@@ -12201,6 +12189,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightMaterial: {fileID: 2100000, guid: d129f06d4a3c94d4f8697d001ecd36a4, type: 2}
+--- !u!114 &1090186192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1090186190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbd58743af46d641863cee0a9ef505d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 1201788788}
+  zoneSize: {x: 7, y: 3.5}
+  zoneHeight: 3.5
+  mission: {fileID: 2091482059}
+  doorGlow: {fileID: 1090186191}
+  prompt: '[E]  ENTER LEVEL 1'
+  fadeDuration: 0.6
+  blackHold: 1.5
+  nextSceneName: Level1
 --- !u!21 &1090723418
 Material:
   serializedVersion: 8
@@ -13035,6 +13044,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.99999976, y: 5.500001, z: 0.2500004}
   m_Center: {x: 0.50000036, y: -3.0000005, z: 0.12500007}
+--- !u!1 &1201788787
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201788788}
+  m_Layer: 0
+  m_Name: ExitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1201788788
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201788787}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.7000015, y: -0.09970037, z: 2.998922}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 269822214}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232031853
 GameObject:
   m_ObjectHideFlags: 0
@@ -13530,6 +13570,7 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   fill: {fileID: 152750360}
   label: {fileID: 687636559}
+  drainSharpness: 6
 --- !u!114 &1259275311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19672,6 +19713,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: FloorOneUnlock, Assembly-CSharp
         m_MethodName: Unlock
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1090186192}
+        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
+        m_MethodName: Arm
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Side-boss behaviour for the MediumMechStrikerMasterPrefab (Level 4). Patrols a small loop around
@@ -62,12 +63,21 @@ public class MediumMechStrikerBoss : MonoBehaviour
 
     [SerializeField] private float removeDelayAfterDeath = 8f;
 
+    [Header("Enrage")]
+    [Tooltip("Below this share of its health the mech fights harder: longer laser bursts, both missiles every stop, and it runs between firing spots.")]
+    [SerializeField, Range(0f, 1f)] private float enrageBelow = 0.4f;
+    [SerializeField] private int enragedExtraLaserShots = 2;
+    [SerializeField] private float enragedSpeedMultiplier = 1.35f;
+
     [Header("On death - next objective")]
     [Tooltip("Same blue ObjectiveGlow rim every other mission marker uses, put on the door up to Level 5.")]
     [SerializeField] private ObjectiveGlow doorGlow;
     [SerializeField] private string nextMissionObjective = "Go up to Level 5";
+    [Tooltip("Fires once, right after the objective and door glow switch over - hook the Level 5 exit to it.")]
+    public UnityEvent onDefeated;
 
     private static readonly string[] HitClips = { "b1HitFront1", "b1HitFront2", "b1HitFront3" };
+    private string lastPose;
 
     private Transform player;
     private PlayerHealth playerHealth;
@@ -221,6 +231,21 @@ public class MediumMechStrikerBoss : MonoBehaviour
         {
             combatActive = false;
         }
+
+        // The hit clips have no way out, so step back into the walk/idle pose once one has played.
+        if (animator != null && lastPose != null)
+        {
+            var info = animator.GetCurrentAnimatorStateInfo(0);
+            if (info.normalizedTime >= 0.95f && !animator.IsInTransition(0) && IsHitState(info))
+                animator.CrossFade(lastPose, 0.15f);
+        }
+    }
+
+    private static bool IsHitState(AnimatorStateInfo info)
+    {
+        foreach (string clip in HitClips)
+            if (info.IsName(clip)) return true;
+        return false;
     }
 
     private bool CanSeePlayer()
@@ -264,6 +289,7 @@ public class MediumMechStrikerBoss : MonoBehaviour
     private void PlayAnimSafe(string state)
     {
         if (animator == null) return;
+        lastPose = state;
         if (animator.GetCurrentAnimatorStateInfo(0).IsName(state)) return;
         animator.CrossFade(state, 0.15f);
     }
@@ -358,9 +384,13 @@ public class MediumMechStrikerBoss : MonoBehaviour
         }
     }
 
+    private bool Enraged => health <= maxHealth * enrageBelow;
+
     private IEnumerator MoveToCombatSpot(Vector3 destination)
     {
-        PlayAnimSafe("a5WalkCycle");
+        bool enraged = Enraged;
+        PlayAnimSafe(enraged ? "a7RunCycle" : "a5WalkCycle");
+        float speed = enraged ? moveSpeed * enragedSpeedMultiplier : moveSpeed;
         while (!dead && combatActive &&
                Vector3.Distance(Flat(transform.position), Flat(destination)) > 0.4f)
         {
@@ -370,7 +400,7 @@ public class MediumMechStrikerBoss : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation,
                     Quaternion.LookRotation(dir.normalized), turnSpeed * Time.deltaTime);
             transform.position = Vector3.MoveTowards(transform.position,
-                new Vector3(destination.x, transform.position.y, destination.z), moveSpeed * Time.deltaTime);
+                new Vector3(destination.x, transform.position.y, destination.z), speed * Time.deltaTime);
             yield return null;
         }
     }
@@ -393,7 +423,9 @@ public class MediumMechStrikerBoss : MonoBehaviour
 
         if (dead || !combatActive) yield break;
 
-        for (int i = 0; i < laserBurstCount && !dead && combatActive; i++)
+        bool enraged = Enraged;
+        int laserShots = laserBurstCount + (enraged ? enragedExtraLaserShots : 0);
+        for (int i = 0; i < laserShots && !dead && combatActive; i++)
         {
             FireLaser();
             yield return new WaitForSeconds(laserShotInterval);
@@ -401,8 +433,16 @@ public class MediumMechStrikerBoss : MonoBehaviour
 
         if (dead || !combatActive) yield break;
 
-        // One missile per stop, alternating launcher types.
-        useSrmNext = !useSrmNext;
+        // Enraged, it empties both launchers every stop.
+        if (enraged)
+        {
+            FireMissile(srmMuzzles, srmProjectilePrefab, srmSpeed, srmDamage, srmHitChance);
+            yield return new WaitForSeconds(0.25f);
+            if (dead || !combatActive) yield break;
+        }
+
+        // Otherwise one missile per stop, alternating launcher types (enraged: the LRM follows).
+        useSrmNext = enraged ? false : !useSrmNext;
         if (useSrmNext) FireMissile(srmMuzzles, srmProjectilePrefab, srmSpeed, srmDamage, srmHitChance);
         else FireMissile(lrmMuzzles, lrmProjectilePrefab, lrmSpeed, lrmDamage, lrmHitChance);
 
@@ -504,9 +544,12 @@ public class MediumMechStrikerBoss : MonoBehaviour
     {
         if (dead) return false;
 
+        // Flinch at most every so often - restarting the hit clip on every round of a full-auto
+        // spray kept the mech stuck in its hit pose for the whole fight.
+        if (animator != null && Time.time - LastHitTime > 0.9f && health > 1)
+            animator.CrossFade(HitClips[Random.Range(0, HitClips.Length)], 0.05f);
         LastHitTime = Time.time;
         health--;
-        if (animator != null) animator.CrossFade(HitClips[Random.Range(0, HitClips.Length)], 0.05f);
 
         if (health <= 0)
         {
@@ -539,6 +582,7 @@ public class MediumMechStrikerBoss : MonoBehaviour
         if (MissionHUD.Instance != null && !string.IsNullOrEmpty(nextMissionObjective))
             MissionHUD.Instance.SetObjective(nextMissionObjective);
         if (doorGlow != null) doorGlow.SetGlowing(true);
+        onDefeated?.Invoke();
 
         Destroy(gameObject, removeDelayAfterDeath);
     }

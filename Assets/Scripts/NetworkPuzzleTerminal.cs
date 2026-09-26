@@ -35,6 +35,11 @@ public class NetworkPuzzleTerminal : MonoBehaviour, IInteractable
 
     public Transform InteractTransform => solved || active ? null : transform;
     public string GetPrompt() => prompt;
+    public bool IsSolved => solved;
+
+    /// <summary>Counts the puzzle as done without playing it or firing onNetworkRestored - for
+    /// debug skips that open the blast gate themselves.</summary>
+    public void DebugMarkSolved() => solved = true;
 
     private void OnEnable() => InteractableRegistry.All.Add(this);
     private void OnDisable() => InteractableRegistry.All.Remove(this);

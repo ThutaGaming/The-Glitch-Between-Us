@@ -208,10 +208,12 @@ public class StandaloneMechEnemy : MonoBehaviour
         audioSource.clip = bigCanonClip;
         if (audioSource.clip != null) audioSource.Play();
 
+        // Roll first so a miss also looks like one: the tracer goes past the player, not into them.
+        bool hits = Random.value <= EnemyAccuracy.Scale(hitChance, transform.position, player);
         StartCoroutine(MuzzleFlashRoutine(origin));
-        StartCoroutine(ShowTracer(origin, target));
+        StartCoroutine(ShowTracer(origin, hits ? target : EnemyAccuracy.MissPoint(origin, target)));
 
-        if (playerHealth != null && Random.value <= hitChance)
+        if (playerHealth != null && hits)
         {
             playerHealth.ApplyDamage(damagePerHit);
             if (hitFeedback != null) hitFeedback.Notify(transform.position);

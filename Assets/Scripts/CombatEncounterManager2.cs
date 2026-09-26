@@ -772,6 +772,7 @@ public class CombatEncounterManager2 : MonoBehaviour
             {
                 hitMarkerKill = hitTurret.RegisterHit(point);
                 hitMarkerTime = Time.time;
+                CombatAudio.HitConfirm(point);
                 return;
             }
 
@@ -783,6 +784,7 @@ public class CombatEncounterManager2 : MonoBehaviour
         Emit(bloodFx, bestPoint, bestHead ? 26 : 16);
         hitMarkerTime = Time.time;
         hitMarkerKill = killed;
+        CombatAudio.HitConfirm(bestPoint);
     }
 
     private static void ClosestRaySegment(Vector3 origin, Vector3 dir, Vector3 a, Vector3 b, out float along, out Vector3 onSegment)

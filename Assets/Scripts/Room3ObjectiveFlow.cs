@@ -16,14 +16,19 @@ public class Room3ObjectiveFlow : MonoBehaviour
     [SerializeField] private string terminalObjective = "Head to the terminal to open the door";
     [SerializeField] private string doorObjective = "Head to the door";
 
+    private bool doorOpened;
+
     public void OnRoomEntered()
     {
+        // Walking back in after the door is open must not bring the terminal objective back.
+        if (doorOpened) return;
         if (mission != null) mission.SetObjective(terminalObjective);
         if (terminalGlow != null) terminalGlow.SetGlowing(true);
     }
 
     public void OnDoorOpened()
     {
+        doorOpened = true;
         if (terminalGlow != null) terminalGlow.SetGlowing(false);
         if (mission != null) mission.SetObjective(doorObjective);
         if (doorGlow != null) doorGlow.SetGlowing(true);

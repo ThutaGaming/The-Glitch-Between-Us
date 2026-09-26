@@ -2528,8 +2528,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
-  regenDelay: 4
-  regenPerSecond: 12
+  regenDelay: 4.5
+  regenPerSecond: 11
 --- !u!114 &111159193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5826,14 +5826,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
   gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
   tuning:
-    maxHealth: 2
-    damagePerHit: 5
-    shotInterval: 0.42
+    maxHealth: 3
+    damagePerHit: 8
+    shotInterval: 0.38
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.4
-    farHitChance: 0.15
-    runSpeed: 4.6
+    nearHitChance: 0.55
+    farHitChance: 0.18
+    runSpeed: 4.8
   door: {fileID: 0}
   doorGlow: {fileID: 0}
   covers: []
@@ -7531,14 +7531,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
   gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
   tuning:
-    maxHealth: 2
-    damagePerHit: 5
-    shotInterval: 0.42
+    maxHealth: 4
+    damagePerHit: 8
+    shotInterval: 0.36
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.4
-    farHitChance: 0.15
-    runSpeed: 4.6
+    nearHitChance: 0.56
+    farHitChance: 0.18
+    runSpeed: 5
   door: {fileID: 0}
   doorGlow: {fileID: 0}
   covers: []
@@ -7587,7 +7587,7 @@ MonoBehaviour:
       m_Calls: []
   startDelay: 2.5
   exitStagger: 0.9
-  maxAttackers: 2
+  maxAttackers: 3
   idealRange: 14
   raycastDistance: 500
   debugLogs: 0
@@ -11580,17 +11580,17 @@ MonoBehaviour:
   head: {fileID: 712054584}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -13393,17 +13393,17 @@ MonoBehaviour:
   head: {fileID: 837632750}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -19961,17 +19961,17 @@ MonoBehaviour:
   head: {fileID: 1195794015}
   localFiringAxis: {x: 1, y: 0, z: 0}
   muzzleLocalOffset: {x: 6.2, y: 0.01, z: 0}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -21584,13 +21584,48 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 5052593572192202625, guid: 6d61c341318fcf64abc686a2bf7aea29,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1369545990}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7797186672174130095, guid: 6d61c341318fcf64abc686a2bf7aea29,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1176557222}
+    - targetCorrespondingSourceObject: {fileID: 7797186672174130095, guid: 6d61c341318fcf64abc686a2bf7aea29,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1285613620}
   m_SourcePrefab: {fileID: 100100000, guid: 6d61c341318fcf64abc686a2bf7aea29, type: 3}
+--- !u!4 &1285613619 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5052593572192202625, guid: 6d61c341318fcf64abc686a2bf7aea29,
+    type: 3}
+  m_PrefabInstance: {fileID: 1285613618}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1285613620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176557217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbd58743af46d641863cee0a9ef505d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 1369545990}
+  zoneSize: {x: 7, y: 3.5}
+  zoneHeight: 3.5
+  mission: {fileID: 1306061214}
+  doorGlow: {fileID: 1176557222}
+  prompt: '[E]  ENTER LEVEL 3'
+  fadeDuration: 0.6
+  blackHold: 1.5
+  nextSceneName: Level 3
 --- !u!4 &1289356226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 410252, guid: 42cd3d6d85b684b9db86685536fe0284,
@@ -22028,7 +22063,19 @@ MonoBehaviour:
   objectiveGlow: {fileID: 1176557222}
   onFinished:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1285613620}
+        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
+        m_MethodName: Arm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1306871837 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100006, guid: 61485a9a68e6845828d6e61f3d353298,
@@ -23092,6 +23139,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354992453}
   m_Mesh: {fileID: 4300000, guid: 764a06fad7a964654b43754bf3d03779, type: 3}
+--- !u!1 &1369545989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1369545990}
+  m_Layer: 0
+  m_Name: ExitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1369545990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1369545989}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
+  m_LocalPosition: {x: -1.879217, y: -0.019969147, z: 2.2981415}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1285613619}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1370600623
 GameObject:
   m_ObjectHideFlags: 0
@@ -25093,14 +25171,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
   gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
   tuning:
-    maxHealth: 2
-    damagePerHit: 5
-    shotInterval: 0.42
+    maxHealth: 3
+    damagePerHit: 8
+    shotInterval: 0.38
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.4
-    farHitChance: 0.15
-    runSpeed: 4.6
+    nearHitChance: 0.55
+    farHitChance: 0.18
+    runSpeed: 4.8
   door: {fileID: 0}
   doorGlow: {fileID: 0}
   covers: []
@@ -26613,16 +26691,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c7b2030e896414fbf2984da48c00e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  damagePerHit: 2
+  maxHealth: 35
+  damagePerHit: 12
   hitChance: 0.5
-  turnSpeed: 45
+  turnSpeed: 50
   range: 60
   aimTolerance: 10
-  minBurst: 2
-  maxBurst: 4
-  shotInterval: 0.3
-  burstCooldown: 2.5
+  minBurst: 1
+  maxBurst: 3
+  shotInterval: 0.55
+  burstCooldown: 2.6
   shootController: {fileID: 9100000, guid: b3064e6f140179a489eec8f8a1ae341a, type: 2}
   hitController: {fileID: 9100000, guid: 9960e4a41607e2b4995c70d3be32823e, type: 2}
   bigCanonClip: {fileID: 8300000, guid: 37025960c61b77245872d410c9640b6b, type: 3}
@@ -30216,17 +30294,17 @@ MonoBehaviour:
   head: {fileID: 1302294004}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -30312,17 +30390,17 @@ MonoBehaviour:
   head: {fileID: 1646242914}
   localFiringAxis: {x: 1, y: 0, z: 0}
   muzzleLocalOffset: {x: 6.2, y: 0.01, z: 0}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -30750,14 +30828,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
   gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
   tuning:
-    maxHealth: 2
-    damagePerHit: 5
-    shotInterval: 0.42
+    maxHealth: 3
+    damagePerHit: 8
+    shotInterval: 0.38
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.4
-    farHitChance: 0.15
-    runSpeed: 4.6
+    nearHitChance: 0.55
+    farHitChance: 0.18
+    runSpeed: 4.8
   door: {fileID: 0}
   doorGlow: {fileID: 0}
   covers: []
@@ -31961,17 +32039,17 @@ MonoBehaviour:
   head: {fileID: 1868359710}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -32893,6 +32971,7 @@ MonoBehaviour:
   playerHealth: {fileID: 0}
   fill: {fileID: 739222439}
   label: {fileID: 1136851084}
+  drainSharpness: 6
 --- !u!114 &1906222753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34169,16 +34248,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9c7b2030e896414fbf2984da48c00e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
-  damagePerHit: 2
+  maxHealth: 35
+  damagePerHit: 12
   hitChance: 0.5
-  turnSpeed: 45
+  turnSpeed: 50
   range: 60
   aimTolerance: 10
-  minBurst: 2
-  maxBurst: 4
-  shotInterval: 0.3
-  burstCooldown: 2.5
+  minBurst: 1
+  maxBurst: 3
+  shotInterval: 0.55
+  burstCooldown: 2.6
   shootController: {fileID: 9100000, guid: b3064e6f140179a489eec8f8a1ae341a, type: 2}
   hitController: {fileID: 9100000, guid: 9960e4a41607e2b4995c70d3be32823e, type: 2}
   bigCanonClip: {fileID: 8300000, guid: 37025960c61b77245872d410c9640b6b, type: 3}
@@ -34493,17 +34572,17 @@ MonoBehaviour:
   head: {fileID: 2060584418}
   localFiringAxis: {x: 1, y: 0, z: 0}
   muzzleLocalOffset: {x: 6.2, y: 0.01, z: 0}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -35232,17 +35311,17 @@ MonoBehaviour:
   head: {fileID: 1423551790}
   localFiringAxis: {x: 1, y: 0, z: 0}
   muzzleLocalOffset: {x: 6.2, y: 0.01, z: 0}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5
@@ -36048,17 +36127,17 @@ MonoBehaviour:
   head: {fileID: 2115132873}
   localFiringAxis: {x: 0, y: 0, z: 1}
   muzzleLocalOffset: {x: 0, y: -0.07, z: 4.4}
-  maxHealth: 8
-  damagePerHit: 3
-  turnSpeed: 70
+  maxHealth: 10
+  damagePerHit: 4
+  turnSpeed: 75
   range: 45
   aimTolerance: 8
   minBurst: 3
   maxBurst: 5
   shotInterval: 0.16
   burstCooldown: 1.7
-  nearHitChance: 0.35
-  farHitChance: 0.12
+  nearHitChance: 0.38
+  farHitChance: 0.14
   nearRange: 10
   farRange: 40
   maxHeightDifference: 3.5

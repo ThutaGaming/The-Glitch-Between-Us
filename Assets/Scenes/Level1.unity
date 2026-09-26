@@ -26414,14 +26414,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.10991547, y: -0.04023117, z: 0.025139343}
   gunLocalEuler: {x: 10.864441, y: 99.431984, z: 85.027176}
   tuning:
-    maxHealth: 2
-    damagePerHit: 8
+    maxHealth: 3
+    damagePerHit: 7
     shotInterval: 0.42
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.55
+    nearHitChance: 0.5
     farHitChance: 0.15
-    runSpeed: 4.2
+    runSpeed: 4.4
   door: {fileID: 497724372}
   doorGlow: {fileID: 497724373}
   covers:
@@ -30159,6 +30159,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344883528}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &345406488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345406489}
+  m_Layer: 0
+  m_Name: LandingPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &345406489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345406488}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.099999994, z: 128.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1981137751}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &348543170
 GameObject:
   m_ObjectHideFlags: 0
@@ -32249,6 +32280,37 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!1 &385334793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385334794}
+  m_Layer: 0
+  m_Name: ExitZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &385334794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385334793}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 139.34999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 585105686}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &389857572
 GameObject:
   m_ObjectHideFlags: 0
@@ -42698,6 +42760,7 @@ GameObject:
   - component: {fileID: 585105686}
   - component: {fileID: 585105685}
   - component: {fileID: 585105687}
+  - component: {fileID: 585105688}
   m_Layer: 0
   m_Name: BlastGate_MainObjective
   m_TagString: Untagged
@@ -42760,6 +42823,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 585105688}
+        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
+        m_MethodName: Arm
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &585105686
 Transform:
   m_ObjectHideFlags: 0
@@ -42798,6 +42873,7 @@ Transform:
   - {fileID: 683400066}
   - {fileID: 1297292109}
   - {fileID: 2055437056}
+  - {fileID: 385334794}
   m_Father: {fileID: 126521796}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &585105687
@@ -42813,6 +42889,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightMaterial: {fileID: 2100000, guid: d129f06d4a3c94d4f8697d001ecd36a4, type: 2}
+--- !u!114 &585105688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 585105684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fbd58743af46d641863cee0a9ef505d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zone: {fileID: 385334794}
+  zoneSize: {x: 15, y: 6}
+  zoneHeight: 3.5
+  mission: {fileID: 1896056104}
+  doorGlow: {fileID: 585105687}
+  prompt: '[E]  ENTER LEVEL 2'
+  fadeDuration: 0.6
+  blackHold: 1.5
+  nextSceneName: Level 2
 --- !u!1 &587395199
 GameObject:
   m_ObjectHideFlags: 0
@@ -57892,7 +57989,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724629201}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 977db5bbc6be5e84385b9398b0091814, type: 3}
   m_Name: 
@@ -136861,6 +136958,54 @@ Transform:
   - {fileID: 2097036635}
   m_Father: {fileID: 720318981}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1981137749
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1981137751}
+  - component: {fileID: 1981137750}
+  m_Layer: 0
+  m_Name: DebugSkipToBlastGate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1981137750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981137749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51e6d12f16fe69647b85aad52d3d59ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terminal: {fileID: 338328432}
+  blastGate: {fileID: 585105685}
+  landingPoint: {fileID: 345406489}
+--- !u!4 &1981137751
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1981137749}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 345406489}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1981841998
 GameObject:
   m_ObjectHideFlags: 0
@@ -140439,14 +140584,14 @@ MonoBehaviour:
   gunLocalPosition: {x: 0.0864, y: 0.0446, z: -0.01}
   gunLocalEuler: {x: 347.6654, y: 79.9111, z: 272.6568}
   tuning:
-    maxHealth: 2
+    maxHealth: 3
     damagePerHit: 8
-    shotInterval: 0.42
+    shotInterval: 0.4
     minBurst: 2
     maxBurst: 4
-    nearHitChance: 0.55
-    farHitChance: 0.15
-    runSpeed: 4.2
+    nearHitChance: 0.52
+    farHitChance: 0.16
+    runSpeed: 4.6
   door: {fileID: 254770420}
   doorGlow: {fileID: 254770421}
   covers:
@@ -152681,3 +152826,4 @@ SceneRoots:
   - {fileID: 555361914}
   - {fileID: 10428184}
   - {fileID: 1029237896}
+  - {fileID: 1981137751}

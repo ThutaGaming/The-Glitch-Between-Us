@@ -20,6 +20,8 @@ public class StandaloneTurretShotDetector : MonoBehaviour
     private Camera mainCamera;
     private int lastAmmo = -1;
     private GUIStyle labelStyle;
+    private float hitMarkerTime = -99f;
+    private bool hitMarkerKill;
 
     private void Awake()
     {
@@ -89,24 +91,32 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             // A crossFloor turret (one that also shoots down at other floors) can be shot back from
             // anywhere; an ordinary one only takes damage once the player is on its own floor.
             bool sameFloor = Mathf.Abs(player.transform.position.y - turret.transform.position.y) <= turret.MaxHeightDifference;
-            if (turret.CrossFloor || sameFloor) turret.RegisterHit(hit.point);
+            if (turret.CrossFloor || sameFloor) Confirm(hit.point, turret.RegisterHit(hit.point));
             return;
         }
 
         var mech = hit.collider.GetComponentInParent<StandaloneMechEnemy>();
-        if (mech != null && !mech.IsDead) mech.RegisterHit(hit.point);
+        if (mech != null && !mech.IsDead) Confirm(hit.point, mech.RegisterHit(hit.point));
 
         var soldier = hit.collider.GetComponentInParent<RobotSoldierWhiteEnemy>();
-        if (soldier != null && !soldier.IsDead) soldier.RegisterHit(hit.point);
+        if (soldier != null && !soldier.IsDead) Confirm(hit.point, soldier.RegisterHit(hit.point));
 
         var blueSoldier = hit.collider.GetComponentInParent<RobotSoldierBlueEnemy>();
-        if (blueSoldier != null && !blueSoldier.IsDead) blueSoldier.RegisterHit(hit.point);
+        if (blueSoldier != null && !blueSoldier.IsDead) Confirm(hit.point, blueSoldier.RegisterHit(hit.point));
 
         var blueRobot = hit.collider.GetComponentInParent<BlueRobotEnemy>();
-        if (blueRobot != null && !blueRobot.IsDead) blueRobot.RegisterHit(hit.point);
+        if (blueRobot != null && !blueRobot.IsDead) Confirm(hit.point, blueRobot.RegisterHit(hit.point));
 
         var boss = hit.collider.GetComponentInParent<MediumMechStrikerBoss>();
-        if (boss != null && !boss.IsDead) boss.RegisterHit(hit.point);
+        if (boss != null && !boss.IsDead) Confirm(hit.point, boss.RegisterHit(hit.point));
+    }
+
+    /// <summary>Hit marker (red on a kill) and the hit tick, same as CombatEncounterManager2's.</summary>
+    private void Confirm(Vector3 point, bool killed)
+    {
+        hitMarkerTime = Time.time;
+        hitMarkerKill = killed;
+        CombatAudio.HitConfirm(point);
     }
 
     private bool HasLineOfSight(Vector3 to)
@@ -134,6 +144,22 @@ public class StandaloneTurretShotDetector : MonoBehaviour
     private void OnGUI()
     {
         if (mainCamera == null) return;
+
+        float markerAge = Time.time - hitMarkerTime;
+        if (markerAge < 0.18f)
+        {
+            var tex = Texture2D.whiteTexture;
+            Vector2 center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+            var matrix = GUI.matrix;
+            GUIUtility.RotateAroundPivot(45f, center);
+            GUI.color = hitMarkerKill ? new Color(1f, 0.2f, 0.15f, 1f) : new Color(1f, 1f, 1f, 0.95f);
+            GUI.DrawTexture(new Rect(center.x - 14f, center.y - 1.5f, 9f, 3f), tex);
+            GUI.DrawTexture(new Rect(center.x + 5f, center.y - 1.5f, 9f, 3f), tex);
+            GUI.DrawTexture(new Rect(center.x - 1.5f, center.y - 14f, 3f, 9f), tex);
+            GUI.DrawTexture(new Rect(center.x - 1.5f, center.y + 5f, 3f, 9f), tex);
+            GUI.matrix = matrix;
+            GUI.color = Color.white;
+        }
 
         foreach (var t in FindObjectsByType<StandaloneTurretEnemy>(FindObjectsSortMode.None))
         {

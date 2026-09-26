@@ -689,6 +689,7 @@ public class EnemyAI2 : MonoBehaviour
         if (muzzleLight != null) muzzleLight.intensity = 0f;
         if (tracer != null) tracer.enabled = false;
         if (animator != null) animator.CrossFadeInFixedTime("Death1", 0.08f);
+        CombatAudio.EnemyDeath(transform.position + Vector3.up, CombatAudio.Death.Flesh);
         manager.NotifyDeath(this);
     }
 }

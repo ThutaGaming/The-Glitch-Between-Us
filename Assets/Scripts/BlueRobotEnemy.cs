@@ -56,7 +56,15 @@ public sealed class BlueRobotEnemy : MonoBehaviour
     private float muzzleOffset;
     private int nextMuzzle;
     private bool dead;
+    private bool bursting;
     private float lastHitTime = -99f;
+    private float lastFlinchTime = -99f;
+
+    // States in Resources/EnemyAnimators/<variant> Robot Combat (EnemyCombatAnimatorBuilder).
+    private string idleState;
+    private string[] attackStates;
+    private bool attackLoops;
+    private bool combatAnimator;
 
     public bool IsDead => dead;
     public int Health => currentHealth;
@@ -82,6 +90,7 @@ public sealed class BlueRobotEnemy : MonoBehaviour
         ConfigureVariant();
         currentHealth = maxHealth;
         animator = GetComponent<Animator>();
+        SetUpAnimator();
         bodyRenderers = GetComponentsInChildren<Renderer>(true);
         AcquirePlayer();
         FindMuzzles();
@@ -103,15 +112,19 @@ public sealed class BlueRobotEnemy : MonoBehaviour
 
     private void ConfigureVariant()
     {
+        // Blast: slow, armoured heavy cannon. Hermit: twin machine guns. Ball: light and quick.
         if (name.StartsWith("Blast Robot Blue"))
         {
             variant = RobotVariant.Blast;
-            maxHealth = 10;
-            damagePerShot = 7;
+            maxHealth = 16;
+            damagePerShot = 10;
             burstShots = 2;
             aimTime = 0.6f;
-            shotInterval = 0.34f;
-            burstPause = 1.65f;
+            shotInterval = 0.36f;
+            burstPause = 1.7f;
+            idleState = "Idle";
+            attackStates = new[] { "Left Blast Attack", "Right Blast Attack" };
+            attackLoops = false;
             muzzleOffset = 0.2f;
             fallbackMuzzleLocalPositions = new[]
             {
@@ -122,12 +135,15 @@ public sealed class BlueRobotEnemy : MonoBehaviour
         else if (name.StartsWith("Hermit Robot"))
         {
             variant = RobotVariant.Hermit;
-            maxHealth = 8;
-            damagePerShot = 5;
+            maxHealth = 12;
+            damagePerShot = 6;
             burstShots = 4;
             aimTime = 0.5f;
-            shotInterval = 0.2f;
+            shotInterval = 0.18f;
             burstPause = 1.5f;
+            idleState = "Idle";
+            attackStates = new[] { "Machine Gun Attack" };
+            attackLoops = true;
             muzzleOffset = 0.14f;
             fallbackMuzzleLocalPositions = new[]
             {
@@ -138,18 +154,45 @@ public sealed class BlueRobotEnemy : MonoBehaviour
         else
         {
             variant = RobotVariant.Ball;
-            maxHealth = 6;
-            damagePerShot = 4;
+            maxHealth = 8;
+            damagePerShot = 5;
             burstShots = 3;
-            aimTime = 0.4f;
-            shotInterval = 0.18f;
-            burstPause = 1.25f;
+            aimTime = 0.35f;
+            shotInterval = 0.16f;
+            burstPause = 1.2f;
+            idleState = "Idle Open";
+            attackStates = new[] { "Rapid Fire Attack" };
+            attackLoops = true;
             muzzleOffset = 0.12f;
             fallbackMuzzleLocalPositions = new[]
             {
                 new Vector3(0f, 0.77f, 0.14f)
             };
         }
+    }
+
+    /// <summary>
+    /// Swaps the asset's demo-reel controller (which walks through every move, death included, on
+    /// its own) for the combat copy the builder makes, and starts in idle.
+    /// </summary>
+    private void SetUpAnimator()
+    {
+        if (animator == null) return;
+
+        string controllerName = variant == RobotVariant.Blast ? "Blast Robot Combat"
+            : variant == RobotVariant.Hermit ? "Hermit Robot Combat" : "Ball Robot Combat";
+        var combat = Resources.Load<RuntimeAnimatorController>("EnemyAnimators/" + controllerName);
+        if (combat == null) return;
+
+        animator.runtimeAnimatorController = combat;
+        animator.applyRootMotion = false;
+        animator.Play(idleState, 0, Random.Range(0f, 1f));
+        combatAnimator = true;
+    }
+
+    private void PlayState(string state, float fade)
+    {
+        if (combatAnimator && !dead) animator.CrossFadeInFixedTime(state, fade);
     }
 
     private void AcquirePlayer()
@@ -288,12 +331,18 @@ public sealed class BlueRobotEnemy : MonoBehaviour
             yield return new WaitForSeconds(aimTime);
             if (!CanAttack()) continue;
 
+            bursting = true;
+            if (attackLoops) PlayState(attackStates[0], 0.08f);
             for (int shot = 0; shot < burstShots; shot++)
             {
                 if (!CanAttack()) break;
+                // One-shot attacks (Blast) swing the arm that matches the barrel about to fire.
+                if (!attackLoops) PlayState(attackStates[(nextMuzzle % MuzzleCount) % attackStates.Length], 0.05f);
                 FireOnce();
                 yield return new WaitForSeconds(shotInterval);
             }
+            bursting = false;
+            if (attackLoops) PlayState(idleState, 0.15f);
 
             yield return new WaitForSeconds(burstPause);
         }
@@ -368,7 +417,7 @@ public sealed class BlueRobotEnemy : MonoBehaviour
     {
         int muzzleIndex = nextMuzzle++ % MuzzleCount;
         Vector3 playerPoint = GetPlayerAimPoint();
-        bool hitsPlayer = Random.value <= hitChance;
+        bool hitsPlayer = Random.value <= EnemyAccuracy.Scale(hitChance, transform.position, player);
         Vector3 target = playerPoint;
 
         if (!hitsPlayer)
@@ -427,7 +476,16 @@ public sealed class BlueRobotEnemy : MonoBehaviour
 
         lastHitTime = Time.time;
         currentHealth--;
-        if (currentHealth > 0) return false;
+        if (currentHealth > 0)
+        {
+            // Flinch between bursts, not mid-burst, and not on every bullet of a spray.
+            if (!bursting && Time.time - lastFlinchTime > 1.2f)
+            {
+                lastFlinchTime = Time.time;
+                PlayState("Take Damage", 0.05f);
+            }
+            return false;
+        }
 
         StartCoroutine(DeathRoutine());
         return true;
@@ -435,13 +493,26 @@ public sealed class BlueRobotEnemy : MonoBehaviour
 
     private IEnumerator DeathRoutine()
     {
-        dead = true;
         foreach (Collider hitCollider in GetComponentsInChildren<Collider>())
             hitCollider.enabled = false;
         foreach (LineRenderer tracer in tracers)
             if (tracer != null) tracer.enabled = false;
         foreach (Light muzzleLight in muzzleLights)
             if (muzzleLight != null) muzzleLight.intensity = 0f;
+        CombatAudio.EnemyDeath(BarAnchor,
+            variant == RobotVariant.Blast ? CombatAudio.Death.Explosion : CombatAudio.Death.Metal);
+
+        if (combatAnimator)
+        {
+            // The combat controller's Die has no way out, so it holds its last frame.
+            animator.CrossFadeInFixedTime("Die", 0.06f);
+            dead = true;
+            yield return new WaitForSeconds(2.4f);
+            Destroy(gameObject);
+            yield break;
+        }
+
+        dead = true;
         if (animator != null) animator.enabled = false;
 
         Quaternion startRotation = transform.rotation;

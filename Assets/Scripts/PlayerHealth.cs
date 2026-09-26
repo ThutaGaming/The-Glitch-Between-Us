@@ -71,12 +71,19 @@ public sealed class PlayerHealth : MonoBehaviour
             return;
         }
         dotAccumulator -= whole;
-        ApplyDamage(whole);
+        // No hurt sound here: a hazard ticks many times a second.
+        Deal(whole);
     }
 
+    /// <summary>A hit from an enemy shot or blast; also plays the player-hurt sound.</summary>
     public void ApplyDamage(int amount)
     {
-        if (IsDead || amount <= 0) return;
+        if (Deal(amount)) CombatAudio.PlayerHurt();
+    }
+
+    private bool Deal(int amount)
+    {
+        if (IsDead || amount <= 0) return false;
 
         currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
         LastDamageTime = Time.time;
@@ -88,6 +95,7 @@ public sealed class PlayerHealth : MonoBehaviour
             IsDead = true;
             Died?.Invoke();
         }
+        return true;
     }
 
     public void Heal(int amount)

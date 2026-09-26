@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33f4a7e7fd6c05a4ea7b6ee4c3833fbb, type: 3}
+  m_Name: CombatAudioLibrary
+  m_EditorClassIdentifier: 
+  playerHurt:
+  - {fileID: 8300000, guid: 172f576bc4226094180d5993f9325d57, type: 3}
+  - {fileID: 8300000, guid: ead9439cc21260d44b99cc5037814e27, type: 3}
+  - {fileID: 8300000, guid: 26c5b6d560a62c946accc4e4207b66cc, type: 3}
+  - {fileID: 8300000, guid: 37e08e3552104a248a91d21d637ef2f4, type: 3}
+  playerHurtVolume: 0.75
+  hitConfirm:
+  - {fileID: 8300000, guid: 7cb7865f0082e4444b2e6ce47a91f060, type: 3}
+  - {fileID: 8300000, guid: 0da16314dc08f8f489d1e056f186c460, type: 3}
+  - {fileID: 8300000, guid: adf86cf44997d294a80cb0abe5c24afb, type: 3}
+  - {fileID: 8300000, guid: fb3f57a548fb1074f9ccb53fc6751bf0, type: 3}
+  - {fileID: 8300000, guid: caba31259ffe1d446a436dfe54ba773e, type: 3}
+  hitConfirmVolume: 0.35
+  fleshDeath:
+  - {fileID: 8300000, guid: 3ba5e26ab3bf72d4697e4b3b1e340933, type: 3}
+  metalDeath:
+  - {fileID: 8300000, guid: 7cb7865f0082e4444b2e6ce47a91f060, type: 3}
+  - {fileID: 8300000, guid: 0da16314dc08f8f489d1e056f186c460, type: 3}
+  - {fileID: 8300000, guid: adf86cf44997d294a80cb0abe5c24afb, type: 3}
+  - {fileID: 8300000, guid: fb3f57a548fb1074f9ccb53fc6751bf0, type: 3}
+  - {fileID: 8300000, guid: caba31259ffe1d446a436dfe54ba773e, type: 3}
+  explosion:
+  - {fileID: 8300000, guid: 75f8e14a4e177484a92f318e46c9fa34, type: 3}
+  - {fileID: 8300000, guid: 4172b95278d0adf468a43413cb25c266, type: 3}
+  - {fileID: 8300000, guid: fac766d719e16e847b956d1433580c9d, type: 3}
+  - {fileID: 8300000, guid: aace929ff231c2c44b11cb9d81e49f80, type: 3}
+  - {fileID: 8300000, guid: 8ab79e12da1853c4f9c1b131df2b9c68, type: 3}
+  - {fileID: 8300000, guid: 739db4952129f0242b7aa842bd022a17, type: 3}
+  deathVolume: 0.9

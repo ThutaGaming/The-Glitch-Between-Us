@@ -30,7 +30,7 @@ public class TerminalInteractionBridge : MonoBehaviour
     void Update()
     {
         var cam = FindPlayerCamera();
-        if (cam == null || terminal == null) return;
+        if (cam == null || terminal == null || terminal.IsSolved) return;
 
         if (IsPlayerNear(cam) && Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
             // The camera sits deep under the Player root (Player/.../SOCKET_Camera/Camera); Movement,
@@ -52,7 +52,7 @@ public class TerminalInteractionBridge : MonoBehaviour
     void OnGUI()
     {
         var cam = FindPlayerCamera();
-        if (cam == null || !IsPlayerNear(cam)) return;
+        if (cam == null || terminal == null || terminal.IsSolved || !IsPlayerNear(cam)) return;
 
         var style = new GUIStyle(GUI.skin.label)
         {

@@ -422,7 +422,7 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
     {
         Vector3 start = muzzle.position;
         Vector3 aim = PlayerAimPoint;
-        bool accurate = Random.value <= hitChance;
+        bool accurate = Random.value <= EnemyAccuracy.Scale(hitChance, transform.position, player);
         if (!accurate)
         {
             Vector3 sideways = Vector3.Cross((aim - start).normalized, Vector3.up).normalized;
@@ -502,6 +502,7 @@ public sealed class RobotSoldierBlueEnemy : MonoBehaviour
         if (tracer != null) tracer.enabled = false;
         if (muzzleFlash != null) muzzleFlash.intensity = 0f;
         PlayAnimation("Die");
+        CombatAudio.EnemyDeath(BarAnchor, CombatAudio.Death.Metal);
         yield return new WaitForSeconds(2.1f);
         Destroy(gameObject);
     }

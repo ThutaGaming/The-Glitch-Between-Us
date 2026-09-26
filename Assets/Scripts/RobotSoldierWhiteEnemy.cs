@@ -59,6 +59,10 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
         animator = GetComponent<Animator>();
         if (animator != null)
         {
+            // SciFiWarrior is a demo reel that drifts from idle through ducking, reloads and jumps
+            // into Die on its own; the combat copy (EnemyCombatAnimatorBuilder) only moves when told.
+            var combat = Resources.Load<RuntimeAnimatorController>("EnemyAnimators/SciFiWarrior Combat");
+            if (combat != null) animator.runtimeAnimatorController = combat;
             animator.applyRootMotion = false;
             animator.Play("Idle_Shoot_Ar", 0, Random.Range(0f, 1f));
         }
@@ -256,14 +260,16 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
         Vector3 source = GetMuzzleWorldPosition(target);
         recoil = 1f;
 
-        StartCoroutine(ShowShot(source, target));
+        // Roll first so a miss also looks like one: the tracer goes past the player, not into them.
+        bool hits = Random.value <= EnemyAccuracy.Scale(hitChance, transform.position, player);
+        StartCoroutine(ShowShot(source, hits ? target : EnemyAccuracy.MissPoint(source, target)));
         if (shotClips != null && shotClips.Length > 0 && audioSource != null)
         {
             audioSource.pitch = Random.Range(0.94f, 1.04f);
             audioSource.PlayOneShot(shotClips[Random.Range(0, shotClips.Length)]);
         }
 
-        if (playerHealth != null && Random.value <= hitChance)
+        if (playerHealth != null && hits)
         {
             playerHealth.ApplyDamage(damagePerShot);
             if (hitFeedback != null) hitFeedback.Notify(transform.position);
@@ -346,6 +352,7 @@ public sealed class RobotSoldierWhiteEnemy : MonoBehaviour
 
         if (animator != null && animator.runtimeAnimatorController != null)
             animator.CrossFade("Die", 0.08f);
+        CombatAudio.EnemyDeath(BarAnchor, CombatAudio.Death.Metal);
 
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
