@@ -141,9 +141,30 @@ public class StandaloneTurretShotDetector : MonoBehaviour
         return true;
     }
 
+    private StandaloneTurretEnemy[] turretList = new StandaloneTurretEnemy[0];
+    private StandaloneMechEnemy[] mechList = new StandaloneMechEnemy[0];
+    private RobotSoldierWhiteEnemy[] whiteList = new RobotSoldierWhiteEnemy[0];
+    private RobotSoldierBlueEnemy[] blueList = new RobotSoldierBlueEnemy[0];
+    private BlueRobotEnemy[] robotList = new BlueRobotEnemy[0];
+    private float listsRefreshAt;
+
+    /// <summary>Searching the whole scene is slow in these big levels, so the enemy lists are
+    /// looked up once a second instead of on every GUI event.</summary>
+    private void RefreshLists()
+    {
+        turretList = FindObjectsByType<StandaloneTurretEnemy>(FindObjectsSortMode.None);
+        mechList = FindObjectsByType<StandaloneMechEnemy>(FindObjectsSortMode.None);
+        whiteList = FindObjectsByType<RobotSoldierWhiteEnemy>(FindObjectsSortMode.None);
+        blueList = FindObjectsByType<RobotSoldierBlueEnemy>(FindObjectsSortMode.None);
+        robotList = FindObjectsByType<BlueRobotEnemy>(FindObjectsSortMode.None);
+        listsRefreshAt = Time.unscaledTime + 1f;
+    }
+
     private void OnGUI()
     {
-        if (mainCamera == null) return;
+        // Draw-only: nothing to do on layout or input events.
+        if (mainCamera == null || Event.current.type != EventType.Repaint) return;
+        if (Time.unscaledTime >= listsRefreshAt) RefreshLists();
 
         float markerAge = Time.time - hitMarkerTime;
         if (markerAge < 0.18f)
@@ -161,36 +182,36 @@ public class StandaloneTurretShotDetector : MonoBehaviour
             GUI.color = Color.white;
         }
 
-        foreach (var t in FindObjectsByType<StandaloneTurretEnemy>(FindObjectsSortMode.None))
+        foreach (var t in turretList)
         {
-            if (t.IsDead) continue;
+            if (t == null || t.IsDead) continue;
             bool recentlyHit = Time.time - t.LastHitTime < 2.5f;
             if (!recentlyHit && !HasLineOfSight(t.BarAnchor)) continue;
 
             DrawHealthBar(t.BarAnchor, (float)t.Health / Mathf.Max(1, t.MaxHealth));
         }
 
-        foreach (var m in FindObjectsByType<StandaloneMechEnemy>(FindObjectsSortMode.None))
+        foreach (var m in mechList)
         {
-            if (m.IsDead) continue;
+            if (m == null || m.IsDead) continue;
             bool recentlyHit = Time.time - m.LastHitTime < 2.5f;
             if (!recentlyHit && !HasLineOfSight(m.BarAnchor)) continue;
 
             DrawHealthBar(m.BarAnchor, (float)m.Health / Mathf.Max(1, m.MaxHealth));
         }
 
-        foreach (var soldier in FindObjectsByType<RobotSoldierWhiteEnemy>(FindObjectsSortMode.None))
+        foreach (var soldier in whiteList)
         {
-            if (soldier.IsDead) continue;
+            if (soldier == null || soldier.IsDead) continue;
             bool recentlyHit = Time.time - soldier.LastHitTime < 2.5f;
             if (!recentlyHit && !HasLineOfSight(soldier.BarAnchor)) continue;
 
             DrawHealthBar(soldier.BarAnchor, (float)soldier.Health / Mathf.Max(1, soldier.MaxHealth));
         }
 
-        foreach (var blueSoldier in FindObjectsByType<RobotSoldierBlueEnemy>(FindObjectsSortMode.None))
+        foreach (var blueSoldier in blueList)
         {
-            if (blueSoldier.IsDead) continue;
+            if (blueSoldier == null || blueSoldier.IsDead) continue;
             bool recentlyHit = Time.time - blueSoldier.LastHitTime < 2.5f;
             if (!recentlyHit && !HasLineOfSight(blueSoldier.BarAnchor)) continue;
 
@@ -198,9 +219,9 @@ public class StandaloneTurretShotDetector : MonoBehaviour
                 (float)blueSoldier.Health / Mathf.Max(1, blueSoldier.MaxHealth));
         }
 
-        foreach (var blueRobot in FindObjectsByType<BlueRobotEnemy>(FindObjectsSortMode.None))
+        foreach (var blueRobot in robotList)
         {
-            if (blueRobot.IsDead) continue;
+            if (blueRobot == null || blueRobot.IsDead) continue;
             bool recentlyHit = Time.time - blueRobot.LastHitTime < 2.5f;
             if (!recentlyHit && !HasLineOfSight(blueRobot.BarAnchor)) continue;
 

@@ -2530,6 +2530,7 @@ MonoBehaviour:
   currentHealth: 100
   regenDelay: 4.5
   regenPerSecond: 11
+  spawnProtection: 4
 --- !u!114 &111159193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5823,8 +5824,9 @@ MonoBehaviour:
   shotClips:
   - {fileID: 8300000, guid: 9e9480b4d07646942b555fd43f2a0f71, type: 3}
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
-  gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
-  gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
+  gunLocalPosition: {x: 0.0609, y: -0.001, z: 0.0106}
+  gunLocalEuler: {x: 9.21, y: 95.07, z: 85.12}
+  keepGunLevel: 1
   tuning:
     maxHealth: 3
     damagePerHit: 8
@@ -5891,7 +5893,19 @@ MonoBehaviour:
   drivesMissionHud: 0
   onCleared:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 397570182}
+        m_TargetAssemblyTypeName: EncounterGroup, Assembly-CSharp
+        m_MethodName: NotifyCleared
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startDelay: 2.5
   exitStagger: 0.9
   maxAttackers: 2
@@ -7167,6 +7181,97 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0fec0e1774acf4c9cb0522dd62f5ceb2, type: 3}
+--- !u!1 &397570181
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 397570183}
+  - component: {fileID: 397570182}
+  m_Layer: 0
+  m_Name: Floors_EncounterGroup
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &397570182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397570181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2fa529545856dd48ba0ef9bfbce5a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mission: {fileID: 1306061214}
+  objective: Eliminate the hostiles on every floor
+  encounterCount: 4
+  members:
+  - {fileID: 1482750783}
+  - {fileID: 1800727904}
+  - {fileID: 285273576}
+  - {fileID: 426513271}
+  onAllCleared:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1306061214}
+        m_TargetAssemblyTypeName: MissionHUD, Assembly-CSharp
+        m_MethodName: SetObjective
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Proceed to the door leading to Floor 3.
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1176557222}
+        m_TargetAssemblyTypeName: ObjectiveGlow, Assembly-CSharp
+        m_MethodName: SetGlowing
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1285613620}
+        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
+        m_MethodName: Arm
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!4 &397570183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 397570181}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &398805013 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400002, guid: 61485a9a68e6845828d6e61f3d353298,
@@ -7528,8 +7633,9 @@ MonoBehaviour:
   shotClips:
   - {fileID: 8300000, guid: 9e9480b4d07646942b555fd43f2a0f71, type: 3}
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
-  gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
-  gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
+  gunLocalPosition: {x: 0.0609, y: -0.001, z: 0.0106}
+  gunLocalEuler: {x: 9.21, y: 95.07, z: 85.12}
+  keepGunLevel: 1
   tuning:
     maxHealth: 4
     damagePerHit: 8
@@ -7584,7 +7690,19 @@ MonoBehaviour:
   drivesMissionHud: 0
   onCleared:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 397570182}
+        m_TargetAssemblyTypeName: EncounterGroup, Assembly-CSharp
+        m_MethodName: NotifyCleared
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startDelay: 2.5
   exitStagger: 0.9
   maxAttackers: 3
@@ -9366,6 +9484,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800020, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800022, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10291,6 +10425,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 8a0669be60aaf43bc84e95a66b4f5248, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 8a0669be60aaf43bc84e95a66b4f5248, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800006, guid: 8a0669be60aaf43bc84e95a66b4f5248, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14838,6 +14980,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -20967,6 +21117,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800020, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800022, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22058,15 +22224,15 @@ MonoBehaviour:
   speaker: 
   lines: []
   holdPerLine: 0
-  objective: Proceed to the door leading to Floor 3.
+  objective: 
   objectiveDelay: 0
-  objectiveGlow: {fileID: 1176557222}
+  objectiveGlow: {fileID: 0}
   onFinished:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1285613620}
-        m_TargetAssemblyTypeName: LevelExitDoor, Assembly-CSharp
-        m_MethodName: Arm
+      - m_Target: {fileID: 397570182}
+        m_TargetAssemblyTypeName: EncounterGroup, Assembly-CSharp
+        m_MethodName: Begin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25168,8 +25334,9 @@ MonoBehaviour:
   shotClips:
   - {fileID: 8300000, guid: 9e9480b4d07646942b555fd43f2a0f71, type: 3}
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
-  gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
-  gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
+  gunLocalPosition: {x: 0.0609, y: -0.001, z: 0.0106}
+  gunLocalEuler: {x: 9.21, y: 95.07, z: 85.12}
+  keepGunLevel: 1
   tuning:
     maxHealth: 3
     damagePerHit: 8
@@ -25248,7 +25415,19 @@ MonoBehaviour:
   drivesMissionHud: 0
   onCleared:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 397570182}
+        m_TargetAssemblyTypeName: EncounterGroup, Assembly-CSharp
+        m_MethodName: NotifyCleared
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startDelay: 2.5
   exitStagger: 0.9
   maxAttackers: 2
@@ -27434,6 +27613,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800020, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800022, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28351,6 +28546,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -30825,8 +31028,9 @@ MonoBehaviour:
   shotClips:
   - {fileID: 8300000, guid: 9e9480b4d07646942b555fd43f2a0f71, type: 3}
   - {fileID: 8300000, guid: 0addcc409a57b4a43b86a3d2310ac5b4, type: 3}
-  gunLocalPosition: {x: 0.09, y: 0.04, z: -0.01}
-  gunLocalEuler: {x: 347.67, y: 79.91, z: 272.66}
+  gunLocalPosition: {x: 0.0609, y: -0.001, z: 0.0106}
+  gunLocalEuler: {x: 9.21, y: 95.07, z: 85.12}
+  keepGunLevel: 1
   tuning:
     maxHealth: 3
     damagePerHit: 8
@@ -30869,7 +31073,19 @@ MonoBehaviour:
   drivesMissionHud: 0
   onCleared:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 397570182}
+        m_TargetAssemblyTypeName: EncounterGroup, Assembly-CSharp
+        m_MethodName: NotifyCleared
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   startDelay: 2.5
   exitStagger: 0.9
   maxAttackers: 2
@@ -31868,6 +32084,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800020, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800022, guid: 61485a9a68e6845828d6e61f3d353298, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -35443,6 +35675,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: c51b37d9d63a14b1a92a490f9b9ae19d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36546,3 +36786,4 @@ SceneRoots:
   - {fileID: 2128817656}
   - {fileID: 2073924687}
   - {fileID: 1958443276}
+  - {fileID: 397570183}

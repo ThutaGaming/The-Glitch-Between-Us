@@ -54,6 +54,11 @@ public class EnemyAI2 : MonoBehaviour
     private int roamIndex;
     private float flinchUntil;
 
+    private Transform gun;
+
+    /// <summary>Hold the pistol level along the body's facing (set by the manager).</summary>
+    public bool KeepGunLevel { get; set; }
+
     public bool IsDead => state == State.Dead;
     public int Health => health;
     public int MaxHealth => maxHealth;
@@ -68,6 +73,8 @@ public class EnemyAI2 : MonoBehaviour
         route = enemyRoute;
         laneSign = lane;
         shotClips = clips;
+        // The soldier models are film-quality meshes; cheaper shadows and a distance LOD.
+        HeavyMeshOptimizer.OptimizeCharacter(gameObject, soldierLod: true);
 
         if (tuning != null)
         {
@@ -113,13 +120,13 @@ public class EnemyAI2 : MonoBehaviour
 
         if (gunPrefab != null && hand != null)
         {
-            var gun = Instantiate(gunPrefab, hand);
-            gun.transform.localPosition = gunPos;
-            gun.transform.localRotation = Quaternion.Euler(gunEuler);
+            gun = Instantiate(gunPrefab, hand).transform;
+            gun.localPosition = gunPos;
+            gun.localRotation = Quaternion.Euler(gunEuler);
             // Keep the pistol real-size even on a scaled-up character.
-            gun.transform.localScale = Vector3.one / Mathf.Max(0.001f, hand.lossyScale.x);
+            gun.localScale = Vector3.one / Mathf.Max(0.001f, hand.lossyScale.x);
             muzzle = new GameObject("Muzzle").transform;
-            muzzle.SetParent(gun.transform, false);
+            muzzle.SetParent(gun, false);
             muzzle.localPosition = new Vector3(0f, 0.049f, 0.175f);
         }
         else
@@ -573,6 +580,17 @@ public class EnemyAI2 : MonoBehaviour
     }
 
     private static Vector3 Flat(Vector3 v) => new Vector3(v.x, 0f, v.z);
+
+    // The rifle animations drop the hand to the hip while running, which tipped the one-handed
+    // pistol ~50 degrees down and sideways; after the animator has posed the hand, hold the
+    // pistol level along the way the body faces instead (the aim poses already point it there).
+    private void LateUpdate()
+    {
+        if (!KeepGunLevel || gun == null || state == State.Dead) return;
+        Vector3 fwd = Flat(transform.forward);
+        if (fwd.sqrMagnitude < 0.0001f) return;
+        gun.rotation = Quaternion.LookRotation(fwd.normalized, Vector3.up);
+    }
 
     private void PlayAnim(string stateName, bool restart = false)
     {

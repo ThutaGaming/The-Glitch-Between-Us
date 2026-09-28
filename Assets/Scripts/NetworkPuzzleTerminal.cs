@@ -78,6 +78,7 @@ public class NetworkPuzzleTerminal : MonoBehaviour, IInteractable
 
         if (Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame && !solved)
         {
+            PauseMenu.ConsumeEscape();
             Close();
         }
     }

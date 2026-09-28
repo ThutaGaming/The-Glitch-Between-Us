@@ -6,6 +6,9 @@ using UnityEngine;
 /// </summary>
 public class MouseLook : MonoBehaviour
 {
+    // The frame time the sensitivity was tuned at (60 fps).
+    private const float ReferenceFrameTime = 1f / 60f;
+
     [Header("References")]
     [SerializeField] private Transform playerBody;
     [SerializeField] private Transform cameraTransform;
@@ -40,8 +43,12 @@ public class MouseLook : MonoBehaviour
 
     private void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+        // GameSettings.Sensitivity is the player's multiplier from the pause menu. The mouse axes
+        // are already this frame's movement, so they're scaled by a fixed 60 fps step rather than
+        // Time.deltaTime - otherwise the view turns faster on a laptop that runs slower.
+        float sensitivity = mouseSensitivity * GameSettings.Sensitivity * ReferenceFrameTime;
+        float mouseX = Input.GetAxis("Mouse X") * sensitivity;
+        float mouseY = Input.GetAxis("Mouse Y") * sensitivity;
 
         pitch = Mathf.Clamp(pitch - mouseY, minPitch, maxPitch);
 

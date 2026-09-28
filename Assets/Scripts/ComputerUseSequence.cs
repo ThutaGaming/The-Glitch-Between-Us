@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Sitting in `chair` cuts to a full-screen flat 2D "using the computer" interface - background,
@@ -108,6 +109,15 @@ public class ComputerUseSequence : MonoBehaviour
     [SerializeField] private float glitchShakeStrength = 14f;
     [Tooltip("Fires once the screen has gone fully black - hook the next story beat to this.")]
     public UnityEvent onPlayerFainted;
+    [Tooltip("Loaded once the screen has stayed black for blackHold seconds - Thuta comes to inside the game. Leave empty to stay on the black screen.")]
+    [SerializeField] private string nextSceneName = "Training Ground";
+    [SerializeField] private float blackHold = 1.5f;
+
+    [Header("Story Beat - Glitch sound")]
+    [Tooltip("Looped under the glitch, getting louder and more unstable with it, and cut dead when the screen goes black. Left empty, a harsh digital glitch is synthesised at runtime (the project has no glitch recording).")]
+    [SerializeField] private AudioClip glitchClip;
+    [Range(0f, 1f)]
+    [SerializeField] private float glitchVolume = 0.5f;
 
     [Header("Screen glow (used for both the mail shortcut and the link, while their objective is active)")]
     [SerializeField] private Color glowColor = new Color(0.35f, 0.55f, 1f, 1f);
@@ -132,6 +142,9 @@ public class ComputerUseSequence : MonoBehaviour
     private bool isGlitching;
     private float glitchIntensity;
     private float blackoutAlpha;
+    private AudioSource glitchSource;
+    private AudioClip generatedGlitchClip;
+    private float nextGlitchPitchTime;
 
     private static readonly Color[] GlitchStreakColors =
     {
@@ -226,6 +239,7 @@ public class ComputerUseSequence : MonoBehaviour
                 if (t != null) Destroy(t);
             }
         }
+        if (generatedGlitchClip != null) Destroy(generatedGlitchClip);
     }
 
     private void HandleSat()
@@ -255,6 +269,7 @@ public class ComputerUseSequence : MonoBehaviour
 
     private void Update()
     {
+        UpdateGlitchSound();
         if (!isUsing) return;
 
         if (!loaded)
@@ -372,11 +387,12 @@ public class ComputerUseSequence : MonoBehaviour
 
     /// <summary>Rough, shaking chromatic glitch that builds up while Thuta reacts partway
     /// through, then a hard fade to black once he's said his line - the "player faints" beat.
-    /// onPlayerFainted fires once the screen is fully black, for whatever comes next to hook
-    /// onto.</summary>
+    /// onPlayerFainted fires once the screen is fully black, and after blackHold the game world
+    /// (nextSceneName, Training Ground) loads with its own Player.</summary>
     private IEnumerator GlitchAndFaintRoutine()
     {
         isGlitching = true;
+        StartGlitchSound();
         bool linePlayed = false;
 
         float t = 0f;
@@ -409,8 +425,110 @@ public class ComputerUseSequence : MonoBehaviour
         }
         blackoutAlpha = 1f;
         isGlitching = false;
+        // Cut dead with the picture - the silence is the faint.
+        if (glitchSource != null) glitchSource.Stop();
 
         onPlayerFainted?.Invoke();
+
+        if (string.IsNullOrEmpty(nextSceneName)) yield break;
+        yield return new WaitForSeconds(blackHold);
+        // The computer screen freed the cursor; the FPS player in the next scene needs it captured.
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        SceneManager.LoadScene(nextSceneName);
+    }
+
+    private void StartGlitchSound()
+    {
+        AudioClip clip = glitchClip;
+        if (clip == null)
+        {
+            if (generatedGlitchClip == null) generatedGlitchClip = BuildGlitchClip();
+            clip = generatedGlitchClip;
+        }
+
+        if (glitchSource == null)
+        {
+            glitchSource = gameObject.AddComponent<AudioSource>();
+            glitchSource.playOnAwake = false;
+            glitchSource.spatialBlend = 0f;
+            glitchSource.loop = true;
+        }
+        glitchSource.clip = clip;
+        glitchSource.volume = 0f;
+        glitchSource.Play();
+        nextGlitchPitchTime = 0f;
+    }
+
+    /// <summary>Louder and more unstable as the glitch builds: the pitch jumps around in short,
+    /// random steps, which makes one looping clip stutter like a broken signal.</summary>
+    private void UpdateGlitchSound()
+    {
+        if (glitchSource == null || !glitchSource.isPlaying) return;
+
+        glitchSource.volume = glitchVolume * Mathf.Lerp(0.25f, 1f, glitchIntensity);
+        if (Time.time >= nextGlitchPitchTime)
+        {
+            glitchSource.pitch = Random.Range(Mathf.Lerp(0.9f, 0.55f, glitchIntensity), Mathf.Lerp(1.1f, 1.7f, glitchIntensity));
+            nextGlitchPitchTime = Time.time + Random.Range(0.04f, Mathf.Lerp(0.25f, 0.1f, glitchIntensity));
+        }
+    }
+
+    /// <summary>
+    /// A 2.4 s loop of broken-signal noise made from short random chunks: bit-crushed static,
+    /// square-wave buzz, rising saw sweeps, mains hum with hiss, and dead-air dropouts, all
+    /// quantised to a few levels so it sounds digital. Seeded, so it is the same every time.
+    /// </summary>
+    private static AudioClip BuildGlitchClip()
+    {
+        const int rate = 44100;
+        int count = Mathf.RoundToInt(rate * 2.4f);
+        var data = new float[count];
+        var rng = new System.Random(20260926);
+
+        int i = 0;
+        while (i < count)
+        {
+            int length = (int)(rate * (0.015 + rng.NextDouble() * 0.11));
+            int kind = rng.Next(5);
+            float amp = 0.12f + (float)rng.NextDouble() * 0.2f;
+            float freq = 60f + (float)rng.NextDouble() * 1800f;
+            int hold = 1 + rng.Next(24);
+            float held = 0f;
+            float phase = 0f;
+
+            for (int s = 0; s < length && i < count; s++, i++)
+            {
+                float v;
+                switch (kind)
+                {
+                    case 0: // static, sample-and-held so it sounds crushed
+                        if (s % hold == 0) held = (float)(rng.NextDouble() * 2.0 - 1.0);
+                        v = held;
+                        break;
+                    case 1: // square buzz
+                        phase += freq / rate;
+                        v = (phase % 1f) < 0.5f ? 1f : -1f;
+                        break;
+                    case 2: // saw sweeping upward
+                        phase += freq * (1f + 3f * s / length) / rate;
+                        v = (phase % 1f) * 2f - 1f;
+                        break;
+                    case 3: // dropout
+                        v = 0f;
+                        break;
+                    default: // mains hum with hiss
+                        phase += 50f / rate;
+                        v = ((phase % 1f) < 0.5f ? 0.6f : -0.6f) + (float)(rng.NextDouble() * 2.0 - 1.0) * 0.4f;
+                        break;
+                }
+                data[i] = Mathf.Round(v * 6f) / 6f * amp;
+            }
+        }
+
+        var clip = AudioClip.Create("Glitch (generated)", count, 1, rate, false);
+        clip.SetData(data, 0);
+        return clip;
     }
 
     private void OnGUI()

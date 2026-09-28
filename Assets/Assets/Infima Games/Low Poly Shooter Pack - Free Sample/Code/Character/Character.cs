@@ -145,7 +145,7 @@ namespace InfimaGames.LowPolyShooterPack
 		private bool tutorialTextVisible;
 
 		/// <summary>
-		/// True if the game cursor is locked! Used when pressing "Escape" to allow developers to more easily access the editor.
+		/// True if the game cursor is locked. The game's PauseMenu frees it (SetCursorLocked) while paused.
 		/// </summary>
 		private bool cursorLocked;
 
@@ -251,7 +251,17 @@ namespace InfimaGames.LowPolyShooterPack
 		
 		public override bool IsAiming() => aiming;
 		public override bool IsCursorLocked() => cursorLocked;
-		
+
+		/// <summary>
+		/// Locks or frees the cursor. While it is free the character ignores look, move and fire
+		/// input - the game's PauseMenu uses this to freeze the player behind the menu.
+		/// </summary>
+		public void SetCursorLocked(bool locked)
+		{
+			cursorLocked = locked;
+			UpdateCursorState();
+		}
+
 		public override bool IsTutorialTextVisible() => tutorialTextVisible;
 		
 		public override Vector2 GetInputMovement() => axisMovement;
@@ -770,17 +780,8 @@ private void RefreshWeaponSetup()
 		
 		public void OnLockCursor(InputAction.CallbackContext context)
 		{
-			//Switch.
-			switch (context)
-			{
-				//Performed.
-				case {phase: InputActionPhase.Performed}:
-					//Toggle the cursor locked value.
-					cursorLocked = !cursorLocked;
-					//Update the cursor's state.
-					UpdateCursorState();
-					break;
-			}
+			// Escape now opens the game's PauseMenu, which frees and re-locks the cursor itself
+			// through SetCursorLocked. Toggling here too would leave the two out of step.
 		}
 		
 		/// <summary>

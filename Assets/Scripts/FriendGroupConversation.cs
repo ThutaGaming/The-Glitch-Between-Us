@@ -137,6 +137,7 @@ public class FriendGroupConversation : MonoBehaviour, IInteractable
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            PauseMenu.ConsumeEscape();
             CloseMenu();
             return;
         }

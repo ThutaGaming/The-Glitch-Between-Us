@@ -80,6 +80,7 @@ public class DeskWakeUpSequence : MonoBehaviour
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
         pending = false;
+        SaveCheckpoint.MarkVariant(SaveCheckpoint.DeskWakeUp);
         sequence.Begin();
     }
 

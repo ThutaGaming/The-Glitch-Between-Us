@@ -67,6 +67,7 @@ public class LateSchoolArrivalSequence : MonoBehaviour
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
         pending = false;
+        SaveCheckpoint.MarkVariant(SaveCheckpoint.LateSchool);
         sequence.Begin();
     }
 

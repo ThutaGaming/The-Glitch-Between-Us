@@ -94,8 +94,8 @@ namespace InfimaGames.LowPolyShooterPack
             if (float.IsNaN(frameInput.x) || float.IsNaN(frameInput.y)
                 || float.IsInfinity(frameInput.x) || float.IsInfinity(frameInput.y))
                 frameInput = Vector2.zero;
-            //Sensitivity.
-            frameInput *= sensitivity;
+            //Sensitivity, times the player's setting from the pause menu.
+            frameInput *= sensitivity * GameSettings.Sensitivity;
 
             //Pitch. A plain clamped angle, so the view stops at the limits instead of flipping over.
             pitch = Mathf.Clamp(pitch - frameInput.y, yClamp.x, yClamp.y);

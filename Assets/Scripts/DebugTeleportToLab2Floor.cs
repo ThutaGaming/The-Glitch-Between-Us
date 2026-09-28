@@ -45,10 +45,13 @@ public class DebugTeleportToLab2Floor : MonoBehaviour
         return null;
     }
 
+    // Editor and development builds only - a release build must not let players skip the level.
     private void Update()
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Keyboard.current != null && Keyboard.current.digit8Key.wasPressedThisFrame)
             Teleport();
+#endif
     }
 
     private void Teleport()

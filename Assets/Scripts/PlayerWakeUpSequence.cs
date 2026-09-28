@@ -32,6 +32,8 @@ public class PlayerWakeUpSequence : MonoBehaviour
     [SerializeField] private float lyingPitch = -75f;
     [SerializeField] private float sittingPitch = 0f;
     [SerializeField] private float standingPitch = 0f;
+    [Tooltip("Head turned sideways while lying (degrees, positive = right), so the first thing seen is the lit room rather than a dark ceiling.")]
+    [SerializeField] private float lyingYaw = 0f;
 
     [Header("Turn")]
     [SerializeField] private float turnRightYaw = 90f;
@@ -53,6 +55,38 @@ public class PlayerWakeUpSequence : MonoBehaviour
     [SerializeField] private LayerMask groundMask = ~0;
     [SerializeField] private float groundProbeUpOffset = 2f;
     [SerializeField] private float groundProbeMaxDistance = 10f;
+
+    [System.Serializable]
+    public struct EyeStep
+    {
+        [Tooltip("Where the eyelids end up: 0 shut, 1 fully open.")]
+        [Range(0f, 1f)] public float openness;
+        public float duration;
+        public float hold;
+
+        public EyeStep(float openness, float duration, float hold)
+        {
+            this.openness = openness;
+            this.duration = duration;
+            this.hold = hold;
+        }
+    }
+
+    [Header("Eyes Opening (while still lying down)")]
+    [SerializeField] private bool playEyesOpening = true;
+    [Tooltip("Black screen before the eyes first crack open.")]
+    [SerializeField] private float eyesShutHold = 1.0f;
+    [Tooltip("Heavy, sleepy blinks: each step moves the eyelids to 'openness' over 'duration', then holds.")]
+    [SerializeField] private EyeStep[] eyeSteps =
+    {
+        new EyeStep(0.30f, 1.00f, 0.40f),   // eyes crack open
+        new EyeStep(0.00f, 0.30f, 0.40f),   // too heavy - shut again
+        new EyeStep(0.55f, 0.80f, 0.30f),   // a little wider
+        new EyeStep(0.05f, 0.15f, 0.05f),   // blink
+        new EyeStep(1.00f, 0.90f, 0.20f),   // awake
+    };
+    [Tooltip("Slow, drowsy head drift while the eyes open, in degrees.")]
+    [SerializeField] private float drowsySway = 1.5f;
 
     [Header("Control Lockout")]
     [Tooltip("Movement/look scripts to disable while the wake-up sequence plays, re-enabled afterward.")]
@@ -81,6 +115,7 @@ public class PlayerWakeUpSequence : MonoBehaviour
         if (controller != null) controller.enabled = false;
 
         PoseLyingDown();
+        if (playEyesOpening) yield return OpenEyes();
         yield return new WaitForSeconds(lieHoldDuration);
 
         yield return LerpPose(lyingCameraHeight, sittingCameraHeight, lyingPitch, sittingPitch,
@@ -119,8 +154,55 @@ public class PlayerWakeUpSequence : MonoBehaviour
             Vector3 lp = playerCamera.localPosition;
             lp.y = lyingCameraHeight;
             playerCamera.localPosition = lp;
-            playerCamera.localRotation = Quaternion.Euler(lyingPitch, 0f, 0f);
+            playerCamera.localRotation = Quaternion.Euler(lyingPitch, lyingYaw, 0f);
         }
+    }
+
+    /// <summary>Starts with the eyes shut and blinks them open through <see cref="eyeSteps"/>,
+    /// while the head drifts a little, before he sits up.</summary>
+    private IEnumerator OpenEyes()
+    {
+        var eyes = gameObject.AddComponent<EyelidOverlay>();
+        eyes.Openness = 0f;
+
+        float total = eyesShutHold;
+        foreach (var step in eyeSteps) total += step.duration + step.hold;
+        StartCoroutine(DrowsySway(total));
+
+        yield return new WaitForSeconds(eyesShutHold);
+
+        float from = 0f;
+        foreach (var step in eyeSteps)
+        {
+            for (float t = 0f; t < step.duration; t += Time.deltaTime)
+            {
+                float k = Mathf.Clamp01(t / step.duration);
+                eyes.Openness = Mathf.Lerp(from, step.openness, k * k * (3f - 2f * k));
+                yield return null;
+            }
+            eyes.Openness = step.openness;
+            from = step.openness;
+            yield return new WaitForSeconds(step.hold);
+        }
+
+        Destroy(eyes);
+    }
+
+    /// <summary>Fades out by the end, so the sit-up starts from the plain lying pitch.</summary>
+    private IEnumerator DrowsySway(float duration)
+    {
+        if (playerCamera == null) yield break;
+
+        for (float t = 0f; t < duration; t += Time.deltaTime)
+        {
+            float amount = drowsySway * Mathf.Clamp01((duration - t) / 0.8f);
+            playerCamera.localRotation = Quaternion.Euler(
+                lyingPitch + Mathf.Sin(t * 0.8f) * amount,
+                lyingYaw + Mathf.Sin(t * 0.5f) * amount * 1.4f,
+                Mathf.Sin(t * 0.37f) * amount * 0.5f);
+            yield return null;
+        }
+        playerCamera.localRotation = Quaternion.Euler(lyingPitch, lyingYaw, 0f);
     }
 
     private IEnumerator LerpPose(float fromCamY, float toCamY, float fromPitch, float toPitch,
@@ -137,7 +219,7 @@ public class PlayerWakeUpSequence : MonoBehaviour
                 Vector3 lp = playerCamera.localPosition;
                 lp.y = Mathf.Lerp(fromCamY, toCamY, p);
                 playerCamera.localPosition = lp;
-                playerCamera.localRotation = Quaternion.Euler(Mathf.Lerp(fromPitch, toPitch, p), 0f, 0f);
+                playerCamera.localRotation = Quaternion.Euler(Mathf.Lerp(fromPitch, toPitch, p), Mathf.Lerp(lyingYaw, 0f, p), 0f);
             }
 
             if (controller != null)

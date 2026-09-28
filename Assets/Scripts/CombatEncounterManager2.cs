@@ -70,6 +70,9 @@ public class CombatEncounterManager2 : MonoBehaviour
     [SerializeField] private AudioClip[] shotClips;
     [SerializeField] private Vector3 gunLocalPosition = new Vector3(0.0968f, -0.0367f, 0.033f);
     [SerializeField] private Vector3 gunLocalEuler = new Vector3(4.02f, 74.71f, 82.85f);
+    [Tooltip("Hold each enemy's pistol level along its facing, overriding the hand pose (for rifle " +
+             "animations that carry the gun low at the hip while running).")]
+    [SerializeField] private bool keepGunLevel;
     [SerializeField] private EnemyTuning tuning = new EnemyTuning();
 
     [Header("Arena")]
@@ -168,6 +171,11 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private int TotalTargets => enemies.Count + TurretCount;
 
+    /// <summary>Hostiles this encounter will field (one per route, plus turrets), known before it spawns them.</summary>
+    public int PlannedTargets => (routes != null ? routes.Length : 0) + TurretCount;
+    /// <summary>Kills so far, turrets included - what the eliminate objective counts.</summary>
+    public int EliminatedCount => Eliminated;
+
     /// <summary>
     /// True as long as there's anyone left worth shooting at (or the squad hasn't spawned yet, so
     /// there's nothing to rule out). Deliberately independent of begun/Begin() - an idle ambush
@@ -261,6 +269,7 @@ public class CombatEncounterManager2 : MonoBehaviour
             var ai = t.gameObject.AddComponent<EnemyAI2>();
             float lane = LaneSignFor(routes[i], t);
             ai.Initialize(this, playerTransform, routes[i], lane, gunPrefab, gunLocalPosition, gunLocalEuler, enemyController, shotClips, fxMaterial, tuning);
+            ai.KeepGunLevel = keepGunLevel;
             enemies.Add(ai);
         }
     }
@@ -387,6 +396,7 @@ public class CombatEncounterManager2 : MonoBehaviour
                 var ai = go.AddComponent<EnemyAI2>();
                 float lane = LaneSignFor(routes[i], go.transform);
                 ai.Initialize(this, playerTransform, routes[i], lane, gunPrefab, gunLocalPosition, gunLocalEuler, enemyController, shotClips, fxMaterial, tuning);
+                ai.KeepGunLevel = keepGunLevel;
                 enemies.Add(ai);
             }
 
@@ -851,6 +861,8 @@ public class CombatEncounterManager2 : MonoBehaviour
 
     private void OnGUI()
     {
+        // Draw-only: skip layout and input events (the turret bars below cast rays).
+        if (Event.current.type != EventType.Repaint) return;
         var prev = GUI.color;
         var tex = Texture2D.whiteTexture;
 

@@ -24,10 +24,13 @@ public class DebugKillBoss : MonoBehaviour
             Debug.LogWarning("[DebugKillBoss] No Spider-Mech boss found in this scene.");
     }
 
+    // Editor and development builds only - a release build must not let players skip the fight.
     private void Update()
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Keyboard.current != null && Keyboard.current.digit8Key.wasPressedThisFrame && !pending)
             StartCoroutine(KillRoutine());
+#endif
     }
 
     private IEnumerator KillRoutine()

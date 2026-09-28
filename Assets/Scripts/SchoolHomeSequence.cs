@@ -122,12 +122,21 @@ public class SchoolHomeSequence : MonoBehaviour
 
         yield return ShowCaption(headingHomeLine);
 
-        pendingSpawnPosition = spawnPosition;
-        pendingSpawnRotation = Quaternion.Euler(0f, spawnYaw, 0f);
-        hasPendingSpawn = true;
-        SceneManager.sceneLoaded += ApplyPendingSpawn;
-
+        QueueHomecoming(spawnPosition, spawnYaw);
         SceneManager.LoadScene(bedroomSceneName);
+    }
+
+    /// <summary>
+    /// Makes the next Bedroom Scene load the homecoming: Thuta placed at the door, the morning
+    /// intro switched off and HomeArrivalSequence started. Also used by Continue
+    /// (SaveCheckpoint) to resume a save made after coming home.
+    /// </summary>
+    public static void QueueHomecoming(Vector3 position, float yaw)
+    {
+        pendingSpawnPosition = position;
+        pendingSpawnRotation = Quaternion.Euler(0f, yaw, 0f);
+        if (!hasPendingSpawn) SceneManager.sceneLoaded += ApplyPendingSpawn;
+        hasPendingSpawn = true;
     }
 
     /// <summary>
@@ -143,6 +152,9 @@ public class SchoolHomeSequence : MonoBehaviour
 
         var player = GameObject.Find("Player");
         if (player == null) return;
+
+        SaveCheckpoint.MarkVariant(SaveCheckpoint.HomeArrival);
+        SaveCheckpoint.SaveHomeSpawn(pendingSpawnPosition, pendingSpawnRotation.eulerAngles.y);
 
         // Bedroom Scene's own Start()-based morning intro (bed animation, "it's 8 o'clock"
         // dialogue) would otherwise fire right after this and drag the player back to bed -

@@ -8,7 +8,10 @@ public sealed class PlayerHealth : MonoBehaviour
     [Tooltip("Seconds without taking damage before health starts coming back.")]
     [SerializeField] private float regenDelay = 4f;
     [SerializeField] private float regenPerSecond = 12f;
+    [Tooltip("Seconds after the level starts during which the player can't be hurt, so an enemy that can already see the spawn doesn't land hits before the player can move.")]
+    [SerializeField] private float spawnProtection = 4f;
 
+    private float protectedUntil;
     private float regenAccumulator;
     private float dotAccumulator;
     private float regenBlockedUntil = -999f;
@@ -29,7 +32,15 @@ public sealed class PlayerHealth : MonoBehaviour
     /// <summary>Fires on every damage application, with the damage actually dealt.</summary>
     public event Action<int> Damaged;
 
-    private void Awake() => currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    /// <summary>True during the first seconds of a level, while damage is ignored.</summary>
+    public bool IsSpawnProtected => Time.time < protectedUntil;
+
+    private void Awake()
+    {
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        // Game time, so a briefing that pauses the level at the start doesn't use it up.
+        protectedUntil = Time.time + spawnProtection;
+    }
 
     private void Update()
     {
@@ -60,7 +71,7 @@ public sealed class PlayerHealth : MonoBehaviour
     /// </summary>
     public void ApplyDamageOverTime(float damagePerSecond)
     {
-        if (IsDead || damagePerSecond <= 0f) return;
+        if (IsDead || damagePerSecond <= 0f || IsSpawnProtected) return;
 
         dotAccumulator += damagePerSecond * Time.deltaTime;
         int whole = Mathf.FloorToInt(dotAccumulator);
@@ -83,7 +94,7 @@ public sealed class PlayerHealth : MonoBehaviour
 
     private bool Deal(int amount)
     {
-        if (IsDead || amount <= 0) return false;
+        if (IsDead || amount <= 0 || IsSpawnProtected) return false;
 
         currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
         LastDamageTime = Time.time;

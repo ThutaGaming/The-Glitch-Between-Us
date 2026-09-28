@@ -13,10 +13,13 @@ public class DebugSkipToBlastGate : MonoBehaviour
     [SerializeField] private Room3BlastGateController blastGate;
     [SerializeField] private Transform landingPoint;
 
+    // Editor and development builds only - a release build must not let players skip the level.
     private void Update()
     {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         if (Keyboard.current != null && Keyboard.current.digit8Key.wasPressedThisFrame)
             Skip();
+#endif
     }
 
     private void Skip()

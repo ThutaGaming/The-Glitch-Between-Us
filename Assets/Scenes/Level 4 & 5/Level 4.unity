@@ -2193,7 +2193,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -3957,6 +3957,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4337,6 +4341,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -8727,6 +8735,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10821758, guid: 34300443486f64d6da09f6f748778306, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10832572, guid: 34300443486f64d6da09f6f748778306, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -10610,6 +10626,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -14763,6 +14783,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 225182386}
+    - targetCorrespondingSourceObject: {fileID: 1762146786600250, guid: 077155289d2e14247bd0864b560f74ac,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 225182387}
   m_SourcePrefab: {fileID: 100100000, guid: 077155289d2e14247bd0864b560f74ac, type: 3}
 --- !u!1 &225182385 stripped
 GameObject:
@@ -14783,24 +14807,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bossName: MECH STRIKER
-  maxHealth: 120
+  bossTitle: SIDE BOSS
+  maxHealth: 200
+  phaseTwoBelow: 0.6
   laserDamage: 6
   laserHitChance: 0.5
   laserShotInterval: 0.22
-  laserBurstCount: 5
-  srmDamage: 16
+  laserBurstCount: 4
+  srmDamage: 14
   srmHitChance: 0.55
-  srmSpeed: 45
+  srmSpeed: 42
   lrmDamage: 12
   lrmHitChance: 0.5
-  lrmSpeed: 30
-  strafeDistance: 6
+  lrmSpeed: 28
+  missileBlastRadius: 2.6
+  barrageMissiles: 5
+  barrageDamage: 12
+  barrageBlastRadius: 3
+  barrageWarning: 1.4
+  barrageSpread: 6
+  barrageCooldown: 10
+  stompRange: 7
+  stompDamage: 16
+  stompWindup: 0.7
+  stompCooldown: 7
+  strafeDistance: 7
+  preferredRange: {x: 9, y: 20}
   postFireHold: 0.4
   moveSpeed: 2.5
   turnSpeed: 90
   patrolRadius: 8
-  patrolPointCount: 3
   waypointPause: 2
+  arenaScanRadius: 30
+  arenaCellSize: 1
+  bodyRadius: 1.4
+  bodyHeight: 3.6
+  arenaBounds: {fileID: 0}
   engageRange: 55
   heightTolerance: 4
   loseSightGrace: 4
@@ -14813,10 +14855,22 @@ MonoBehaviour:
   missileClips:
   - {fileID: 8300000, guid: 37025960c61b77245872d410c9640b6b, type: 3}
   explosionClip: {fileID: 8300000, guid: 20d577d2d6937a043a8091a46c926b88, type: 3}
+  explosionFx: {fileID: 5162910912013668194, guid: cf82839c411151342a7b2337bda9fb34,
+    type: 3}
+  bigExplosionFx: {fileID: 8464950693656172981, guid: 83ad694f134ab954580473212156b35a,
+    type: 3}
+  sparksFx: {fileID: 4503612902121041701, guid: 5a936c83b1746f14f9100db745e94f04,
+    type: 3}
+  smokeFx: {fileID: 4318940320840401929, guid: 842eb98046e1ca348b3c0807fcfe362d, type: 3}
+  overdriveFx: {fileID: 4503612902121041701, guid: 5a936c83b1746f14f9100db745e94f04,
+    type: 3}
+  shockwaveFx: {fileID: 4994997792314849709, guid: 3dd50886582244645be87adb42aa8528,
+    type: 3}
+  explosionFxScale: 2.5
   removeDelayAfterDeath: 8
-  enrageBelow: 0.4
+  enrageBelow: 0.3
   enragedExtraLaserShots: 2
-  enragedSpeedMultiplier: 1.35
+  enragedSpeedMultiplier: 1.4
   doorGlow: {fileID: 118680090}
   nextMissionObjective: Go up to Level 5
   onDefeated:
@@ -14834,6 +14888,31 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 225182387}
+        m_TargetAssemblyTypeName: ObjectiveGlow, Assembly-CSharp
+        m_MethodName: SetGlowing
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &225182387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225182385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d494d27a93ad254c81d2c0bbe5ab153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightMaterial: {fileID: 2100000, guid: d129f06d4a3c94d4f8697d001ecd36a4, type: 2}
 --- !u!1001 &226322338
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18232,7 +18311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -18252,7 +18331,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -18272,7 +18351,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -18292,7 +18371,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19575,6 +19654,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19718,7 +19801,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -19738,7 +19821,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -20792,6 +20875,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20909,6 +20996,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -20924,6 +21015,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -20943,7 +21038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -20963,7 +21058,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -20983,7 +21078,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -21003,7 +21098,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21615,6 +21710,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -26784,7 +26883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -26804,7 +26903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -31456,7 +31555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -31476,7 +31575,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -34633,7 +34732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -36472,6 +36571,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -36487,6 +36590,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -36506,7 +36613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -36526,7 +36633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -36546,7 +36653,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -36566,7 +36673,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38697,6 +38804,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -38712,6 +38823,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -38731,7 +38846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -38751,7 +38866,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -38771,7 +38886,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -38791,7 +38906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39798,6 +39913,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10834400, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10834402, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -40106,6 +40229,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -47035,6 +47162,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50405,6 +50536,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -50420,6 +50555,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -50439,7 +50578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -50459,7 +50598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -50479,7 +50618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -50499,7 +50638,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -57621,7 +57760,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -57641,7 +57780,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -61702,6 +61841,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10834400, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10834402, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -63965,6 +64112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -64636,6 +64787,14 @@ PrefabInstance:
     - target: {fileID: 421944, guid: 70875bfee8728450189136f0533aabe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -68.485
+      objectReference: {fileID: 0}
+    - target: {fileID: 10821936, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10821946, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -65505,6 +65664,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -65520,6 +65683,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -65539,7 +65706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -65559,7 +65726,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -65579,7 +65746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -65599,7 +65766,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67208,7 +67375,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -67447,6 +67614,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -67462,6 +67633,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -67481,7 +67656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -67501,7 +67676,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -67521,7 +67696,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -67541,7 +67716,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -68397,6 +68572,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -70743,7 +70922,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -70763,7 +70942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -72042,6 +72221,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -72057,6 +72240,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -72076,7 +72263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -72096,7 +72283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -72116,7 +72303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -72136,7 +72323,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73150,7 +73337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -73544,6 +73731,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -73559,6 +73750,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -73578,7 +73773,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -73598,7 +73793,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -73618,7 +73813,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -73638,7 +73833,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -74961,6 +75156,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -75304,6 +75503,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -80373,7 +80576,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -80393,7 +80596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -81925,6 +82128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1176370379}
   - component: {fileID: 1176370378}
+  - component: {fileID: 1176370380}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -81972,6 +82176,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1176370380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176370377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea7d50a56145c145ae95877175f1cb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue: {fileID: 0}
+  mission: {fileID: 1176370378}
+  playOnStart: 1
+  startDelay: 1
+  speaker: Thuta
+  lines: []
+  holdPerLine: 1.8
+  objective: Destroy the Striker mech
+  objectiveDelay: 0
+  objectiveGlow: {fileID: 225182387}
+  onFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &1176841259
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82365,6 +82594,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -82380,6 +82613,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -82399,7 +82636,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -86607,6 +86844,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -87871,6 +88112,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -88136,7 +88381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -89739,6 +89984,50 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1296031968}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1296065587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1296065589}
+  - component: {fileID: 1296065588}
+  m_Layer: 0
+  m_Name: AutoSaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1296065588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296065587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cc4fe3a848a26746b0e09f7d024e7c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1296065589
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296065587}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1296186550 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 112568, guid: 3c2481cf5d79f4b829f77b002e8e5b9d,
@@ -90106,6 +90395,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -91439,6 +91732,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -91454,6 +91751,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -91473,7 +91774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -91493,7 +91794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -92882,6 +93183,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -92920,7 +93225,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -93130,6 +93435,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -93743,7 +94052,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -98561,6 +98870,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -99554,7 +99867,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -99574,7 +99887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -100383,6 +100696,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -102756,6 +103073,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -102995,6 +103316,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -103010,6 +103335,10 @@ PrefabInstance:
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Lightmapping
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -103029,7 +103358,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -103049,7 +103378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -103089,7 +103418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -105105,7 +105434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -105125,7 +105454,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -105390,6 +105719,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -106241,6 +106574,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -108263,6 +108600,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -111353,6 +111694,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10834400, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10834402, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -111574,6 +111923,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -116576,6 +116929,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10834400, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10834402, guid: 32b92806568114f7f8a2c419fdf23bea, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -120874,6 +121235,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -68.485
       objectReference: {fileID: 0}
+    - target: {fileID: 10821936, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10821946, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -122324,6 +122693,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -123908,7 +124281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -124322,7 +124695,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -124342,7 +124715,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -126679,6 +127052,10 @@ PrefabInstance:
       propertyPath: m_Lightmapping
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 10800000, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 10800002, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
       value: 0.3490566
@@ -126717,7 +127094,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -126737,7 +127114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -126757,7 +127134,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -126777,7 +127154,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800010, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -129111,6 +129488,7 @@ MonoBehaviour:
   currentHealth: 100
   regenDelay: 5.5
   regenPerSecond: 9
+  spawnProtection: 4
 --- !u!114 &1874866797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129799,7 +130177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -130084,6 +130462,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -132101,7 +132483,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -134028,7 +134410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -134490,6 +134872,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -137403,6 +137789,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -137502,6 +137892,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -138807,6 +139201,14 @@ PrefabInstance:
     - target: {fileID: 421944, guid: 70875bfee8728450189136f0533aabe0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: -68.485
+      objectReference: {fileID: 0}
+    - target: {fileID: 10821936, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10821946, guid: 70875bfee8728450189136f0533aabe0, type: 3}
+      propertyPath: m_Shadows.m_Type
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -142740,7 +143142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -143685,7 +144087,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -144153,6 +144555,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -145064,7 +145470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800004, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -145084,7 +145490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 10800006, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Shadows.m_Type
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 10800008, guid: 243ee49f20f63434c95b7cbe33beac48, type: 3}
       propertyPath: m_Color.b
@@ -145758,6 +146164,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 468502, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 10812576, guid: 3c2481cf5d79f4b829f77b002e8e5b9d, type: 3}
+      propertyPath: m_Shadows.m_Type
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -149767,3 +150177,4 @@ SceneRoots:
   - {fileID: 596629689}
   - {fileID: 225182384}
   - {fileID: 118680086}
+  - {fileID: 1296065589}
